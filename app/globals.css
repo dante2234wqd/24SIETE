@@ -3,6 +3,66 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* =========================
+   FUENTES CUSTOM
+========================= */
+
+@font-face {
+  font-family: "Cubano";
+  src: url("/fonts/Cubano.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Grold Rounded";
+  src: url("/fonts/GroldRounded-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Grold Rounded";
+  src: url("/fonts/GroldRounded-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Grold Rounded";
+  src: url("/fonts/GroldRounded-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================
+   AUTOFILL FIX
+========================= */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000000 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+  caret-color: #000000;
+}
+
+/* =========================
+   VARIABLES
+========================= */
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -118,12 +178,54 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
   }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background: #0a0a0a;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     @apply text-foreground;
     background: #0a0a0a;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
   }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+/* =========================
+   SAFE AREA IPHONE
+========================= */
+
+.safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+
+.safe-top {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
 }
