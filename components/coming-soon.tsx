@@ -118,7 +118,7 @@ export default function ComingSoon() {
         .btn-enviar:active { transform: scale(0.97); }
       `}</style>
 
-      <main className="relative w-full min-h-[100dvh] overflow-hidden bg-black text-white">
+      <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
         <Image
           src="/assets/background_proximamente.png"
           alt="Background 24SIETE"
@@ -344,7 +344,7 @@ export default function ComingSoon() {
             </div>
           </div>
 
-          <div className="flex md:hidden flex-col items-center gap-5 pt-5 pb-6 safe-bottom">
+          <div className="flex md:hidden flex-col items-center gap-5 pt-5 pb-16 safe-bottom">
             <div style={anim(90, 14)}>
               <div
                 className="inline-flex items-center justify-center px-5 py-2"
@@ -439,7 +439,7 @@ export default function ComingSoon() {
                       paddingLeft: 18,
                       paddingRight: 8,
                       fontFamily: '"Grold Rounded", sans-serif',
-                      fontSize: 15,
+                      fontSize: 16,
                       letterSpacing: "-0.03em",
                       color: "#787878",
                       minWidth: 0,
