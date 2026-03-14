@@ -33,14 +33,12 @@ export default function ComingSoon() {
     if (audioRef.current) audioRef.current.volume = 0.4
     // Pastilla aparece a los 800ms, desaparece sola a los 6s
     const t2 = setTimeout(() => setPillVisible(true), 800)
-    const t3 = setTimeout(() => setPillVisible(false), 6000)
     return () => { clearTimeout(t); clearTimeout(t2); clearTimeout(t3) }
   }, [])
 
   const toggleAudio = () => {
     const audio = audioRef.current
     if (!audio) return
-    setPillVisible(false)
     if (audioOn) {
       audio.pause()
       setAudioOn(false)
