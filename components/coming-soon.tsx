@@ -31,9 +31,9 @@ export default function ComingSoon() {
     const t  = setTimeout(() => setMounted(true), 60)
     setGreeting(getTimeGreeting())
     if (audioRef.current) audioRef.current.volume = 0.4
-    // Pastilla aparece a los 800ms, desaparece sola a los 6s
+    // Pastilla aparece a los 800ms y queda visible
     const t2 = setTimeout(() => setPillVisible(true), 800)
-    return () => { clearTimeout(t); clearTimeout(t2); clearTimeout(t3) }
+    return () => { clearTimeout(t); clearTimeout(t2) }
   }, [])
 
   const toggleAudio = () => {
@@ -153,7 +153,7 @@ export default function ComingSoon() {
             </button>
 
             {/* Pastilla contextual — aparece al cargar, desaparece al tocar */}
-            {greeting && !audioOn && (
+            {greeting && (
               <div
                 className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${pillVisible ? "audio-pill-visible" : "audio-pill-hidden"}`}
                 style={{ boxShadow: "0 2px 14px rgba(0,0,0,0.3)" }}
