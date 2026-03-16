@@ -55,11 +55,32 @@ export default function ComingSoon() {
     }
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const [sending,  setSending]  = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error,     setError]     = useState("")
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!email.trim()) { alert("Dejá tu mail para enterarte primero cuando salga 24SIETE."); return }
-    alert(`Mail recibido: ${email}`)
-    setEmail("")
+    if (!email.trim()) return
+    setSending(true)
+    setError("")
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      if (res.ok) {
+        setSubmitted(true)
+        setEmail("")
+      } else {
+        setError("Algo salió mal, intentá de nuevo.")
+      }
+    } catch {
+      setError("Algo salió mal, intentá de nuevo.")
+    } finally {
+      setSending(false)
+    }
   }
 
   const anim = (delay: number, extraY = 22): React.CSSProperties => ({
@@ -222,9 +243,9 @@ export default function ComingSoon() {
                         className="flex-1 h-full bg-transparent outline-none border-none"
                         style={{ paddingLeft: "clamp(16px, 2vw, 32px)", paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
                       />
-                      <button type="submit" className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                        style={{ width: "clamp(90px, 11vw, 175px)", borderRadius: 999, backgroundColor: "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap" }}>
-                        ENVIAR
+                      <button type="submit" disabled={sending || submitted} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
+                        style={{ width: "clamp(90px, 11vw, 175px)", borderRadius: 999, backgroundColor: submitted ? "#00b814" : "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
+                        {submitted ? "✓ LISTO" : sending ? "..." : "ENVIAR"}
                       </button>
                     </div>
                   </form>
@@ -297,9 +318,9 @@ export default function ComingSoon() {
                     className="flex-1 h-full bg-transparent outline-none border-none"
                     style={{ paddingLeft: 18, paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: 16, letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
                   />
-                  <button type="submit" className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                    style={{ width: 110, borderRadius: 999, backgroundColor: "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap" }}>
-                    ENVIAR
+                  <button type="submit" disabled={sending || submitted} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
+                    style={{ width: 110, borderRadius: 999, backgroundColor: submitted ? "#00b814" : "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
+                    {submitted ? "✓ LISTO" : sending ? "..." : "ENVIAR"}
                   </button>
                 </div>
               </form>
@@ -336,3 +357,4 @@ export default function ComingSoon() {
     </>
   )
 }
+
