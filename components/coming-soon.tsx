@@ -215,6 +215,7 @@ export default function ComingSoon() {
                 </div>
 
                 <div style={anim(330)} className="w-full">
+                  {/* TODO: conectar action con tu servicio de mail (ej: Mailchimp, Resend, Loops) */}
                   <form onSubmit={handleSubmit} style={{ maxWidth: 620, width: "100%" }}>
                     <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: "clamp(52px, 5.5vw, 76px)" }}>
                       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
@@ -232,11 +233,14 @@ export default function ComingSoon() {
                 <div style={anim(430)} className="flex flex-col items-start gap-2">
                   <span className="social-label" style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(14px, 1.3vw, 22px)", letterSpacing: "-0.03em", color: "#fff" }}>Seguinos...</span>
                   <div className="flex items-center gap-3">
-                    <a href="#" aria-label="TikTok" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: "clamp(36px, 3.2vw, 50px)", height: "clamp(36px, 3.2vw, 50px)" }}>
+                    <a href="https://www.tiktok.com/@24sietealfajores" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: "clamp(36px, 3.2vw, 50px)", height: "clamp(36px, 3.2vw, 50px)" }}>
                       <Image src="/assets/logo_tiktok.svg" alt="TikTok" width={20} height={20} />
                     </a>
-                    <a href="#" aria-label="Instagram" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: "clamp(36px, 3.2vw, 50px)", height: "clamp(36px, 3.2vw, 50px)" }}>
+                    <a href="https://www.instagram.com/24sietealfajores/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: "clamp(36px, 3.2vw, 50px)", height: "clamp(36px, 3.2vw, 50px)" }}>
                       <Image src="/assets/logo_instagram.svg" alt="Instagram" width={20} height={20} />
+                    </a>
+                    <a href="https://www.youtube.com/@24SieteAlfajores" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: "clamp(36px, 3.2vw, 50px)", height: "clamp(36px, 3.2vw, 50px)" }}>
+                      <Image src="/assets/logo_youtube.svg" alt="YouTube" width={20} height={20} />
                     </a>
                   </div>
                 </div>
@@ -286,6 +290,7 @@ export default function ComingSoon() {
             </div>
 
             <div style={{ ...anim(410, 14), width: "100%" }}>
+              {/* TODO: conectar action con tu servicio de mail (ej: Mailchimp, Resend, Loops) */}
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: 54 }}>
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
@@ -303,11 +308,14 @@ export default function ComingSoon() {
             <div style={anim(490, 10)} className="flex flex-col items-center gap-2">
               <span className="social-label" style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: 18, letterSpacing: "-0.03em", color: "#fff" }}>Seguinos...</span>
               <div className="flex items-center gap-4">
-                <a href="#" aria-label="TikTok" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: 44, height: 44 }}>
+                <a href="https://www.tiktok.com/@24sietealfajores" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: 44, height: 44 }}>
                   <Image src="/assets/logo_tiktok.svg" alt="TikTok" width={20} height={20} />
                 </a>
-                <a href="#" aria-label="Instagram" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: 44, height: 44 }}>
+                <a href="https://www.instagram.com/24sietealfajores/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: 44, height: 44 }}>
                   <Image src="/assets/logo_instagram.svg" alt="Instagram" width={20} height={20} />
+                </a>
+                <a href="https://www.youtube.com/@24SieteAlfajores" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="social-icon flex items-center justify-center rounded-full bg-white" style={{ width: 44, height: 44 }}>
+                  <Image src="/assets/logo_youtube.svg" alt="YouTube" width={20} height={20} />
                 </a>
               </div>
             </div>
