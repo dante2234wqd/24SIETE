@@ -235,20 +235,29 @@ export default function ComingSoon() {
                   </p>
                 </div>
 
-                <div style={anim(330)} className="w-full">
-                  {/* TODO: conectar action con tu servicio de mail (ej: Mailchimp, Resend, Loops) */}
-                  <form onSubmit={handleSubmit} style={{ maxWidth: 620, width: "100%" }}>
-                    <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: "clamp(52px, 5.5vw, 76px)" }}>
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
-                        className="flex-1 h-full bg-transparent outline-none border-none"
-                        style={{ paddingLeft: "clamp(16px, 2vw, 32px)", paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
-                      />
-                      <button type="submit" disabled={sending || submitted} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                        style={{ width: "clamp(90px, 11vw, 175px)", borderRadius: 999, backgroundColor: submitted ? "#00b814" : "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
-                        {submitted ? "✓ LISTO" : sending ? "..." : "ENVIAR"}
-                      </button>
+                <div style={{ ...anim(330), maxWidth: 620 }} className="w-full">
+                  {submitted ? (
+                    <div className="flex items-center gap-3 px-6"
+                      style={{ maxWidth: 620, height: "clamp(52px, 5.5vw, 76px)", borderRadius: 999, backgroundColor: "#0FFF1E", transition: "all 0.4s ease" }}>
+                      <Image src="/assets/check_mail.svg" alt="check" width={24} height={24} />
+                      <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 20px)", letterSpacing: "-0.03em", color: "#000", fontWeight: 500 }}>
+                        ¡Tu mail nos llegó con éxito!
+                      </span>
                     </div>
-                  </form>
+                  ) : (
+                    <form onSubmit={handleSubmit} style={{ maxWidth: 620, width: "100%" }}>
+                      <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: "clamp(52px, 5.5vw, 76px)" }}>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
+                          className="flex-1 h-full bg-transparent outline-none border-none"
+                          style={{ paddingLeft: "clamp(16px, 2vw, 32px)", paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
+                        />
+                        <button type="submit" disabled={sending} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
+                          style={{ width: "clamp(90px, 11vw, 175px)", borderRadius: 999, backgroundColor: "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
+                          {sending ? "..." : "ENVIAR"}
+                        </button>
+                      </div>
+                    </form>
+                  )}
                 </div>
 
                 <div style={anim(430)} className="flex flex-col items-start gap-2">
@@ -311,19 +320,28 @@ export default function ComingSoon() {
             </div>
 
             <div style={{ ...anim(410, 14), width: "100%" }}>
-              {/* TODO: conectar action con tu servicio de mail (ej: Mailchimp, Resend, Loops) */}
-              <form onSubmit={handleSubmit} className="w-full">
-                <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: 54 }}>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
-                    className="flex-1 h-full bg-transparent outline-none border-none"
-                    style={{ paddingLeft: 18, paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: 16, letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
-                  />
-                  <button type="submit" disabled={sending || submitted} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                    style={{ width: 110, borderRadius: 999, backgroundColor: submitted ? "#00b814" : "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
-                    {submitted ? "✓ LISTO" : sending ? "..." : "ENVIAR"}
-                  </button>
+              {submitted ? (
+                <div className="w-full flex items-center gap-3 px-5"
+                  style={{ height: 54, borderRadius: 999, backgroundColor: "#0FFF1E", transition: "all 0.4s ease" }}>
+                  <Image src="/assets/check_mail.svg" alt="check" width={22} height={22} />
+                  <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#000", fontWeight: 500 }}>
+                    ¡Tu mail nos llegó con éxito!
+                  </span>
                 </div>
-              </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="w-full">
+                  <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: 54 }}>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
+                      className="flex-1 h-full bg-transparent outline-none border-none"
+                      style={{ paddingLeft: 18, paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: 16, letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
+                    />
+                    <button type="submit" disabled={sending} className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
+                      style={{ width: 110, borderRadius: 999, backgroundColor: "#0FFF1E", fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#000", whiteSpace: "nowrap", opacity: sending ? 0.7 : 1 }}>
+                      {sending ? "..." : "ENVIAR"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
 
             <div style={anim(490, 10)} className="flex flex-col items-center gap-2">
@@ -357,4 +375,3 @@ export default function ComingSoon() {
     </>
   )
 }
-
