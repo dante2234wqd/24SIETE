@@ -20,7 +20,10 @@ function getAudioSrc(): string {
 }
 
 export default function ComingSoon() {
+  const [nombre,      setNombre]      = useState("")
+  const [apellido,    setApellido]    = useState("")
   const [email,       setEmail]       = useState("")
+  const [emailError,  setEmailError]  = useState("")
   const [mounted,     setMounted]     = useState(false)
   const [audioOn,     setAudioOn]     = useState(false)
   const [greeting,    setGreeting]    = useState("")
@@ -55,24 +58,50 @@ export default function ComingSoon() {
     }
   }
 
-  const [sending,  setSending]  = useState(false)
+  const [sending,   setSending]   = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error,     setError]     = useState("")
 
+  const SHEETS_URL = "https://script.google.com/macros/s/AKfycbw90ApKGFSRd_buYBeMgSkuvz1glz4C7DXwJ4Y5i_WKLp6XbQePlKBp-fQo3m37ZWD2Yw/exec"
+
+  const validateEmail = (val: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(val)
+  }
+
+  const handleEmailChange = (val: string) => {
+    setEmail(val)
+    if (val && !validateEmail(val)) {
+      setEmailError("Mail inválido — revisá que tenga @ y dominio")
+    } else {
+      setEmailError("")
+    }
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!email.trim()) return
+    if (!nombre.trim()) { setError("El nombre es requerido."); return }
+    if (!email.trim() || !validateEmail(email)) { setEmailError("Mail inválido — revisá que tenga @ y dominio"); return }
     setSending(true)
     setError("")
     try {
-      const res = await fetch("/api/subscribe", {
+      // Enviar a Resend
+      const resendRes = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ nombre, apellido, email }),
       })
-      if (res.ok) {
+      // Enviar a Google Sheets (no bloqueante)
+      fetch(SHEETS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, apellido, email }),
+        mode: "no-cors",
+      }).catch(() => {})
+
+      if (resendRes.ok) {
         setSubmitted(true)
-        setEmail("")
+        setNombre(""); setApellido(""); setEmail("")
       } else {
         setError("Algo salió mal, intentá de nuevo.")
       }
@@ -246,8 +275,22 @@ export default function ComingSoon() {
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} style={{ maxWidth: 620, width: "100%" }}>
-                      <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: "clamp(52px, 5.5vw, 76px)" }}>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
+                      {/* Nombre + Apellido */}
+                      <div className="flex gap-2 mb-2">
+                        <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)}
+                          placeholder="Nombre *"
+                          className="flex-1 bg-white outline-none border-none"
+                          style={{ borderRadius: 999, height: "clamp(40px, 4vw, 56px)", paddingLeft: "clamp(14px, 1.5vw, 24px)", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(12px, 1.2vw, 18px)", letterSpacing: "-0.03em", color: "#444" }}
+                        />
+                        <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)}
+                          placeholder="Apellido (opcional)"
+                          className="flex-1 bg-white outline-none border-none"
+                          style={{ borderRadius: 999, height: "clamp(40px, 4vw, 56px)", paddingLeft: "clamp(14px, 1.5vw, 24px)", fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(12px, 1.2vw, 18px)", letterSpacing: "-0.03em", color: "#444" }}
+                        />
+                      </div>
+                      {/* Email */}
+                      <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: "clamp(52px, 5.5vw, 76px)", border: emailError ? "2px solid #ff4444" : "2px solid transparent" }}>
+                        <input type="email" value={email} onChange={(e) => handleEmailChange(e.target.value)} placeholder="Y tu mail?... dejalo aca"
                           className="flex-1 h-full bg-transparent outline-none border-none"
                           style={{ paddingLeft: "clamp(16px, 2vw, 32px)", paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: "clamp(13px, 1.4vw, 22px)", letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
                         />
@@ -256,6 +299,8 @@ export default function ComingSoon() {
                           {sending ? "..." : "ENVIAR"}
                         </button>
                       </div>
+                      {emailError && <p style={{ color: "#ff4444", fontSize: "clamp(11px, 0.9vw, 13px)", fontFamily: '"Grold Rounded", sans-serif', marginTop: 6, paddingLeft: 16 }}>{emailError}</p>}
+                      {error && <p style={{ color: "#ff4444", fontSize: "clamp(11px, 0.9vw, 13px)", fontFamily: '"Grold Rounded", sans-serif', marginTop: 6, paddingLeft: 16 }}>{error}</p>}
                     </form>
                   )}
                 </div>
@@ -329,9 +374,23 @@ export default function ComingSoon() {
                   </span>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="w-full">
-                  <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: 54 }}>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Y tu mail?... dejalo aca"
+                <form onSubmit={handleSubmit} className="w-full" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {/* Nombre + Apellido */}
+                  <div className="flex gap-2">
+                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)}
+                      placeholder="Nombre *"
+                      className="flex-1 bg-white outline-none border-none"
+                      style={{ borderRadius: 999, height: 48, paddingLeft: 16, fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#444" }}
+                    />
+                    <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)}
+                      placeholder="Apellido"
+                      className="flex-1 bg-white outline-none border-none"
+                      style={{ borderRadius: 999, height: 48, paddingLeft: 16, fontFamily: '"Grold Rounded", sans-serif', fontSize: 15, letterSpacing: "-0.03em", color: "#444" }}
+                    />
+                  </div>
+                  {/* Email */}
+                  <div className="w-full bg-white flex items-center overflow-hidden" style={{ borderRadius: 999, height: 54, border: emailError ? "2px solid #ff4444" : "2px solid transparent" }}>
+                    <input type="email" value={email} onChange={(e) => handleEmailChange(e.target.value)} placeholder="Y tu mail?... dejalo aca"
                       className="flex-1 h-full bg-transparent outline-none border-none"
                       style={{ paddingLeft: 18, paddingRight: 8, fontFamily: '"Grold Rounded", sans-serif', fontSize: 16, letterSpacing: "-0.03em", color: "#787878", minWidth: 0 }}
                     />
@@ -340,6 +399,8 @@ export default function ComingSoon() {
                       {sending ? "..." : "ENVIAR"}
                     </button>
                   </div>
+                  {emailError && <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>{emailError}</p>}
+                  {error && <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>{error}</p>}
                 </form>
               )}
             </div>
