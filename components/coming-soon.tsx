@@ -310,28 +310,6 @@ export default function ComingSoon() {
                   </p>
                 </div>
 
-                <div style={{ ...anim(280), maxWidth: 620 }}>
-                  <p
-                    style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
-                      fontWeight: 400,
-                      fontSize: "clamp(12px, 1vw, 16px)",
-                      lineHeight: "140%",
-                      letterSpacing: "-0.02em",
-                      color: "rgba(255,255,255,0.72)",
-                      margin: 0,
-                    }}
-                  >
-                    <strong style={{ color: "#fff", fontWeight: 500 }}>
-                      24SIETE — Alfajor negro premium de 72g en Argentina.
-                    </strong>
-                    <br />
-                    Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada
-                    para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del
-                    lanzamiento.
-                  </p>
-                </div>
-
                 <div style={{ ...anim(330), maxWidth: 620 }} className="w-full">
                   {submitted ? (
                     <div
@@ -642,29 +620,6 @@ export default function ComingSoon() {
               </p>
             </div>
 
-            <div style={{ ...anim(360, 12), width: "100%" }} className="text-center">
-              <p
-                style={{
-                  fontFamily: '"Grold Rounded", sans-serif',
-                  fontWeight: 400,
-                  fontSize: "clamp(12px, 3.4vw, 14px)",
-                  lineHeight: "145%",
-                  letterSpacing: "-0.02em",
-                  color: "rgba(255,255,255,0.72)",
-                  margin: 0,
-                  padding: "0 4vw",
-                }}
-              >
-                <strong style={{ color: "#fff", fontWeight: 500 }}>
-                  24SIETE — Alfajor negro premium de 72g en Argentina.
-                </strong>
-                <br />
-                Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada
-                para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del
-                lanzamiento.
-              </p>
-            </div>
-
             <div style={{ ...anim(410, 14), width: "100%" }}>
               {submitted ? (
                 <div
@@ -876,4 +831,4 @@ export default function ComingSoon() {
       </main>
     </>
   )
-}
+} 
