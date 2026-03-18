@@ -13,13 +13,14 @@ export const metadata: Metadata = {
     template: '%s | 24SIETE',
   },
   description:
-    '24SIETE — Alfajor negro premium en Argentina. Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
+    '24SIETE — Alfajor negro premium de 72g en Argentina. Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
   applicationName: '24SIETE',
   keywords: [
     '24SIETE',
     'alfajor',
     'alfajor negro',
     'alfajor premium',
+    'alfajor negro 72g',
     'alfajores argentinos',
     'dulce de leche',
     'cacao',
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: '24SIETE — Alfajor negro premium en Argentina',
+    title: '24SIETE — Alfajor negro premium de 72g en Argentina',
     description:
       'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
     url: 'https://www.alfajor24siete.com.ar',
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: '24SIETE — Alfajor negro premium en Argentina',
+    title: '24SIETE — Alfajor negro premium de 72g en Argentina',
     description:
       'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
   },

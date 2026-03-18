@@ -5,10 +5,10 @@ import { FormEvent, useState, useEffect, useRef } from "react"
 
 function getTimeGreeting(): string {
   const h = new Date().getHours()
-  if (h >= 0 && h < 6) return "Tocá el logo y acompañá la madrugada"
-  if (h >= 6 && h < 12) return "Tocá el logo y arrancá el día"
-  if (h >= 12 && h < 19) return "Tocá el logo y activá la tarde"
-  return "Tocá el logo y prendé la noche"
+  if (h >= 0 && h < 6) return "Activá el audio y conocé 24SIETE para la madrugada"
+  if (h >= 6 && h < 12) return "Activá el audio y conocé 24SIETE para arrancar el día"
+  if (h >= 12 && h < 19) return "Activá el audio y conocé 24SIETE para la tarde"
+  return "Activá el audio y conocé 24SIETE para la noche"
 }
 
 function getAudioSrc(): string {
@@ -191,7 +191,13 @@ export default function ComingSoon() {
       `}</style>
 
       <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
-        <Image src="/assets/background_proximamente.png" alt="Background 24SIETE" fill priority className="object-cover" />
+        <Image
+          src="/assets/background_proximamente.png"
+          alt="Background 24SIETE"
+          fill
+          priority
+          className="object-cover"
+        />
 
         <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
           <div className="flex items-center gap-3 shrink-0" style={anim(0, 12)}>
@@ -206,10 +212,21 @@ export default function ComingSoon() {
 
             {greeting && (
               <div
-                className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${pillVisible ? "audio-pill-visible" : "audio-pill-hidden"}`}
+                className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${
+                  pillVisible ? "audio-pill-visible" : "audio-pill-hidden"
+                }`}
                 style={{ boxShadow: "0 2px 14px rgba(0,0,0,0.3)" }}
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0FFF1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0FFF1E"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M9 18V5l12-2v13" />
                   <circle cx="6" cy="18" r="3" />
                   <circle cx="18" cy="16" r="3" />
@@ -282,7 +299,12 @@ export default function ComingSoon() {
                     Dejanos tu mail y enterate primero
                     <br />
                     cuando llegue{" "}
-                    <span style={{ color: "#0FFF1E", fontFamily: '"Cubano", "Arial Black", Impact, sans-serif' }}>
+                    <span
+                      style={{
+                        color: "#0FFF1E",
+                        fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                      }}
+                    >
                       24SIETE.
                     </span>
                   </p>
@@ -301,10 +323,12 @@ export default function ComingSoon() {
                     }}
                   >
                     <strong style={{ color: "#fff", fontWeight: 500 }}>
-                      24SIETE — Alfajor negro premium en Argentina.
+                      24SIETE — Alfajor negro premium de 72g en Argentina.
                     </strong>
                     <br />
-                    Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del lanzamiento.
+                    Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada
+                    para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del
+                    lanzamiento.
                   </p>
                 </div>
 
@@ -581,7 +605,14 @@ export default function ComingSoon() {
               </h1>
             </div>
 
-            <div style={{ ...anim(250, 10), width: "min(72vw, 280px)", height: "min(72vw, 280px)", position: "relative" }}>
+            <div
+              style={{
+                ...anim(250, 10),
+                width: "min(72vw, 280px)",
+                height: "min(72vw, 280px)",
+                position: "relative",
+              }}
+            >
               <Image src="/assets/PRODUCTO.png" alt="Alfajor 24SIETE" fill className="object-contain" />
             </div>
 
@@ -600,7 +631,12 @@ export default function ComingSoon() {
                 Dejanos tu mail y enterate primero
                 <br />
                 cuando llegue{" "}
-                <span style={{ color: "#0FFF1E", fontFamily: '"Cubano", "Arial Black", Impact, sans-serif' }}>
+                <span
+                  style={{
+                    color: "#0FFF1E",
+                    fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                  }}
+                >
                   24SIETE.
                 </span>
               </p>
@@ -620,10 +656,12 @@ export default function ComingSoon() {
                 }}
               >
                 <strong style={{ color: "#fff", fontWeight: 500 }}>
-                  24SIETE — Alfajor negro premium en Argentina.
+                  24SIETE — Alfajor negro premium de 72g en Argentina.
                 </strong>
                 <br />
-                Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del lanzamiento.
+                Un alfajor distinto: cacao intenso, mucho dulce de leche y una propuesta pensada
+                para acompañarte a cualquier hora. Dejanos tu mail y enterate primero del
+                lanzamiento.
               </p>
             </div>
 
@@ -631,7 +669,12 @@ export default function ComingSoon() {
               {submitted ? (
                 <div
                   className="w-full flex items-center gap-3 px-5"
-                  style={{ height: 54, borderRadius: 999, backgroundColor: "#0FFF1E", transition: "all 0.4s ease" }}
+                  style={{
+                    height: 54,
+                    borderRadius: 999,
+                    backgroundColor: "#0FFF1E",
+                    transition: "all 0.4s ease",
+                  }}
                 >
                   <Image src="/assets/check_mail.svg" alt="check" width={22} height={22} />
                   <span
@@ -647,7 +690,11 @@ export default function ComingSoon() {
                   </span>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="w-full" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <form
+                  onSubmit={handleSubmit}
+                  className="w-full"
+                  style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                >
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -728,13 +775,29 @@ export default function ComingSoon() {
                   </div>
 
                   {emailError && (
-                    <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>
+                    <p
+                      style={{
+                        color: "#ff4444",
+                        fontSize: 12,
+                        fontFamily: '"Grold Rounded", sans-serif',
+                        margin: 0,
+                        paddingLeft: 16,
+                      }}
+                    >
                       {emailError}
                     </p>
                   )}
 
                   {error && (
-                    <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>
+                    <p
+                      style={{
+                        color: "#ff4444",
+                        fontSize: 12,
+                        fontFamily: '"Grold Rounded", sans-serif',
+                        margin: 0,
+                        paddingLeft: 16,
+                      }}
+                    >
                       {error}
                     </p>
                   )}
@@ -790,13 +853,26 @@ export default function ComingSoon() {
           </div>
 
           <div className="shrink-0 mt-auto pt-5 pb-4 text-center w-full" style={anim(570, 6)}>
-            <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: "12px", color: "rgba(255,255,255,0.7)" }}>
+            <span
+              style={{
+                fontFamily: '"Grold Rounded", sans-serif',
+                fontSize: "12px",
+                color: "rgba(255,255,255,0.7)",
+              }}
+            >
               © 2026 24SIETE. Todos los derechos reservados.
             </span>
           </div>
         </div>
 
-        <audio ref={audioRef} src={getAudioSrc()} loop preload="none" style={{ display: "none" }} onError={(e) => console.warn("Audio load error:", e)} />
+        <audio
+          ref={audioRef}
+          src={getAudioSrc()}
+          loop
+          preload="none"
+          style={{ display: "none" }}
+          onError={(e) => console.warn("Audio load error:", e)}
+        />
       </main>
     </>
   )
