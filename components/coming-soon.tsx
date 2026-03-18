@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { FormEvent, useState, useEffect, useRef } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
 
 function getTimeGreeting(): string {
   const h = new Date().getHours()
@@ -31,6 +31,8 @@ export default function ComingSoon() {
   const [sending, setSending] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState("")
+  const [backgroundSrc, setBackgroundSrc] = useState("/assets/background_proximamente.webp")
+  const [productSrc, setProductSrc] = useState("/assets/PRODUCTO.webp")
   const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export default function ComingSoon() {
     setGreeting(getTimeGreeting())
     if (audioRef.current) audioRef.current.volume = 0.4
     const t2 = setTimeout(() => setPillVisible(true), 800)
+
     return () => {
       clearTimeout(t)
       clearTimeout(t2)
@@ -192,11 +195,17 @@ export default function ComingSoon() {
 
       <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
         <Image
-          src="/assets/background_proximamente.webp"
+          src={backgroundSrc}
           alt="Background 24SIETE"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
+          onError={() => {
+            if (backgroundSrc !== "/assets/background_proximamente.png") {
+              setBackgroundSrc("/assets/background_proximamente.png")
+            }
+          }}
         />
 
         <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
@@ -529,7 +538,19 @@ export default function ComingSoon() {
                     Proximamente...
                   </span>
                 </div>
-                <Image src="/assets/PRODUCTO.png" alt="Alfajor 24SIETE" fill className="object-contain object-bottom" />
+                <Image
+                  src={productSrc}
+                  alt="Alfajor 24SIETE"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 72vw, 35vw"
+                  className="object-contain object-bottom"
+                  onError={() => {
+                    if (productSrc !== "/assets/PRODUCTO.png") {
+                      setProductSrc("/assets/PRODUCTO.png")
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -591,7 +612,19 @@ export default function ComingSoon() {
                 position: "relative",
               }}
             >
-              <Image src="/assets/PRODUCTO.png" alt="Alfajor 24SIETE" fill className="object-contain" />
+              <Image
+                src={productSrc}
+                alt="Alfajor 24SIETE"
+                fill
+                priority
+                sizes="72vw"
+                className="object-contain"
+                onError={() => {
+                  if (productSrc !== "/assets/PRODUCTO.png") {
+                    setProductSrc("/assets/PRODUCTO.png")
+                  }
+                }}
+              />
             </div>
 
             <div style={anim(330, 14)} className="w-full text-center">
@@ -831,4 +864,4 @@ export default function ComingSoon() {
       </main>
     </>
   )
-} 
+}
