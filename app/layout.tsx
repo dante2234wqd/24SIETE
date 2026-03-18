@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: '24SIETE — Cuando te pinte, estoy.',
   description: 'Alfajor negro. 70g de decisión. Mucho dulce de leche. Cacao sin miedo. Río Negro, Argentina.',
   generator: 'v0.app',
+  verification: {
+    google: "UKdvMuBWyyPK5RlGGfvNFC1qZ-nC4jGg151YMlldtVM",
+  },
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
