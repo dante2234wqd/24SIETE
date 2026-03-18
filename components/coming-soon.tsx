@@ -192,7 +192,7 @@ export default function ComingSoon() {
 
       <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
         <Image
-          src="/assets/background_proximamente.png"
+          src="/assets/background_proximamente.webp"
           alt="Background 24SIETE"
           fill
           priority
