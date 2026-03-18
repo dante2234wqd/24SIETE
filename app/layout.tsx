@@ -9,11 +9,11 @@ const _geistMono = Geist_Mono({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.alfajor24siete.com.ar'),
   title: {
-    default: '24SIETE — Alfajor negro premium',
+    default: '24SIETE — Cuando te pinte, estoy.',
     template: '%s | 24SIETE',
   },
   description:
-    '24SIETE es un alfajor negro premium hecho en Argentina: cacao intenso, mucho dulce de leche y un sabor único. Sumate al lanzamiento y enterate primero.',
+    '24SIETE — Alfajor negro premium en Argentina. Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
   applicationName: '24SIETE',
   keywords: [
     '24SIETE',
@@ -38,28 +38,19 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: '24SIETE — Alfajor negro premium',
+    title: '24SIETE — Alfajor negro premium en Argentina',
     description:
-      'Alfajor negro premium hecho en Argentina. Cacao intenso, mucho dulce de leche y un sabor único.',
+      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
     url: 'https://www.alfajor24siete.com.ar',
     siteName: '24SIETE',
     locale: 'es_AR',
     type: 'website',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: '24SIETE — Alfajor negro premium',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: '24SIETE — Alfajor negro premium',
+    card: 'summary',
+    title: '24SIETE — Alfajor negro premium en Argentina',
     description:
-      'Alfajor negro premium hecho en Argentina. Cacao intenso, mucho dulce de leche y un sabor único.',
-    images: ['/og-image.jpg'],
+      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
   },
   robots: {
     index: true,
@@ -77,11 +68,8 @@ export const metadata: Metadata = {
       { url: '/favicon.ico' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-touch-icon.png' }],
   },
 }
 
