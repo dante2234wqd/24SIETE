@@ -46,12 +46,21 @@ export const metadata: Metadata = {
     siteName: '24SIETE',
     locale: 'es_AR',
     type: 'website',
+    images: [
+      {
+        url: '/icon-512.png',
+        width: 512,
+        height: 512,
+        alt: '24SIETE — Alfajor negro premium',
+      },
+    ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: '24SIETE — Alfajor negro premium de 72g en Argentina',
     description:
       'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
+    images: ['/icon-512.png'],
   },
   robots: {
     index: true,
@@ -67,8 +76,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-192.png',      sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png',      sizes: '512x512', type: 'image/png' },
     ],
     apple: [{ url: '/apple-touch-icon.png' }],
   },
