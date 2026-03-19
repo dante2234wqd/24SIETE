@@ -16,16 +16,9 @@ export const metadata: Metadata = {
     '24SIETE — Alfajor negro premium de 72g en Argentina. Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
   applicationName: '24SIETE',
   keywords: [
-    '24SIETE',
-    'alfajor',
-    'alfajor negro',
-    'alfajor premium',
-    'alfajor negro 72g',
-    'alfajores argentinos',
-    'dulce de leche',
-    'cacao',
-    'alfajor artesanal',
-    'Argentina',
+    '24SIETE', 'alfajor', 'alfajor negro', 'alfajor premium',
+    'alfajor negro 72g', 'alfajores argentinos', 'dulce de leche',
+    'cacao', 'alfajor artesanal', 'Argentina',
   ],
   authors: [{ name: '24SIETE' }],
   creator: '24SIETE',
@@ -35,31 +28,20 @@ export const metadata: Metadata = {
   verification: {
     google: 'UKdvMuBWyyPK5RlGGfvNFC1qZ-nC4jGg151YMlldtVM',
   },
-  alternates: {
-    canonical: '/',
-  },
+  alternates: { canonical: '/' },
   openGraph: {
     title: '24SIETE — Alfajor negro premium de 72g en Argentina',
-    description:
-      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
+    description: 'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
     url: 'https://www.alfajor24siete.com.ar',
     siteName: '24SIETE',
     locale: 'es_AR',
     type: 'website',
-    images: [
-      {
-        url: '/icon-512.png',
-        width: 512,
-        height: 512,
-        alt: '24SIETE — Alfajor negro premium',
-      },
-    ],
+    images: [{ url: '/icon-512.png', width: 512, height: 512, alt: '24SIETE — Alfajor negro premium' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: '24SIETE — Alfajor negro premium de 72g en Argentina',
-    description:
-      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
+    description: 'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
     images: ['/icon-512.png'],
   },
   robots: {
@@ -93,6 +75,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        {/* Preload fuentes críticas — evita bloqueo de renderizado */}
+        <link rel="preload" href="/fonts/Cubano.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/GroldRounded-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        {/* Preload imagen de fondo — mejora LCP */}
+        <link rel="preload" href="/assets/background_proximamente.webp" as="image" />
+      </head>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
