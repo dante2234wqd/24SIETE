@@ -4,42 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 /* =========================
-   FUENTES CUSTOM
-========================= */
-
-@font-face {
-  font-family: "Cubano";
-  src: url("/fonts/Cubano.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Grold Rounded";
-  src: url("/fonts/GroldRounded-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Grold Rounded";
-  src: url("/fonts/GroldRounded-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Grold Rounded";
-  src: url("/fonts/GroldRounded-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* =========================
    AUTOFILL FIX
 ========================= */
 
