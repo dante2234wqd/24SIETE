@@ -154,6 +154,12 @@ export default function ComingSoon() {
         .logo-btn:hover { transform: scale(1.07); filter: drop-shadow(0 0 10px rgba(15,255,30,0.55)); }
         .logo-btn:active { transform: scale(0.96); }
 
+        .audio-pill-wrap {
+          min-height: 34px;
+          display: flex;
+          align-items: center;
+        }
+
         .audio-pill {
           position: relative;
           transition: opacity 0.35s ease, transform 0.35s ease;
@@ -214,9 +220,21 @@ export default function ComingSoon() {
         .fade-delay-2 { animation-delay: 0.16s; }
         .fade-delay-3 { animation-delay: 0.22s; }
 
+        .mobile-no-anim {
+          opacity: 1 !important;
+          animation: none !important;
+          transform: none !important;
+        }
+
         @media (max-width: 767px) {
           .fade-up-soft {
-            animation-duration: 0.3s;
+            animation: none;
+            opacity: 1;
+            transform: none;
+          }
+
+          .audio-pill {
+            transition: none;
           }
         }
       `}</style>
@@ -240,29 +258,31 @@ export default function ComingSoon() {
               />
             </button>
 
-            {greeting && (
-              <div
-                className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${pillVisible ? "audio-pill-visible" : "audio-pill-hidden"}`}
-                style={{ boxShadow: "0 2px 14px rgba(0,0,0,0.3)" }}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0FFF1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 18V5l12-2v13" />
-                  <circle cx="6" cy="18" r="3" />
-                  <circle cx="18" cy="16" r="3" />
-                </svg>
-                <span
-                  style={{
-                    fontFamily: '"Grold Rounded", sans-serif',
-                    fontSize: "clamp(11px, 0.9vw, 13px)",
-                    color: "#111",
-                    whiteSpace: "nowrap",
-                    letterSpacing: "-0.02em",
-                  }}
+            <div className="audio-pill-wrap">
+              {greeting && (
+                <div
+                  className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${pillVisible ? "audio-pill-visible" : "audio-pill-hidden"}`}
+                  style={{ boxShadow: "0 2px 14px rgba(0,0,0,0.3)" }}
                 >
-                  {greeting}
-                </span>
-              </div>
-            )}
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0FFF1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
+                  </svg>
+                  <span
+                    style={{
+                      fontFamily: '"Grold Rounded", sans-serif',
+                      fontSize: "clamp(11px, 0.9vw, 13px)",
+                      color: "#111",
+                      whiteSpace: "nowrap",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {greeting}
+                  </span>
+                </div>
+              )}
+            </div>
 
             <div
               className={`flex items-end gap-[3px] ${audioOn ? "bars-active" : "bars-paused"}`}
@@ -561,7 +581,7 @@ export default function ComingSoon() {
           </div>
 
           <div className="flex md:hidden flex-col items-center gap-5 pt-5 pb-16">
-            <div className="fade-up-soft fade-delay-1">
+            <div className="mobile-no-anim">
               <div
                 className="inline-flex items-center justify-center px-5 py-2"
                 style={{
@@ -622,7 +642,7 @@ export default function ComingSoon() {
                 fill
                 priority
                 quality={82}
-                sizes="72vw"
+                sizes="(max-width: 480px) 62vw, 72vw"
                 className="object-contain"
               />
             </div>
@@ -653,7 +673,7 @@ export default function ComingSoon() {
               </p>
             </div>
 
-            <div style={{ width: "100%" }} className="fade-up-soft fade-delay-2">
+            <div style={{ width: "100%" }} className="mobile-no-anim">
               {submitted ? (
                 <div className="w-full flex items-center gap-3 px-5" style={{ height: 54, borderRadius: 999, backgroundColor: "#0FFF1E" }}>
                   <Image src="/assets/check_mail.svg" alt="check" width={22} height={22} />
@@ -761,7 +781,7 @@ export default function ComingSoon() {
               )}
             </div>
 
-            <div className="flex flex-col items-center gap-2 fade-up-soft fade-delay-3">
+            <div className="flex flex-col items-center gap-2 mobile-no-anim">
               <span
                 className="social-label"
                 style={{
