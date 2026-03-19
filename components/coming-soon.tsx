@@ -101,7 +101,7 @@ export default function ComingSoon() {
 
   return (
     <>
-      <style>{\`
+      <style>{`
         .dot { color: #0FFF1E; display: inline-block; }
         @keyframes dotPulse {
           0%, 100% { opacity: 1; transform: translateY(0px); }
@@ -147,11 +147,10 @@ export default function ComingSoon() {
         .btn-enviar { transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
         .btn-enviar:hover  { background-color: #00e619 !important; transform: scale(1.03); box-shadow: 0 4px 18px rgba(15,255,30,0.4); }
         .btn-enviar:active { transform: scale(0.97); }
-      \`}</style>
+      `}</style>
 
       <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
 
-        {/* Background — src fijo, sin estado ni fallback */}
         <Image
           src="/assets/background_proximamente.webp"
           alt="Background 24SIETE"
@@ -164,7 +163,7 @@ export default function ComingSoon() {
 
         <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
 
-          {/* ── Header ── */}
+          {/* Header */}
           <div className="flex items-center gap-3 shrink-0" style={anim(0, 12)}>
             <button
               onClick={toggleAudio}
@@ -200,7 +199,7 @@ export default function ComingSoon() {
             </div>
           </div>
 
-          {/* ── DESKTOP ── */}
+          {/* DESKTOP */}
           <div className="hidden md:flex flex-1 items-center">
             <div className="w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-4 items-center">
               <div className="flex flex-col items-start gap-4 md:gap-5">
@@ -268,25 +267,17 @@ export default function ComingSoon() {
                 </div>
               </div>
 
-              {/* Producto desktop */}
               <div className="product-anim" style={{ width: "clamp(280px, 28vw, 490px)", height: "clamp(280px, 28vw, 590px)", position: "relative", flexShrink: 0 }}>
                 <div className="absolute z-20 flex items-center justify-center"
                   style={{ top: "8%", left: "10%", transform: "rotate(-3deg)", backgroundColor: "#0FFF1E", borderRadius: 8, border: "2px solid #000", boxShadow: "3px 3px 0px #000", padding: "clamp(6px, 0.6vw, 12px) clamp(12px, 1.2vw, 20px)" }}>
                   <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontWeight: 450, fontSize: "clamp(13px, 1.2vw, 22px)", letterSpacing: "-0.04em", color: "#000", whiteSpace: "nowrap" }}>Proximamente...</span>
                 </div>
-                <Image
-                  src="/assets/PRODUCTO.webp"
-                  alt="Alfajor 24SIETE"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 72vw, 35vw"
-                  className="object-contain object-bottom"
-                />
+                <Image src="/assets/PRODUCTO.webp" alt="Alfajor 24SIETE" fill priority sizes="(max-width: 768px) 72vw, 35vw" className="object-contain object-bottom" />
               </div>
             </div>
           </div>
 
-          {/* ── MOBILE ── */}
+          {/* MOBILE */}
           <div className="flex md:hidden flex-col items-center gap-5 pt-5 pb-16">
 
             <div style={anim(90, 14)}>
@@ -304,14 +295,7 @@ export default function ComingSoon() {
             </div>
 
             <div style={{ ...anim(250, 10), width: "min(72vw, 280px)", height: "min(72vw, 280px)", position: "relative" }}>
-              <Image
-                src="/assets/PRODUCTO.webp"
-                alt="Alfajor 24SIETE"
-                fill
-                priority
-                sizes="72vw"
-                className="object-contain"
-              />
+              <Image src="/assets/PRODUCTO.webp" alt="Alfajor 24SIETE" fill priority sizes="72vw" className="object-contain" />
             </div>
 
             <div style={anim(330, 14)} className="w-full text-center">
