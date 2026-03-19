@@ -1,117 +1,8 @@
-"use client"
-
 import Image from "next/image"
-import { FormEvent, useEffect, useRef, useState } from "react"
-
-function getTimeGreeting(): string {
-  const h = new Date().getHours()
-  if (h >= 0 && h < 6) return "Activá el audio y conocé 24SIETE para la madrugada"
-  if (h >= 6 && h < 12) return "Activá el audio y conocé 24SIETE para arrancar el día"
-  if (h >= 12 && h < 19) return "Activá el audio y conocé 24SIETE para la tarde"
-  return "Activá el audio y conocé 24SIETE para la noche"
-}
-
-function getAudioSrc(): string {
-  const h = new Date().getHours()
-  if (h >= 0 && h < 6) return "/audio/madrugada.mp3"
-  if (h >= 6 && h < 12) return "/audio/manana.mp3"
-  if (h >= 12 && h < 19) return "/audio/tarde.mp3"
-  return "/audio/noche.mp3"
-}
+import AudioToggleClient from "./audio-toggle-client"
+import SubscribeFormClient from "./subscribe-form-client"
 
 export default function ComingSoon() {
-  const [nombre, setNombre] = useState("")
-  const [apellido, setApellido] = useState("")
-  const [email, setEmail] = useState("")
-  const [emailError, setEmailError] = useState("")
-  const [audioOn, setAudioOn] = useState(false)
-  const [greeting, setGreeting] = useState("")
-  const [pillVisible, setPillVisible] = useState(false)
-  const [sending, setSending] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState("")
-  const audioRef = useRef<HTMLAudioElement>(null)
-
-  useEffect(() => {
-    setGreeting(getTimeGreeting())
-
-    if (audioRef.current) {
-      audioRef.current.volume = 0.4
-    }
-
-    const t = window.setTimeout(() => setPillVisible(true), 500)
-    return () => window.clearTimeout(t)
-  }, [])
-
-  const toggleAudio = () => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    if (audioOn) {
-      audio.pause()
-      setAudioOn(false)
-      return
-    }
-
-    const p = audio.play()
-    if (p !== undefined) {
-      p.then(() => setAudioOn(true)).catch((err) => {
-        console.warn("Audio play blocked:", err)
-        setAudioOn(false)
-      })
-    } else {
-      setAudioOn(true)
-    }
-  }
-
-  const validateEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
-
-  const handleEmailChange = (val: string) => {
-    setEmail(val)
-    setEmailError(val && !validateEmail(val) ? "Mail inválido — revisá que tenga @ y dominio" : "")
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-
-    if (!nombre.trim()) {
-      setError("El nombre es requerido.")
-      return
-    }
-
-    if (!email.trim() || !validateEmail(email)) {
-      setEmailError("Mail inválido — revisá que tenga @ y dominio")
-      return
-    }
-
-    setSending(true)
-    setError("")
-
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, apellido, email }),
-      })
-
-      const data = await res.json().catch(() => null)
-
-      if (res.ok && data?.ok) {
-        setSubmitted(true)
-        setNombre("")
-        setApellido("")
-        setEmail("")
-        setEmailError("")
-      } else {
-        setError(data?.error || "Algo salió mal, intentá de nuevo.")
-      }
-    } catch {
-      setError("Algo salió mal, intentá de nuevo.")
-    } finally {
-      setSending(false)
-    }
-  }
-
   return (
     <>
       <style>{`
@@ -241,63 +132,7 @@ export default function ComingSoon() {
 
       <main className="page-bg relative w-full min-h-[100dvh] overflow-x-hidden text-white">
         <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={toggleAudio}
-              aria-label={audioOn ? "Pausar música" : "Activar música"}
-              className="logo-btn relative shrink-0 cursor-pointer bg-transparent border-none p-0"
-              style={{ width: "clamp(48px, 6vw, 90px)", height: "clamp(48px, 6vw, 90px)" }}
-            >
-              <Image
-                src="/assets/logo_24SIETE.svg"
-                alt="Logo 24SIETE"
-                fill
-                sizes="90px"
-                className="object-contain"
-                priority
-              />
-            </button>
-
-            <div className="audio-pill-wrap">
-              {greeting && (
-                <div
-                  className={`audio-pill flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ${pillVisible ? "audio-pill-visible" : "audio-pill-hidden"}`}
-                  style={{ boxShadow: "0 2px 14px rgba(0,0,0,0.3)" }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0FFF1E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 18V5l12-2v13" />
-                    <circle cx="6" cy="18" r="3" />
-                    <circle cx="18" cy="16" r="3" />
-                  </svg>
-                  <span
-                    style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
-                      fontSize: "clamp(11px, 0.9vw, 13px)",
-                      color: "#111",
-                      whiteSpace: "nowrap",
-                      letterSpacing: "-0.02em",
-                    }}
-                  >
-                    {greeting}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div
-              className={`flex items-end gap-[3px] ${audioOn ? "bars-active" : "bars-paused"}`}
-              style={{
-                height: "clamp(14px, 1.6vw, 22px)",
-                opacity: audioOn ? 1 : 0.28,
-                transition: "opacity 0.4s ease",
-              }}
-            >
-              <span className="bar bar1" style={{ height: "100%" }} />
-              <span className="bar bar2" style={{ height: "70%" }} />
-              <span className="bar bar3" style={{ height: "90%" }} />
-              <span className="bar bar4" style={{ height: "55%" }} />
-            </div>
-          </div>
+          <AudioToggleClient />
 
           <div className="hidden md:flex flex-1 items-center">
             <div className="w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-4 items-center">
@@ -306,7 +141,7 @@ export default function ComingSoon() {
                   <h1
                     className="text-white"
                     style={{
-                      fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                      fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                       fontWeight: 400,
                       fontSize: "clamp(36px, 5.5vw, 86px)",
                       lineHeight: "108%",
@@ -326,7 +161,7 @@ export default function ComingSoon() {
                 <div>
                   <p
                     style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
+                      fontFamily: 'var(--font-grold-rounded), sans-serif',
                       fontWeight: 400,
                       fontSize: "clamp(15px, 1.8vw, 32px)",
                       lineHeight: "106%",
@@ -341,7 +176,7 @@ export default function ComingSoon() {
                     <span
                       style={{
                         color: "#0FFF1E",
-                        fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                        fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                       }}
                     >
                       24SIETE.
@@ -349,147 +184,13 @@ export default function ComingSoon() {
                   </p>
                 </div>
 
-                <div style={{ maxWidth: 620 }} className="w-full fade-up-soft fade-delay-1">
-                  {submitted ? (
-                    <div
-                      className="flex items-center gap-3 px-6"
-                      style={{
-                        maxWidth: 620,
-                        height: "clamp(52px, 5.5vw, 76px)",
-                        borderRadius: 999,
-                        backgroundColor: "#0FFF1E",
-                      }}
-                    >
-                      <Image src="/assets/check_mail.svg" alt="check" width={24} height={24} />
-                      <span
-                        style={{
-                          fontFamily: '"Grold Rounded", sans-serif',
-                          fontSize: "clamp(13px, 1.4vw, 20px)",
-                          letterSpacing: "-0.03em",
-                          color: "#000",
-                          fontWeight: 500,
-                        }}
-                      >
-                        ¡Tu mail nos llegó con éxito!
-                      </span>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} style={{ maxWidth: 620, width: "100%" }}>
-                      <div className="flex gap-2 mb-2">
-                        <input
-                          type="text"
-                          value={nombre}
-                          onChange={(e) => setNombre(e.target.value)}
-                          placeholder="Nombre *"
-                          className="flex-1 bg-white outline-none border-none"
-                          style={{
-                            borderRadius: 999,
-                            height: "clamp(40px, 4vw, 56px)",
-                            paddingLeft: "clamp(14px, 1.5vw, 24px)",
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            fontSize: "clamp(12px, 1.2vw, 18px)",
-                            letterSpacing: "-0.03em",
-                            color: "#444",
-                          }}
-                        />
-                        <input
-                          type="text"
-                          value={apellido}
-                          onChange={(e) => setApellido(e.target.value)}
-                          placeholder="Apellido (opcional)"
-                          className="flex-1 bg-white outline-none border-none"
-                          style={{
-                            borderRadius: 999,
-                            height: "clamp(40px, 4vw, 56px)",
-                            paddingLeft: "clamp(14px, 1.5vw, 24px)",
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            fontSize: "clamp(12px, 1.2vw, 18px)",
-                            letterSpacing: "-0.03em",
-                            color: "#444",
-                          }}
-                        />
-                      </div>
-
-                      <div
-                        className="w-full bg-white flex items-center overflow-hidden"
-                        style={{
-                          borderRadius: 999,
-                          height: "clamp(52px, 5.5vw, 76px)",
-                          border: emailError ? "2px solid #ff4444" : "2px solid transparent",
-                        }}
-                      >
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => handleEmailChange(e.target.value)}
-                          placeholder="Y tu mail?... dejalo aca"
-                          className="flex-1 h-full bg-transparent outline-none border-none"
-                          style={{
-                            paddingLeft: "clamp(16px, 2vw, 32px)",
-                            paddingRight: 8,
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            fontSize: "clamp(13px, 1.4vw, 22px)",
-                            letterSpacing: "-0.03em",
-                            color: "#787878",
-                            minWidth: 0,
-                          }}
-                        />
-                        <button
-                          type="submit"
-                          disabled={sending}
-                          className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                          style={{
-                            width: "clamp(90px, 11vw, 175px)",
-                            borderRadius: 999,
-                            backgroundColor: "#0FFF1E",
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            fontSize: "clamp(13px, 1.4vw, 22px)",
-                            letterSpacing: "-0.03em",
-                            color: "#000",
-                            whiteSpace: "nowrap",
-                            opacity: sending ? 0.7 : 1,
-                          }}
-                        >
-                          {sending ? "..." : "ENVIAR"}
-                        </button>
-                      </div>
-
-                      {emailError && (
-                        <p
-                          style={{
-                            color: "#ff4444",
-                            fontSize: "clamp(11px, 0.9vw, 13px)",
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            marginTop: 6,
-                            paddingLeft: 16,
-                          }}
-                        >
-                          {emailError}
-                        </p>
-                      )}
-
-                      {error && (
-                        <p
-                          style={{
-                            color: "#ff4444",
-                            fontSize: "clamp(11px, 0.9vw, 13px)",
-                            fontFamily: '"Grold Rounded", sans-serif',
-                            marginTop: 6,
-                            paddingLeft: 16,
-                          }}
-                        >
-                          {error}
-                        </p>
-                      )}
-                    </form>
-                  )}
-                </div>
+                <SubscribeFormClient />
 
                 <div className="flex flex-col items-start gap-2 fade-up-soft fade-delay-2">
                   <span
                     className="social-label"
                     style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
+                      fontFamily: 'var(--font-grold-rounded), sans-serif',
                       fontSize: "clamp(14px, 1.3vw, 22px)",
                       letterSpacing: "-0.03em",
                       color: "#fff",
@@ -555,8 +256,8 @@ export default function ComingSoon() {
                 >
                   <span
                     style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
-                      fontWeight: 450,
+                      fontFamily: 'var(--font-grold-rounded), sans-serif',
+                      fontWeight: 500,
                       fontSize: "clamp(13px, 1.2vw, 22px)",
                       letterSpacing: "-0.04em",
                       color: "#000",
@@ -594,8 +295,8 @@ export default function ComingSoon() {
               >
                 <span
                   style={{
-                    fontFamily: '"Grold Rounded", sans-serif',
-                    fontWeight: 450,
+                    fontFamily: 'var(--font-grold-rounded), sans-serif',
+                    fontWeight: 500,
                     fontSize: 17,
                     letterSpacing: "-0.04em",
                     color: "#000",
@@ -611,7 +312,7 @@ export default function ComingSoon() {
               <h1
                 className="text-white text-left"
                 style={{
-                  fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                  fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                   fontWeight: 400,
                   fontSize: "clamp(34px, 9vw, 54px)",
                   lineHeight: "105%",
@@ -650,7 +351,7 @@ export default function ComingSoon() {
             <div className="w-full text-center">
               <p
                 style={{
-                  fontFamily: '"Grold Rounded", sans-serif',
+                  fontFamily: 'var(--font-grold-rounded), sans-serif',
                   fontWeight: 400,
                   fontSize: "clamp(15px, 4.5vw, 20px)",
                   lineHeight: "110%",
@@ -665,7 +366,7 @@ export default function ComingSoon() {
                 <span
                   style={{
                     color: "#0FFF1E",
-                    fontFamily: '"Cubano", "Arial Black", Impact, sans-serif',
+                    fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                   }}
                 >
                   24SIETE.
@@ -673,119 +374,13 @@ export default function ComingSoon() {
               </p>
             </div>
 
-            <div style={{ width: "100%" }} className="mobile-no-anim">
-              {submitted ? (
-                <div className="w-full flex items-center gap-3 px-5" style={{ height: 54, borderRadius: 999, backgroundColor: "#0FFF1E" }}>
-                  <Image src="/assets/check_mail.svg" alt="check" width={22} height={22} />
-                  <span
-                    style={{
-                      fontFamily: '"Grold Rounded", sans-serif',
-                      fontSize: 15,
-                      letterSpacing: "-0.03em",
-                      color: "#000",
-                      fontWeight: 500,
-                    }}
-                  >
-                    ¡Tu mail nos llegó con éxito!
-                  </span>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="w-full" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      placeholder="Nombre *"
-                      className="flex-1 bg-white outline-none border-none"
-                      style={{
-                        borderRadius: 999,
-                        height: 48,
-                        paddingLeft: 16,
-                        fontFamily: '"Grold Rounded", sans-serif',
-                        fontSize: 15,
-                        letterSpacing: "-0.03em",
-                        color: "#444",
-                      }}
-                    />
-                    <input
-                      type="text"
-                      value={apellido}
-                      onChange={(e) => setApellido(e.target.value)}
-                      placeholder="Apellido"
-                      className="flex-1 bg-white outline-none border-none"
-                      style={{
-                        borderRadius: 999,
-                        height: 48,
-                        paddingLeft: 16,
-                        fontFamily: '"Grold Rounded", sans-serif',
-                        fontSize: 15,
-                        letterSpacing: "-0.03em",
-                        color: "#444",
-                      }}
-                    />
-                  </div>
-
-                  <div
-                    className="w-full bg-white flex items-center overflow-hidden"
-                    style={{ borderRadius: 999, height: 54, border: emailError ? "2px solid #ff4444" : "2px solid transparent" }}
-                  >
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => handleEmailChange(e.target.value)}
-                      placeholder="Y tu mail?... dejalo aca"
-                      className="flex-1 h-full bg-transparent outline-none border-none"
-                      style={{
-                        paddingLeft: 18,
-                        paddingRight: 8,
-                        fontFamily: '"Grold Rounded", sans-serif',
-                        fontSize: 16,
-                        letterSpacing: "-0.03em",
-                        color: "#787878",
-                        minWidth: 0,
-                      }}
-                    />
-                    <button
-                      type="submit"
-                      disabled={sending}
-                      className="btn-enviar shrink-0 h-full border-none cursor-pointer flex items-center justify-center"
-                      style={{
-                        width: 110,
-                        borderRadius: 999,
-                        backgroundColor: "#0FFF1E",
-                        fontFamily: '"Grold Rounded", sans-serif',
-                        fontSize: 15,
-                        letterSpacing: "-0.03em",
-                        color: "#000",
-                        whiteSpace: "nowrap",
-                        opacity: sending ? 0.7 : 1,
-                      }}
-                    >
-                      {sending ? "..." : "ENVIAR"}
-                    </button>
-                  </div>
-
-                  {emailError && (
-                    <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>
-                      {emailError}
-                    </p>
-                  )}
-
-                  {error && (
-                    <p style={{ color: "#ff4444", fontSize: 12, fontFamily: '"Grold Rounded", sans-serif', margin: 0, paddingLeft: 16 }}>
-                      {error}
-                    </p>
-                  )}
-                </form>
-              )}
-            </div>
+            <SubscribeFormClient mobile />
 
             <div className="flex flex-col items-center gap-2 mobile-no-anim">
               <span
                 className="social-label"
                 style={{
-                  fontFamily: '"Grold Rounded", sans-serif',
+                  fontFamily: 'var(--font-grold-rounded), sans-serif',
                   fontSize: 18,
                   letterSpacing: "-0.03em",
                   color: "#fff",
@@ -829,20 +424,17 @@ export default function ComingSoon() {
           </div>
 
           <div className="shrink-0 mt-auto pt-5 pb-4 text-center w-full fade-up-soft fade-delay-3">
-            <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: "12px", color: "rgba(255,255,255,0.7)" }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-grold-rounded), sans-serif',
+                fontSize: "12px",
+                color: "rgba(255,255,255,0.7)",
+              }}
+            >
               © 2026 24SIETE. Todos los derechos reservados.
             </span>
           </div>
         </div>
-
-        <audio
-          ref={audioRef}
-          src={getAudioSrc()}
-          loop
-          preload="none"
-          style={{ display: "none" }}
-          onError={(e) => console.warn("Audio load error:", e)}
-        />
       </main>
     </>
   )
