@@ -39,7 +39,7 @@ export default function ComingSoon() {
       audioRef.current.volume = 0.4
     }
 
-    const t = window.setTimeout(() => setPillVisible(true), 600)
+    const t = window.setTimeout(() => setPillVisible(true), 500)
     return () => window.clearTimeout(t)
   }, [])
 
@@ -115,6 +115,14 @@ export default function ComingSoon() {
   return (
     <>
       <style>{`
+        .page-bg {
+          background-color: #000;
+          background-image: url("/assets/background_proximamente.webp");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
         .dot { color: #0FFF1E; display: inline-block; }
 
         @keyframes dotPulse {
@@ -148,7 +156,7 @@ export default function ComingSoon() {
 
         .audio-pill {
           position: relative;
-          transition: opacity 0.45s ease, transform 0.45s ease;
+          transition: opacity 0.35s ease, transform 0.35s ease;
         }
         .audio-pill::before {
           content: '';
@@ -170,7 +178,9 @@ export default function ComingSoon() {
           pointer-events: none;
         }
 
-        .social-icon { transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+        .social-icon {
+          transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
         .social-icon:hover,
         .social-icon:focus-visible {
           background-color: #0FFF1E !important;
@@ -182,7 +192,9 @@ export default function ComingSoon() {
         .social-label { transition: color 0.2s ease; cursor: default; }
         .social-label:hover { color: #0FFF1E; }
 
-        .btn-enviar { transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
+        .btn-enviar {
+          transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
         .btn-enviar:hover {
           background-color: #00e619 !important;
           transform: scale(1.03);
@@ -191,30 +203,26 @@ export default function ComingSoon() {
         .btn-enviar:active { transform: scale(0.97); }
 
         @keyframes softFadeUp {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         .fade-up-soft {
           opacity: 0;
-          animation: softFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+          animation: softFadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
         }
-        .fade-delay-1 { animation-delay: 0.10s; }
-        .fade-delay-2 { animation-delay: 0.20s; }
-        .fade-delay-3 { animation-delay: 0.28s; }
+        .fade-delay-1 { animation-delay: 0.08s; }
+        .fade-delay-2 { animation-delay: 0.16s; }
+        .fade-delay-3 { animation-delay: 0.22s; }
+
+        @media (max-width: 767px) {
+          .fade-up-soft {
+            animation-duration: 0.3s;
+          }
+        }
       `}</style>
 
-      <main className="relative w-full min-h-[100dvh] overflow-x-hidden bg-black text-white">
-        <Image
-          src="/assets/background_proximamente.webp"
-          alt="Background 24SIETE"
-          fill
-          sizes="100vw"
-          quality={74}
-          className="object-cover"
-        />
-
+      <main className="page-bg relative w-full min-h-[100dvh] overflow-x-hidden text-white">
         <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
-          {/* Header */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={toggleAudio}
@@ -228,6 +236,7 @@ export default function ComingSoon() {
                 fill
                 sizes="90px"
                 className="object-contain"
+                priority
               />
             </button>
 
@@ -270,7 +279,6 @@ export default function ComingSoon() {
             </div>
           </div>
 
-          {/* Desktop */}
           <div className="hidden md:flex flex-1 items-center">
             <div className="w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-4 items-center">
               <div className="flex flex-col items-start gap-4 md:gap-5">
@@ -552,7 +560,6 @@ export default function ComingSoon() {
             </div>
           </div>
 
-          {/* Mobile */}
           <div className="flex md:hidden flex-col items-center gap-5 pt-5 pb-16">
             <div className="fade-up-soft fade-delay-1">
               <div
@@ -801,7 +808,6 @@ export default function ComingSoon() {
             </div>
           </div>
 
-          {/* Footer */}
           <div className="shrink-0 mt-auto pt-5 pb-4 text-center w-full fade-up-soft fade-delay-3">
             <span style={{ fontFamily: '"Grold Rounded", sans-serif', fontSize: "12px", color: "rgba(255,255,255,0.7)" }}>
               © 2026 24SIETE. Todos los derechos reservados.
@@ -820,4 +826,4 @@ export default function ComingSoon() {
       </main>
     </>
   )
-}
+  
