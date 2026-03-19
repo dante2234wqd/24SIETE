@@ -1,11 +1,34 @@
 import type { Metadata } from 'next'
+import localFont from 'next/font/local'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
-import './fonts.css'
 
 const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
+
+const cubano = localFont({
+  src: '../public/fonts/Cubano.woff2',
+  display: 'swap',
+  variable: '--font-cubano',
+})
+
+const groldRounded = localFont({
+  src: [
+    {
+      path: '../public/fonts/GroldRounded-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/GroldRounded-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  display: 'swap',
+  variable: '--font-grold-rounded',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.alfajor24siete.com.ar'),
@@ -97,25 +120,13 @@ export default function RootLayout({
       <head>
         <link
           rel="preload"
-          href="/fonts/Cubano.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/GroldRounded-Regular.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
           href="/assets/background_proximamente.webp"
           as="image"
         />
       </head>
-      <body className="font-sans antialiased">
+      <body
+        className={`${cubano.variable} ${groldRounded.variable} font-sans antialiased`}
+      >
         {children}
         <Analytics />
       </body>
