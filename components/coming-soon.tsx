@@ -826,4 +826,4 @@ export default function ComingSoon() {
       </main>
     </>
   )
-  
+}
