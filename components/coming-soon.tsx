@@ -131,21 +131,22 @@ export default function ComingSoon() {
       `}</style>
 
       <main className="page-bg relative w-full min-h-[100dvh] overflow-x-hidden text-white">
-        <div className="relative z-10 w-full max-w-[1512px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
+        <div className="relative z-10 w-full max-w-[1720px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col py-5 md:py-6 min-h-[100dvh]">
           <AudioToggleClient />
 
           <div className="hidden md:flex flex-1 items-center">
-            <div className="w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-4 items-center">
-              <div className="flex flex-col items-start gap-4 md:gap-5">
-                <div>
+            <div className="w-full grid md:grid-cols-[minmax(700px,1fr)_auto] gap-8 lg:gap-10 items-center">
+              <div className="flex flex-col items-start gap-4 md:gap-5 max-w-[920px]">
+                <div className="w-full">
                   <h1
                     className="text-white"
                     style={{
                       fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                       fontWeight: 400,
-                      fontSize: "clamp(36px, 5.5vw, 86px)",
-                      lineHeight: "108%",
+                      fontSize: "clamp(42px, 4.2vw, 78px)",
+                      lineHeight: "102%",
                       letterSpacing: "-0.03em",
+                      maxWidth: "900px",
                       margin: 0,
                     }}
                   >
@@ -198,6 +199,7 @@ export default function ComingSoon() {
                   >
                     Seguinos...
                   </span>
+
                   <div className="flex items-center gap-3">
                     <a
                       href="https://www.tiktok.com/@24sietealfajores"
@@ -209,6 +211,7 @@ export default function ComingSoon() {
                     >
                       <Image src="/assets/logo_tiktok.svg" alt="TikTok" width={20} height={20} />
                     </a>
+
                     <a
                       href="https://www.instagram.com/24sietealfajores/"
                       target="_blank"
@@ -219,6 +222,7 @@ export default function ComingSoon() {
                     >
                       <Image src="/assets/logo_instagram.svg" alt="Instagram" width={20} height={20} />
                     </a>
+
                     <a
                       href="https://www.youtube.com/@24SieteAlfajores"
                       target="_blank"
@@ -235,8 +239,8 @@ export default function ComingSoon() {
 
               <div
                 style={{
-                  width: "clamp(280px, 28vw, 490px)",
-                  height: "clamp(280px, 28vw, 590px)",
+                  width: "clamp(420px, 36vw, 760px)",
+                  height: "clamp(460px, 40vw, 860px)",
                   position: "relative",
                   flexShrink: 0,
                 }}
@@ -244,8 +248,8 @@ export default function ComingSoon() {
                 <div
                   className="absolute z-20 flex items-center justify-center fade-up-soft fade-delay-1"
                   style={{
-                    top: "8%",
-                    left: "10%",
+                    top: "9%",
+                    left: "8%",
                     transform: "rotate(-3deg)",
                     backgroundColor: "#0FFF1E",
                     borderRadius: 8,
@@ -269,13 +273,17 @@ export default function ComingSoon() {
                 </div>
 
                 <Image
-                  src="/assets/PRODUCTO.webp"
+                  src="/assets/Caja-N-con-alfajores.webp"
                   alt="Alfajor 24SIETE"
                   fill
                   priority
                   quality={82}
-                  sizes="(max-width: 768px) 72vw, 35vw"
+                  sizes="(max-width: 768px) 72vw, 42vw"
                   className="object-contain object-bottom"
+                  style={{
+                   transform: "translateY(-55px) scale(0.95)",
+                    transformOrigin: "bottom center",
+                  }}
                 />
               </div>
             </div>
@@ -330,22 +338,28 @@ export default function ComingSoon() {
               </h1>
             </div>
 
-            <div
-              style={{
-                width: "min(72vw, 280px)",
-                height: "min(72vw, 280px)",
-                position: "relative",
-              }}
-            >
-              <Image
-                src="/assets/PRODUCTO.webp"
-                alt="Alfajor 24SIETE"
-                fill
-                priority
-                quality={82}
-                sizes="(max-width: 480px) 62vw, 72vw"
-                className="object-contain"
-              />
+            <div className="w-full flex justify-center">
+              <div
+                style={{
+                  width: "min(80vw, 320px)",
+                  aspectRatio: "1 / 1",
+                  position: "relative",
+                }}
+              >
+                <Image
+                  src="/assets/Caja-N-con-alfajores.webp"
+                  alt="Alfajor 24SIETE"
+                  fill
+                  priority
+                  quality={82}
+                  sizes="(max-width: 480px) 80vw"
+                  className="object-contain"
+                  style={{
+                    transform: "translateY(-5px) scale(1.0)",
+                    transformOrigin: "center",
+                  }}
+                />
+              </div>
             </div>
 
             <div className="w-full text-center">
@@ -388,6 +402,7 @@ export default function ComingSoon() {
               >
                 Seguinos...
               </span>
+
               <div className="flex items-center gap-4">
                 <a
                   href="https://www.tiktok.com/@24sietealfajores"
@@ -399,6 +414,7 @@ export default function ComingSoon() {
                 >
                   <Image src="/assets/logo_tiktok.svg" alt="TikTok" width={20} height={20} />
                 </a>
+
                 <a
                   href="https://www.instagram.com/24sietealfajores/"
                   target="_blank"
@@ -409,6 +425,7 @@ export default function ComingSoon() {
                 >
                   <Image src="/assets/logo_instagram.svg" alt="Instagram" width={20} height={20} />
                 </a>
+
                 <a
                   href="https://www.youtube.com/@24SieteAlfajores"
                   target="_blank"
