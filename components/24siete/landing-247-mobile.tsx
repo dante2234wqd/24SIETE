@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Mobile Landing
@@ -22,95 +23,6 @@ const LANDING_MOBILE_NAV_ITEMS: NavBarItem[] = [
 ]
 
 const BULLETS = ["70G DE DECISIÓN", "MUCHO DULCE DE LECHE.", "CACAO SIN MIEDO.", "RÍO NEGRO, ARGENTINA"]
-
-// arrastre libre de un sticker, sin escala de stage (el layout mobile es flujo normal)
-function useDraggableSticker() {
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
-  const [isDragging, setIsDragging] = useState(false)
-  const dragRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null)
-
-  useEffect(() => {
-    const onPointerMove = (e: PointerEvent) => {
-      const drag = dragRef.current
-      if (!drag) return
-      setOffset({ x: drag.originX + (e.clientX - drag.startX), y: drag.originY + (e.clientY - drag.startY) })
-    }
-
-    const onPointerUp = () => {
-      dragRef.current = null
-      setIsDragging(false)
-    }
-
-    window.addEventListener("pointermove", onPointerMove)
-    window.addEventListener("pointerup", onPointerUp)
-
-    return () => {
-      window.removeEventListener("pointermove", onPointerMove)
-      window.removeEventListener("pointerup", onPointerUp)
-    }
-  }, [])
-
-  const onPointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
-    e.preventDefault()
-    ;(e.currentTarget as HTMLImageElement).setPointerCapture(e.pointerId)
-    setIsDragging(true)
-    dragRef.current = { startX: e.clientX, startY: e.clientY, originX: offset.x, originY: offset.y }
-  }
-
-  return { offset, isDragging, onPointerDown }
-}
-
-// revela cada elemento animado a medida que entra en el viewport (en vez de
-// animar todo de una sola vez al montar la página)
-function useScrollReveal() {
-  const targets = useRef<{ el: HTMLElement; toOpacity: number }[]>([])
-
-  useEffect(() => {
-    const items = targets.current
-    if (!items.length) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          const item = items.find((i) => i.el === entry.target)
-          if (!item) continue
-          item.el.style.opacity = String(item.toOpacity)
-          item.el.style.marginTop = "0px"
-          observer.unobserve(item.el)
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-    )
-
-    items.forEach(({ el }) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
-
-  let index = 0
-  function enter(variant: "slide" | "fade" = "slide", opts?: { step?: number; toOpacity?: number }) {
-    const step = opts?.step ?? 0.06
-    const delay = index * step
-    const i = index
-    index += 1
-    const toOpacity = opts?.toOpacity ?? 1
-
-    const style: React.CSSProperties = {
-      opacity: 0,
-      transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(2)}s, margin-top 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(2)}s`,
-    }
-    if (variant === "slide") style.marginTop = 26
-
-    return {
-      style,
-      ref: (el: HTMLElement | null) => {
-        if (el) targets.current[i] = { el, toOpacity }
-      },
-    }
-  }
-
-  return enter
-}
 
 export default function Landing247Mobile() {
   const enter = useScrollReveal()
