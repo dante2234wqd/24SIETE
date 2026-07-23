@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node \"C:\\\\Users\\\\Urano\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Urano-24siete\\\\c8da6cd8-a379-45a5-ac94-b75f5a7ae9f4\\\\scratchpad\\\\shot-faqs.js\")",
+      "Bash(node -e ' *)",
+      "Bash(powershell -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\\\"CommandLine LIKE '%next dev%'\\\\\" | Select-Object ProcessId,CommandLine\")"
+    ]
+  }
+}

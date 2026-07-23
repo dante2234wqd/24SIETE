@@ -163,7 +163,7 @@ select:-webkit-autofill:focus {
     background: #0a0a0a;
     overflow: hidden;
     overflow-y: auto;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
   }
 
   img,
@@ -193,4 +193,28 @@ select:-webkit-autofill:focus {
 
 .safe-top {
   padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+}
+
+/* =========================
+   STAGE ENTRANCE ANIMATION
+========================= */
+
+@keyframes stage-slide-in {
+  from {
+    opacity: 0;
+    margin-top: 26px;
+  }
+  to {
+    opacity: var(--enter-to-opacity, 1);
+    margin-top: 0px;
+  }
+}
+
+@keyframes stage-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--enter-to-opacity, 1);
+  }
 }

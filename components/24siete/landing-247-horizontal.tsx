@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import Link from "next/link"
+import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Horizontal Editorial Landing Stage
@@ -11,9 +13,73 @@ import { useEffect, useMemo, useRef, useState } from "react"
 const STAGE_WIDTH = 3359
 const STAGE_HEIGHT = 873
 
+const LANDING_NAV_ITEMS: NavBarItem[] = [
+  { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "#" },
+  { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
+  { label: "FAQS", key: "faqs", href: "/faqs" },
+]
+
+// puntos de corte (en unidades del stage) que definen cuándo cada sección
+// pasa a considerarse la "actual" mientras se scrollea horizontalmente
+const NAV_SECTION_THRESHOLDS: { key: NavKey; x: number }[] = [
+  { key: "yo-soy-24siete", x: 0 },
+  { key: "donde-estamos", x: 900 },
+  { key: "faqs", x: 2200 },
+]
+
+function useDraggableSticker(scale: number) {
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const dragRef = useRef<{
+    startX: number
+    startY: number
+    originX: number
+    originY: number
+  } | null>(null)
+
+  useEffect(() => {
+    const onPointerMove = (e: PointerEvent) => {
+      const drag = dragRef.current
+      if (!drag) return
+      setOffset({
+        x: drag.originX + (e.clientX - drag.startX) / scale,
+        y: drag.originY + (e.clientY - drag.startY) / scale,
+      })
+    }
+
+    const onPointerUp = () => {
+      dragRef.current = null
+      setIsDragging(false)
+    }
+
+    window.addEventListener("pointermove", onPointerMove)
+    window.addEventListener("pointerup", onPointerUp)
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove)
+      window.removeEventListener("pointerup", onPointerUp)
+    }
+  }, [scale])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
+    e.preventDefault()
+    ;(e.currentTarget as HTMLImageElement).setPointerCapture(e.pointerId)
+    setIsDragging(true)
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      originX: offset.x,
+      originY: offset.y,
+    }
+  }
+
+  return { offset, isDragging, onPointerDown }
+}
+
 export default function Landing247Horizontal() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
+  const [activeSection, setActiveSection] = useState<NavKey>("yo-soy-24siete")
 
   useEffect(() => {
     const updateViewport = () => {
@@ -58,6 +124,43 @@ export default function Landing247Horizontal() {
 
   const scaledWidth = STAGE_WIDTH * scale
   const scaledHeight = STAGE_HEIGHT * scale
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const onScroll = () => {
+      const focalX = (container.scrollLeft + container.clientWidth / 2) / scale
+      let current = NAV_SECTION_THRESHOLDS[0].key
+      for (const { key, x } of NAV_SECTION_THRESHOLDS) {
+        if (focalX >= x) current = key
+      }
+      setActiveSection(current)
+    }
+
+    onScroll()
+    container.addEventListener("scroll", onScroll, { passive: true })
+
+    return () => container.removeEventListener("scroll", onScroll)
+  }, [scale])
+
+  const modoSticker = useDraggableSticker(scale)
+  const activeSticker = useDraggableSticker(scale)
+
+  let enterDelay = 0
+  const enter = (
+    variant: "slide" | "fade" = "slide",
+    opts?: { step?: number; toOpacity?: number },
+  ): React.CSSProperties => {
+    const step = opts?.step ?? 0.055
+    const delay = enterDelay
+    enterDelay += step
+    const name = variant === "slide" ? "stage-slide-in" : "stage-fade-in"
+    return {
+      animation: `${name} 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(2)}s backwards`,
+      ["--enter-to-opacity" as unknown as string]: opts?.toOpacity ?? 1,
+    } as React.CSSProperties
+  }
 
   return (
     <div
@@ -112,6 +215,7 @@ export default function Landing247Horizontal() {
                 alt=""
                 aria-hidden="true"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 0,
                   top: 0,
@@ -127,6 +231,7 @@ export default function Landing247Horizontal() {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
                 alt="24SIETE logo"
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 56,
                   top: 34,
@@ -141,6 +246,7 @@ export default function Landing247Horizontal() {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Imagen_principal_inicio-ewY7pC9CfdrundPdqgGTzfbS0EVGQq.png"
                 alt="Stack of 24SIETE alfajores"
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: -13,
                   top: 69,
@@ -149,6 +255,39 @@ export default function Landing247Horizontal() {
                   objectFit: "contain",
                   objectPosition: "left center",
                   zIndex: 4,
+                  transform: "scale(1)",
+                  transition: "transform 0.25s ease",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLImageElement).style.transform = "scale(1)"
+                }}
+              />
+
+              {/* ── STIKER_24SIETE (por encima de la torre de alfajores, arrastrable) ─── */}
+              <img
+                src="/assets/Stiker_24SIETE.png"
+                alt="Sticker 24SIETE - ¿Estás active o estás mirando?"
+                draggable={false}
+                onPointerDown={activeSticker.onPointerDown}
+                style={{
+                  ...enter("fade"),
+                  position: "absolute",
+                  left: 450 + activeSticker.offset.x,
+                  top: 34 + activeSticker.offset.y,
+                  width: 230,
+                  height: 258,
+                  objectFit: "contain",
+                  transform: `rotate(-10.43deg) scale(${activeSticker.isDragging ? 1.08 : 1})`,
+                  transition: activeSticker.isDragging ? "none" : "transform 0.2s ease",
+                  opacity: 1,
+                  zIndex: activeSticker.isDragging ? 999 : 9,
+                  cursor: activeSticker.isDragging ? "grabbing" : "grab",
+                  touchAction: "none",
+                  userSelect: "none",
                 }}
               />
 
@@ -157,15 +296,26 @@ export default function Landing247Horizontal() {
                 src="/assets/ALFAJORES.webp"
                 alt="ALFAJORES.webp"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 1700,
                   top: 58,
                   width: 520,
                   height: 820,
                   objectFit: "contain",
-                  transform: "rotate(-16.9deg)",
+                  transform: "rotate(-16.9deg) scale(1)",
+                  transition: "transform 0.25s ease",
+                  cursor: "pointer",
                   zIndex: 8,
                   filter: "drop-shadow(4px 8px 16px rgba(0,0,0,0.6))",
+                }}
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLImageElement).style.transform =
+                    "rotate(-16.9deg) scale(1.06)"
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLImageElement).style.transform =
+                    "rotate(-16.9deg) scale(1)"
                 }}
               />
 
@@ -174,6 +324,7 @@ export default function Landing247Horizontal() {
                 src="/assets/Mapa_argentina1.webp"
                 alt="Mapa de Argentina"
                 style={{
+                  ...enter("slide", { toOpacity: 0.72 }),
                   position: "absolute",
                   left: 2145,
                   top: 70,
@@ -189,6 +340,7 @@ export default function Landing247Horizontal() {
               {/* ── HABLANOS (debajo del mapa de Argentina) ─────────── */}
               <div
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2173.34,
                   top: 659.83,
@@ -198,6 +350,18 @@ export default function Landing247Horizontal() {
                   display: "flex",
                   alignItems: "center",
                   gap: 20,
+                  cursor: "pointer",
+                  transition: "opacity 0.18s ease, transform 0.18s ease",
+                }}
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLDivElement).style.opacity = "0.82"
+                  ;(e.currentTarget as HTMLDivElement).style.transform =
+                    "rotate(1deg) scale(1.015)"
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLDivElement).style.opacity = "1"
+                  ;(e.currentTarget as HTMLDivElement).style.transform =
+                    "rotate(0deg) scale(1)"
                 }}
               >
                 <img
@@ -213,7 +377,7 @@ export default function Landing247Horizontal() {
                 />
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 100,
                     letterSpacing: "0.01em",
@@ -233,6 +397,7 @@ export default function Landing247Horizontal() {
                 src="/assets/fondoblanco_fotobariloche.png"
                 alt="Persona comiendo alfajor 24SIETE en Bariloche"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 2340,
                   top: -50,
@@ -250,6 +415,7 @@ export default function Landing247Horizontal() {
                 alt=""
                 aria-hidden="true"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 662.27,
                   top: 114.53,
@@ -262,11 +428,12 @@ export default function Landing247Horizontal() {
               />
 
               {/* ── 6. MAIN TITLE "DONDE ESTAMOS?" ────────── */}
-              <a
-                href="#donde-estamos"
+              <Link
+                href="/donde-estamos"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
-                  left: 804,
+                  left: 770,
                   top: 178.63,
                   width: 1000,
                   height: 98,
@@ -285,12 +452,12 @@ export default function Landing247Horizontal() {
                 onMouseLeave={(e) => {
                   ;(e.currentTarget as HTMLAnchorElement).style.opacity = "1"
                   ;(e.currentTarget as HTMLAnchorElement).style.transform =
-                    "rotate(2.68deg) scale(1)"
+                    "rotate(1.68deg) scale(1)"
                 }}
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', 'Oswald', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', 'Oswald', sans-serif",
                     fontWeight: 900,
                     fontSize: 109.39,
                     letterSpacing: "-0.03em",
@@ -303,16 +470,17 @@ export default function Landing247Horizontal() {
                 >
                   DONDE ESTAMOS?
                 </span>
-              </a>
+              </Link>
 
               {/* ── 7. LOCATION PIN ICON ──────────────────── */}
               <img
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Icono_Ubicacion-BrZW3HwXymcG5cS8uWR0qVAEQWULBU.png"
                 alt="Location pin"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
-                  left: 1515.35,
-                  top: 41.16,
+                  left: 1600.35,
+                  top: 80.16,
                   width: 167.69,
                   height: 244.53,
                   objectFit: "contain",
@@ -325,6 +493,7 @@ export default function Landing247Horizontal() {
               {/* ── 8. PHOTO CARD 1 — KIOSCO ─────────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 710.6,
                   top: 324.63,
@@ -350,6 +519,7 @@ export default function Landing247Horizontal() {
               {/* ── 9. PHOTO CARD 2 — MADRUGADA ──────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 1011.34,
                   top: 335.81,
@@ -375,6 +545,7 @@ export default function Landing247Horizontal() {
               {/* ── 10. PHOTO CARD 3 — PARCIAL ───────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 1314.07,
                   top: 338.23,
@@ -397,25 +568,33 @@ export default function Landing247Horizontal() {
                 />
               </div>
 
-              {/* ── STICKER #MODO24SIETE ─────────────── */}
+              {/* ── STICKER #MODO24SIETE (arrastrable) ─────────────── */}
               <img
                 src="/assets/Stiker_modo24siete.png"
                 alt="#MODO24SIETE sticker"
+                draggable={false}
+                onPointerDown={modoSticker.onPointerDown}
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
-                  left: "1480px",
-                  top: "660px",
+                  left: 1480 + modoSticker.offset.x,
+                  top: 660 + modoSticker.offset.y,
                   width: "390.3px",
                   height: "172.03px",
-                  transform: "rotate(-10.27deg)",
-                  zIndex: 8,
+                  transform: `rotate(-10.27deg) scale(${modoSticker.isDragging ? 1.08 : 1})`,
+                  transition: modoSticker.isDragging ? "none" : "transform 0.2s ease",
+                  zIndex: modoSticker.isDragging ? 999 : 8,
                   opacity: 1,
+                  cursor: modoSticker.isDragging ? "grabbing" : "grab",
+                  touchAction: "none",
+                  userSelect: "none",
                 }}
               />
 
               {/* ── 11. GREEN LABEL — KIOSCO ─────────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 807,
                   top: 307.13,
@@ -434,7 +613,7 @@ export default function Landing247Horizontal() {
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 22,
                     letterSpacing: "0.02em",
@@ -449,6 +628,7 @@ export default function Landing247Horizontal() {
               {/* ── 12. GREEN LABEL — MADRUGADA ──────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 1060,
                   top: 312,
@@ -467,7 +647,7 @@ export default function Landing247Horizontal() {
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 20,
                     letterSpacing: "0.01em",
@@ -482,6 +662,7 @@ export default function Landing247Horizontal() {
               {/* ── 13. GREEN LABEL — PARCIAL ─────────────── */}
               <div
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 1415,
                   top: 319,
@@ -500,12 +681,12 @@ export default function Landing247Horizontal() {
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 20,
                     letterSpacing: "-0.03em",
                     lineHeight: "63%",
-                    color: "#000",
+                    color: "#000", 
                     textTransform: "uppercase",
                   }}
                 >
@@ -516,9 +697,10 @@ export default function Landing247Horizontal() {
               {/* ── 14. LOWER BULLET LIST ─────────────────── */}
               <div
                 style={{
+                  ...enter(),
                   position: "absolute",
-                  left: 390,
-                  top: 655,
+                  left: 770,
+                  top: 720,
                   zIndex: 6,
                 }}
               >
@@ -559,7 +741,7 @@ export default function Landing247Horizontal() {
                     />
                     <span
                       style={{
-                        fontFamily: "'Impact', 'Arial Black', sans-serif",
+                        fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                         fontWeight: 700,
                         fontSize: 17,
                         letterSpacing: "0.01em",
@@ -570,7 +752,7 @@ export default function Landing247Horizontal() {
                     >
                       {"prefix" in item ? (
                         <>
-                          <span style={{ color: "#39ff14" }}>{item.prefix}</span>
+                          <span style={{ color: "#000000" }}>{item.prefix}</span>
                           <span style={{ color: "#000" }}>{item.suffix}</span>
                         </>
                       ) : (
@@ -584,85 +766,14 @@ export default function Landing247Horizontal() {
               {/* ── 15. BOTTOM NAV + CTA ──────────────────── */}
               <div
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 100,
                   top: 778,
                   zIndex: 9,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 36,
                 }}
               >
-                {["YO SOY 24SIETE", "¿DONDE ESTAMOS?", "FAQS"].map((label) => (
-                  <a
-                    key={label}
-                    href="#"
-                    style={{
-                      fontFamily: "'Impact', 'Arial Black', sans-serif",
-                      fontWeight: 700,
-                      fontSize: 13,
-                      letterSpacing: "0.06em",
-                      color: "#000",
-                      textTransform: "uppercase",
-                      textDecoration: "none",
-                      whiteSpace: "nowrap",
-                      transition: "color 0.15s ease",
-                      opacity: 0.85,
-                    }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.color = "#000")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.color = "#000")
-                    }
-                  >
-                    {label}
-                  </a>
-                ))}
-
-                <a
-                  href="#activate"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "#39ff14",
-                    borderRadius: 10,
-                    border: "2.5px solid #000",
-                    boxShadow: "3px 3px 0px #000",
-                    padding: "8px 22px",
-                    transform: "rotate(-1.8deg)",
-                    textDecoration: "none",
-                    transition: "transform 0.15s ease, box-shadow 0.15s ease",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => {
-                    ;(e.currentTarget as HTMLAnchorElement).style.transform =
-                      "rotate(-1.8deg) scale(1.04)"
-                    ;(e.currentTarget as HTMLAnchorElement).style.boxShadow =
-                      "5px 5px 0px #000"
-                  }}
-                  onMouseLeave={(e) => {
-                    ;(e.currentTarget as HTMLAnchorElement).style.transform =
-                      "rotate(-1.8deg) scale(1)"
-                    ;(e.currentTarget as HTMLAnchorElement).style.boxShadow =
-                      "3px 3px 0px #000"
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "'Impact', 'Arial Black', sans-serif",
-                      fontWeight: 900,
-                      fontSize: 15,
-                      letterSpacing: "1.06em",
-                      color: "#000",
-                      textTransform: "uppercase",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    ACTIVATE
-                  </span>
-                </a>
+                <NavBar items={LANDING_NAV_ITEMS} activeKey={activeSection} ctaHref="/activate" />
               </div>
 
               {/* ── RIGHT SIDE EXPANSION ZONE (corrida más a la derecha) ───────────────── */}
@@ -670,6 +781,7 @@ export default function Landing247Horizontal() {
               {/* ── NACIDOS EN RIO NEGRO (arriba del pin de ubicación) ─── */}
               <div
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2170,
                   top: 279,
@@ -680,7 +792,7 @@ export default function Landing247Horizontal() {
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 20,
                     letterSpacing: "0.04em",
@@ -693,7 +805,7 @@ export default function Landing247Horizontal() {
                 </span>
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 32,
                     letterSpacing: "0.02em",
@@ -707,7 +819,7 @@ export default function Landing247Horizontal() {
                 </span>
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 700,
                     fontSize: 13,
                     letterSpacing: "0.03em",
@@ -724,6 +836,7 @@ export default function Landing247Horizontal() {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ICONO%20DE%20UBICACION%20MAPA%20ARGENTINA-zxvl7GYUooF1ZkJyy0XhaUpKq1HnQy.png"
                 alt="Argentina location pin"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: 2300,
                   top: 240,
@@ -740,6 +853,7 @@ export default function Landing247Horizontal() {
                 src="/assets/redes.png"
                 alt="Seguinos en redes - código QR de Instagram"
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2300,
                   top: 473,
@@ -753,6 +867,7 @@ export default function Landing247Horizontal() {
               {/* ── DOBLE CAPA... (al lado derecho de redes.png) ─────────── */}
               <div
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2600,
                   top: 473,
@@ -766,8 +881,8 @@ export default function Landing247Horizontal() {
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
+                    fontFamily: "var(--font-grold-rounded), sans-serif",
+                    fontWeight: 700,
                     fontSize: 44,
                     lineHeight: "105%",
                     letterSpacing: "0.01em",
@@ -780,8 +895,8 @@ export default function Landing247Horizontal() {
                 </span>
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
+                    fontFamily: "var(--font-grold-rounded), sans-serif",
+                    fontWeight: 700,
                     fontSize: 44,
                     lineHeight: "105%",
                     letterSpacing: "0.01em",
@@ -794,8 +909,8 @@ export default function Landing247Horizontal() {
                 </span>
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
+                    fontFamily: "var(--font-grold-rounded), sans-serif",
+                    fontWeight: 700,
                     fontSize: 44,
                     lineHeight: "105%",
                     letterSpacing: "0.01em",
@@ -813,6 +928,7 @@ export default function Landing247Horizontal() {
                 src="/assets/Caja-N-con-alfajores.webp"
                 alt="Caja de 24SIETE Alfajores Negros"
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2900,
                   top: 220,
@@ -825,17 +941,30 @@ export default function Landing247Horizontal() {
               />
 
               <div
-                id="donde-estamos"
+                id="faqs"
                 style={{
+                  ...enter(),
                   position: "absolute",
                   left: 2850,
                   top: 95,
                   zIndex: 7,
+                  cursor: "pointer",
+                  transition: "opacity 0.18s ease, transform 0.18s ease",
+                }}
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLDivElement).style.opacity = "0.82"
+                  ;(e.currentTarget as HTMLDivElement).style.transform =
+                    "rotate(1deg) scale(1.015)"
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLDivElement).style.opacity = "1"
+                  ;(e.currentTarget as HTMLDivElement).style.transform =
+                    "rotate(0deg) scale(1)"
                 }}
               >
                 <span
                   style={{
-                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
                     fontSize: 70,
                     letterSpacing: "-0.03em",
@@ -853,10 +982,26 @@ export default function Landing247Horizontal() {
               </div>
 
               <img
+                src="/assets/Flecha_FAQS.png"
+                alt=""
+                aria-hidden="true"
+                style={{
+                  ...enter(),
+                  position: "absolute",
+                  left: 2900.13,
+                  top: 200.86,
+                  width: 55.62,
+                  height: 54.81,
+                  zIndex: 7,
+                }}
+              />
+
+              <img
                 src="/assets/Brush_blanco_fotos.png"
                 alt=""
                 aria-hidden="true"
                 style={{
+                  ...enter("fade"),
                   position: "absolute",
                   left: "-1.66px",
                   top: "270.7px",
