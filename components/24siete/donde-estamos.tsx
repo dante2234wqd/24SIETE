@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
+import LogoMusicButton from "./logo-music-button"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — ¿Dónde estamos?
@@ -212,10 +213,9 @@ export default function DondeEstamos() {
           <div style={{ maxWidth: 1230, marginLeft: 114, marginRight: 0 }}>
             {/* Logo + título */}
             <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-              <img
-                src={LOGO_URL}
-                alt="24SIETE logo"
+              <LogoMusicButton
                 style={{ ...enter(), width: 72, height: 74, flexShrink: 0 }}
+                badgePosition="bottom"
               />
 
               <div style={{ position: "relative", width: "100%", maxWidth: 480 }}>

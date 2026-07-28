@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
+import LogoMusicButton from "./logo-music-button"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Activate (Hablanos)
@@ -13,8 +14,6 @@ const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
 const BACKGROUND_URL = "/assets/fondo%20donde%20estamos.png"
-const LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
 const HABLANOS_ICON_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/HABLANOS%201-ZwLdgrogKIGt37GTm3IKYkYnOrgNjq.png"
 
@@ -177,10 +176,8 @@ export default function Activate() {
           color: "#fff",
         }}
       >
-        {/* Logo */}
-        <img
-          src={LOGO_URL}
-          alt="24SIETE logo"
+        {/* Logo (también botón de música) */}
+        <LogoMusicButton
           style={{ ...enter(), position: "absolute", left: 70, top: 40, width: 76, height: 78, zIndex: 4 }}
         />
 

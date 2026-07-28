@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
+import LogoMusicButton from "./logo-music-button"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Horizontal Editorial Landing Stage
@@ -226,10 +227,8 @@ export default function Landing247Horizontal() {
                 }}
               />
 
-              {/* ── 2. LOGO TOP LEFT ──────────────────────── */}
-              <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
-                alt="24SIETE logo"
+              {/* ── 2. LOGO TOP LEFT (también botón de música) ── */}
+              <LogoMusicButton
                 style={{
                   ...enter(),
                   position: "absolute",

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { MusicProvider } from '@/components/24siete/music-provider'
 import './globals.css'
 
 const _geist = Geist({ subsets: ['latin'] })
@@ -127,7 +128,7 @@ export default function RootLayout({
       <body
         className={`${cubano.variable} ${groldRounded.variable} font-sans antialiased`}
       >
-        {children}
+        <MusicProvider>{children}</MusicProvider>
         <Analytics />
       </body>
     </html>

@@ -3,9 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import type { NavBarItem, NavKey } from "./nav-bar"
-
-const LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
+import LogoMusicButton from "./logo-music-button"
 
 interface MobileNavBarProps {
   items: NavBarItem[]
@@ -103,7 +101,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
             <span style={{ display: "block", width: 26, height: 3, background: "#000", borderRadius: 2 }} />
           </button>
 
-          <img src={LOGO_URL} alt="24SIETE logo" style={{ width: 34, height: 34, objectFit: "contain" }} />
+          <LogoMusicButton style={{ width: 34, height: 34 }} compact />
         </div>
 
         <ActivateButton href={ctaHref} small />

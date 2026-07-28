@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
+import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
+import LogoMusicButton from "./logo-music-button"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — FAQS
@@ -13,8 +15,6 @@ const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
 const BACKGROUND_URL = "/assets/fondo%20donde%20estamos.png"
-const LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
 const BRUSH_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
 
@@ -105,6 +105,7 @@ export default function Faqs() {
   }, [viewport])
 
   const selectedAnswer = QUESTIONS.find((q) => q.id === selectedId && q.answerSrc)
+  const mascotSticker = useDraggableSticker(scale)
 
   let enterDelay = 0
   const enter = (
@@ -167,7 +168,7 @@ export default function Faqs() {
       >
         {/* Logo + título */}
         <div style={{ position: "absolute", left: 200, top: 60, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
-          <img src={LOGO_URL} alt="24SIETE logo" style={{ ...enter(), width: 74, height: 76, flexShrink: 0 }} />
+          <LogoMusicButton style={{ ...enter(), width: 74, height: 76, flexShrink: 0 }} badgePosition="bottom" />
 
           <div style={{ position: "relative", width: 560, height: 150 }}>
             <img
@@ -194,7 +195,7 @@ export default function Faqs() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                paddingLeft: "10%",
+                paddingLeft: "16%",
               }}
             >
               <span
@@ -263,16 +264,22 @@ export default function Faqs() {
             src="/assets/Stiker_24SIETE.png"
             alt="¿Estás active o estás mirando?"
             draggable={false}
+            onPointerDown={mascotSticker.onPointerDown}
             style={{
               ...enter(),
               position: "absolute",
-              left: 200,
-              top: 570,
+              left: 200 + mascotSticker.offset.x,
+              top: 570 + mascotSticker.offset.y,
               width: 300,
               height: 300,
               objectFit: "contain",
-              zIndex: 4,
+              zIndex: mascotSticker.isDragging ? 999 : 4,
               filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.5))",
+              transform: `scale(${mascotSticker.isDragging ? 1.06 : 1})`,
+              transition: mascotSticker.isDragging ? "none" : "transform 0.2s ease",
+              cursor: mascotSticker.isDragging ? "grabbing" : "grab",
+              touchAction: "none",
+              userSelect: "none",
             }}
           />
         )}
