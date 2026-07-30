@@ -1,10 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
+
+const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Mobile Landing
@@ -373,16 +376,14 @@ export default function Landing247Mobile() {
           />
         </Link>
 
-        {/* ── FOOTER: CAJA ─────────────────────────── */}
+        {/* ── FOOTER: CAJA — visor 3D interactivo ──── */}
         <div
           ref={footerBox.ref}
           style={{ ...footerBox.style, display: "flex", justifyContent: "flex-end", marginRight: -40, marginBottom: -64 }}
         >
-          <img
-            src="/assets/Caja-N-con-alfajores_mobile.png"
-            alt="Caja de 24SIETE Alfajores Negros"
-            style={{ width: "105%", maxWidth: 420, objectFit: "contain", display: "block" }}
-          />
+          <div style={{ width: "105%", maxWidth: 420, aspectRatio: "368 / 373" }}>
+            <CajaAlfajor3D />
+          </div>
         </div>
       </main>
     </div>

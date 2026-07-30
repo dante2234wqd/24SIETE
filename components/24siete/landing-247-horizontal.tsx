@@ -2,8 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
 import LogoMusicButton from "./logo-music-button"
+
+const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Horizontal Editorial Landing Stage
@@ -922,10 +925,8 @@ export default function Landing247Horizontal() {
                 </span>
               </div>
 
-              {/* ── CAJA DE ALFAJORES (lado derecho) ─────────── */}
-              <img
-                src="/assets/Caja-N-con-alfajores.webp"
-                alt="Caja de 24SIETE Alfajores Negros"
+              {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
+              <div
                 style={{
                   ...enter(),
                   position: "absolute",
@@ -933,11 +934,11 @@ export default function Landing247Horizontal() {
                   top: 220,
                   width: 600,
                   height: 580.7,
-                  objectFit: "contain",
                   zIndex: 4,
-                  filter: "drop-shadow(6px 10px 24px rgba(0,0,0,0.6))",
                 }}
-              />
+              >
+                <CajaAlfajor3D />
+              </div>
 
               <div
                 id="faqs"
