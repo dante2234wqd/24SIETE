@@ -333,13 +333,13 @@ export default function Landing247Mobile() {
           <img
             src={HABLANOS_ICON_URL}
             alt="Contact us icon"
-            style={{ width: 64, height: 64, objectFit: "contain", flexShrink: 0, filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.5))" }}
+            style={{ width: 72, height: 72, objectFit: "contain", flexShrink: 0, filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.5))" }}
           />
           <span
             style={{
               fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
               fontWeight: 900,
-              fontSize: "clamp(2.3rem, 11.5vw, 2.9rem)",
+              fontSize: "clamp(2.6rem, 13vw, 3.3rem)",
               letterSpacing: "0.01em",
               lineHeight: "90%",
               color: "#ffffff",
