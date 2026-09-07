@@ -16,11 +16,11 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #000000 !important;
+  -webkit-text-fill-color: #110f10 !important;
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   box-shadow: 0 0 0px 1000px #ffffff inset !important;
   transition: background-color 9999s ease-in-out 0s;
-  caret-color: #000000;
+  caret-color: #110f10;
 }
 
 /* =========================
@@ -154,13 +154,13 @@ select:-webkit-autofill:focus {
   }
 
   html {
-    background: #0a0a0a;
+    background: #110f10;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply text-foreground;
-    background: #0a0a0a;
+    background: #110f10;
     overflow: hidden;
     overflow-y: auto;
     font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;

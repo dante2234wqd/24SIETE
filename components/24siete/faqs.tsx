@@ -14,7 +14,6 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const BACKGROUND_URL = "/assets/fondo%20donde%20estamos.png"
 const BRUSH_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
 
@@ -74,7 +73,7 @@ function QuestionPill({
           fontWeight: 700,
           fontSize: 19,
           lineHeight: "118%",
-          color: "#101010",
+          color: "#110f10",
         }}
       >
         {text}
@@ -129,11 +128,7 @@ export default function Faqs() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: `url(${BACKGROUND_URL})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundColor: "#110f10",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -205,7 +200,7 @@ export default function Faqs() {
                   fontSize: 36,
                   lineHeight: "98%",
                   letterSpacing: "-0.02em",
-                  color: "#101010",
+                  color: "#110f10",
                   textTransform: "uppercase",
                 }}
               >

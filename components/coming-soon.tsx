@@ -7,7 +7,7 @@ export default function ComingSoon() {
     <>
       <style>{`
         .page-bg {
-          background-color: #000;
+          background-color: #110f10;
           background-image: url("/assets/background_proximamente.webp");
           background-size: cover;
           background-position: center;
@@ -253,8 +253,8 @@ export default function ComingSoon() {
                     transform: "rotate(-3deg)",
                     backgroundColor: "#0FFF1E",
                     borderRadius: 8,
-                    border: "2px solid #000",
-                    boxShadow: "3px 3px 0px #000",
+                    border: "2px solid #110f10",
+                    boxShadow: "3px 3px 0px #110f10",
                     padding: "clamp(6px, 0.6vw, 12px) clamp(12px, 1.2vw, 20px)",
                   }}
                 >
@@ -264,7 +264,7 @@ export default function ComingSoon() {
                       fontWeight: 500,
                       fontSize: "clamp(13px, 1.2vw, 22px)",
                       letterSpacing: "-0.04em",
-                      color: "#000",
+                      color: "#110f10",
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -297,8 +297,8 @@ export default function ComingSoon() {
                   transform: "rotate(-3deg)",
                   backgroundColor: "#0FFF1E",
                   borderRadius: 8,
-                  border: "2px solid #000",
-                  boxShadow: "3px 3px 0px #000",
+                  border: "2px solid #110f10",
+                  boxShadow: "3px 3px 0px #110f10",
                 }}
               >
                 <span
@@ -307,7 +307,7 @@ export default function ComingSoon() {
                     fontWeight: 500,
                     fontSize: 17,
                     letterSpacing: "-0.04em",
-                    color: "#000",
+                    color: "#110f10",
                     whiteSpace: "nowrap",
                   }}
                 >

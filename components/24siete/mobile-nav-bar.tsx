@@ -24,8 +24,8 @@ function ActivateButton({ href, onClick, small }: { href: string; onClick?: () =
         justifyContent: "center",
         background: "#39ff14",
         borderRadius: 8,
-        border: "2px solid #000",
-        boxShadow: "2px 2px 0px #000",
+        border: "2px solid #110f10",
+        boxShadow: "2px 2px 0px #110f10",
         padding: small ? "7px 14px" : "9px 18px",
         transform: "rotate(-1.8deg)",
         textDecoration: "none",
@@ -38,7 +38,7 @@ function ActivateButton({ href, onClick, small }: { href: string; onClick?: () =
           fontWeight: 900,
           fontSize: small ? 12 : 13,
           letterSpacing: "0.06em",
-          color: "#000",
+          color: "#110f10",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
         }}
@@ -96,9 +96,9 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               cursor: "pointer",
             }}
           >
-            <span style={{ display: "block", width: 26, height: 3, background: "#000", borderRadius: 2 }} />
-            <span style={{ display: "block", width: 26, height: 3, background: "#000", borderRadius: 2 }} />
-            <span style={{ display: "block", width: 26, height: 3, background: "#000", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
           </button>
 
           <LogoMusicButton style={{ width: 34, height: 34 }} compact />
@@ -115,7 +115,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
           position: "fixed",
           inset: 0,
           zIndex: 200,
-          background: "#0a0a0a",
+          background: "#110f10",
           display: "flex",
           flexDirection: "column",
           padding: "16px 20px",
@@ -148,7 +148,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               cursor: "pointer",
               fontSize: 20,
               lineHeight: 1,
-              color: "#000",
+              color: "#110f10",
             }}
           >
             ✕

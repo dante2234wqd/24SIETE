@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import Link from "next/link"
 import dynamic from "next/dynamic"
 import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
 import LogoMusicButton from "./logo-music-button"
+import HoverTitle from "./hover-title"
 
 const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
@@ -173,7 +173,7 @@ export default function Landing247Horizontal() {
       style={{
         width: "100vw",
         height: "100vh",
-        background: "#0a0a0a",
+        background: "#110f10",
       }}
     >
       <div
@@ -215,7 +215,7 @@ export default function Landing247Horizontal() {
             >
               {/* ── 1. BACKGROUND ─────────────────────────── */}
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-247-lsWd9A5wL0F1XD1CWWgCuRpyYbEpTv.png"
+                src="/assets/fondo_nuevo.webp"
                 alt=""
                 aria-hidden="true"
                 style={{
@@ -226,7 +226,28 @@ export default function Landing247Horizontal() {
                   width: 3359,
                   height: 873,
                   objectFit: "cover",
+                  backgroundColor: "#110f10",
                   zIndex: 1,
+                }}
+              />
+
+              {/* ── 1B. TEXTURA (lado izquierdo, detrás del hero) ── */}
+              <img
+                src="/assets/textura.png"
+                alt=""
+                aria-hidden="true"
+                style={{
+                  ...enter("fade"),
+                  position: "absolute",
+                  left: -380,
+                  top: 90,
+                  width: 950,
+                  height: 534,
+                  objectFit: "contain",
+                  opacity: 0.5,
+                  zIndex: 2,
+                  pointerEvents: "none",
+                  transform: "rotate(-90deg)",
                 }}
               />
 
@@ -340,59 +361,31 @@ export default function Landing247Horizontal() {
               />
 
               {/* ── HABLANOS (debajo del mapa de Argentina) ─────────── */}
-              <div
+              <HoverTitle
+                href="/activate"
                 style={{
                   ...enter(),
-                  position: "absolute",
                   left: 2173.34,
-                  top: 659.83,
-                  width: 606,
-                  height: 149,
+                  top: 684,
+                  width: 520,
+                  height: 147,
                   zIndex: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                  cursor: "pointer",
-                  transition: "opacity 0.18s ease, transform 0.18s ease",
                 }}
-                onMouseEnter={(e) => {
-                  ;(e.currentTarget as HTMLDivElement).style.opacity = "0.82"
-                  ;(e.currentTarget as HTMLDivElement).style.transform =
-                    "rotate(1deg) scale(1.015)"
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.currentTarget as HTMLDivElement).style.opacity = "1"
-                  ;(e.currentTarget as HTMLDivElement).style.transform =
-                    "rotate(0deg) scale(1)"
-                }}
+                lotties={[
+                  { src: "/lottie/mirarconlente.json", style: { top: 18, left: 24, width: 36, height: 36, transform: "rotate(-10deg)" } },
+                  { src: "/lottie/mirarconlente.json", style: { top: 8, left: 224, width: 30, height: 30, transform: "rotate(9deg)" } },
+                  { src: "/lottie/mirarconlente.json", style: { top: 92, left: 128, width: 28, height: 28, transform: "rotate(-6deg)" } },
+                  { src: "/lottie/ojos.json", style: { top: 20, left: 340, width: 32, height: 32, transform: "rotate(10deg)" } },
+                  { src: "/lottie/ojos.json", style: { top: 90, left: 440, width: 36, height: 36, transform: "rotate(-8deg)" } },
+                  { src: "/lottie/ojos.json", style: { top: 98, left: 258, width: 26, height: 26, transform: "rotate(14deg)" } },
+                ]}
               >
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/HABLANOS%201-ZwLdgrogKIGt37GTm3IKYkYnOrgNjq.png"
-                  alt="Contact us icon"
-                  style={{
-                    width: 200,
-                    height: 200,
-                    objectFit: "contain",
-                    flexShrink: 0,
-                    filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.5))",
-                  }}
+                  src="/assets/HABLANOS.png"
+                  alt="Hablanos"
+                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
                 />
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 100,
-                    letterSpacing: "0.01em",
-                    lineHeight: "90%",
-                    color: "#ffffff",
-                    whiteSpace: "nowrap",
-                    display: "block",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  HABLANOS
-                </span>
-              </div>
+              </HoverTitle>
 
               {/* ── FOTO BARILOCHE CON FONDO BLANCO (arriba, al lado del mapa) ─── */}
               <img
@@ -411,86 +404,32 @@ export default function Landing247Horizontal() {
                 }}
               />
 
-              {/* ── 5. WHITE BRUSH BEHIND TITLE ───────────── */}
-              <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
-                alt=""
-                aria-hidden="true"
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 662.27,
-                  top: 114.53,
-                  width: 990.49,
-                  height: 207.43,
-                  objectFit: "fill",
-                  transform: "rotate(3.68deg)",
-                  zIndex: 3,
-                }}
-              />
-
               {/* ── 6. MAIN TITLE "DONDE ESTAMOS?" ────────── */}
-              <Link
+              <HoverTitle
                 href="/donde-estamos"
                 style={{
                   ...enter("fade"),
-                  position: "absolute",
                   left: 770,
-                  top: 178.63,
-                  width: 1000,
-                  height: 98,
+                  top: 90,
+                  width: 750,
+                  height: 150,
                   transform: "rotate(1.68deg)",
                   zIndex: 7,
-                  display: "block",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  transition: "opacity 0.18s ease, transform 0.18s ease",
                 }}
-                onMouseEnter={(e) => {
-                  ;(e.currentTarget as HTMLAnchorElement).style.opacity = "0.82"
-                  ;(e.currentTarget as HTMLAnchorElement).style.transform =
-                    "rotate(2.68deg) scale(1.015)"
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.currentTarget as HTMLAnchorElement).style.opacity = "1"
-                  ;(e.currentTarget as HTMLAnchorElement).style.transform =
-                    "rotate(1.68deg) scale(1)"
-                }}
+                lotties={[
+                  { src: "/lottie/lottie.json", style: { top: 20, left: 60, width: 34, height: 34, transform: "rotate(-12deg)" } },
+                  { src: "/lottie/lottie.json", style: { top: 12, left: 320, width: 30, height: 30, transform: "rotate(9deg)" } },
+                  { src: "/lottie/lottie.json", style: { top: 45, left: 560, width: 38, height: 38, transform: "rotate(-8deg)" } },
+                  { src: "/lottie/lottie.json", style: { top: 8, left: 668, width: 40, height: 40, transform: "rotate(6deg)" } },
+                  { src: "/lottie/lottie.json", style: { top: 100, left: 420, width: 28, height: 28, transform: "rotate(15deg)" } },
+                ]}
               >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', 'Oswald', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 109.39,
-                    letterSpacing: "-0.03em",
-                    lineHeight: "90%",
-                    color: "#101010",
-                    whiteSpace: "nowrap",
-                    display: "block",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  DONDE ESTAMOS?
-                </span>
-              </Link>
-
-              {/* ── 7. LOCATION PIN ICON ──────────────────── */}
-              <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Icono_Ubicacion-BrZW3HwXymcG5cS8uWR0qVAEQWULBU.png"
-                alt="Location pin"
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 1600.35,
-                  top: 80.16,
-                  width: 167.69,
-                  height: 244.53,
-                  objectFit: "contain",
-                  transform: "rotate(2.46deg)",
-                  zIndex: 8,
-                  filter: "drop-shadow(0 4px 12px rgba(0,255,0,0.25))",
-                }}
-              />
+                <img
+                  src="/assets/DONDE ESTAMOS.png"
+                  alt="¿Dónde estamos?"
+                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                />
+              </HoverTitle>
 
               {/* ── 8. PHOTO CARD 1 — KIOSCO ─────────────── */}
               <div
@@ -609,8 +548,8 @@ export default function Landing247Horizontal() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "2px 3px 0px #000",
-                  border: "2px solid #000",
+                  boxShadow: "2px 3px 0px #110f10",
+                  border: "2px solid #110f10",
                 }}
               >
                 <span
@@ -619,7 +558,7 @@ export default function Landing247Horizontal() {
                     fontWeight: 900,
                     fontSize: 22,
                     letterSpacing: "0.02em",
-                    color: "#000",
+                    color: "#110f10",
                     textTransform: "uppercase",
                   }}
                 >
@@ -643,8 +582,8 @@ export default function Landing247Horizontal() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "2px 3px 0px #000",
-                  border: "2px solid #000",
+                  boxShadow: "2px 3px 0px #110f10",
+                  border: "2px solid #110f10",
                 }}
               >
                 <span
@@ -653,7 +592,7 @@ export default function Landing247Horizontal() {
                     fontWeight: 900,
                     fontSize: 20,
                     letterSpacing: "0.01em",
-                    color: "#000",
+                    color: "#110f10",
                     textTransform: "uppercase",
                   }}
                 >
@@ -677,8 +616,8 @@ export default function Landing247Horizontal() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "2px 3px 0px #000",
-                  border: "2px solid #000",
+                  boxShadow: "2px 3px 0px #110f10",
+                  border: "2px solid #110f10",
                 }}
               >
                 <span
@@ -688,7 +627,7 @@ export default function Landing247Horizontal() {
                     fontSize: 20,
                     letterSpacing: "-0.03em",
                     lineHeight: "63%",
-                    color: "#000", 
+                    color: "#110f10", 
                     textTransform: "uppercase",
                   }}
                 >
@@ -747,18 +686,18 @@ export default function Landing247Horizontal() {
                         fontWeight: 700,
                         fontSize: 17,
                         letterSpacing: "0.01em",
-                        color: "#000",
+                        color: "#110f10",
                         textTransform: "uppercase",
                         whiteSpace: "nowrap",
                       }}
                     >
                       {"prefix" in item ? (
                         <>
-                          <span style={{ color: "#000000" }}>{item.prefix}</span>
-                          <span style={{ color: "#000" }}>{item.suffix}</span>
+                          <span style={{ color: "#110f10" }}>{item.prefix}</span>
+                          <span style={{ color: "#110f10" }}>{item.suffix}</span>
                         </>
                       ) : (
-                        <span style={{ color: "#000" }}>{item.full}</span>
+                        <span style={{ color: "#110f10" }}>{item.full}</span>
                       )}
                     </span>
                   </div>
@@ -780,13 +719,13 @@ export default function Landing247Horizontal() {
 
               {/* ── RIGHT SIDE EXPANSION ZONE (corrida más a la derecha) ───────────────── */}
 
-              {/* ── NACIDOS EN RIO NEGRO (arriba del pin de ubicación) ─── */}
+              {/* ── NACIDOS EN BUENOS AIRES (arriba del pin de ubicación) ─── */}
               <div
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2170,
-                  top: 279,
+                  left: 2318,
+                  top: 173,
                   width: 360,
                   zIndex: 8,
                   textAlign: "center",
@@ -817,7 +756,7 @@ export default function Landing247Horizontal() {
                     display: "block",
                   }}
                 >
-                  RIO NEGRO
+                  BUENOS AIRES
                 </span>
                 <span
                   style={{
@@ -830,7 +769,7 @@ export default function Landing247Horizontal() {
                     marginTop: 10,
                   }}
                 >
-                  -40.7342° -63.1256°
+                  -34.6037° -58.3816°
                 </span>
               </div>
 
@@ -840,8 +779,8 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter("fade"),
                   position: "absolute",
-                  left: 2300,
-                  top: 240,
+                  left: 2448,
+                  top: 134,
                   width: 100,
                   height: 405,
                   objectFit: "contain",
@@ -926,75 +865,45 @@ export default function Landing247Horizontal() {
               </div>
 
               {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
+              {/* left al máximo posible pegado al borde derecho del stage sin que
+                  el overflow:hidden del stage (3359px de ancho) lo corte */}
               <div
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2900,
+                  left: 2953,
                   top: 220,
                   width: 600,
-                  height: 580.7,
+                  height: 620.7,
                   zIndex: 4,
                 }}
               >
                 <CajaAlfajor3D />
               </div>
 
-              <div
-                id="faqs"
+              <HoverTitle
+                href="/faqs"
                 style={{
                   ...enter(),
-                  position: "absolute",
-                  left: 2850,
-                  top: 95,
+                  left: 2860,
+                  top: 35,
+                  width: 120,
+                  height: 247,
                   zIndex: 7,
-                  cursor: "pointer",
-                  transition: "opacity 0.18s ease, transform 0.18s ease",
                 }}
-                onMouseEnter={(e) => {
-                  ;(e.currentTarget as HTMLDivElement).style.opacity = "0.82"
-                  ;(e.currentTarget as HTMLDivElement).style.transform =
-                    "rotate(1deg) scale(1.015)"
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.currentTarget as HTMLDivElement).style.opacity = "1"
-                  ;(e.currentTarget as HTMLDivElement).style.transform =
-                    "rotate(0deg) scale(1)"
-                }}
+                lotties={[
+                  { src: "/lottie/carafeliz.json", style: { top: 14, left: 16, width: 20, height: 20, transform: "rotate(-10deg)" } },
+                  { src: "/lottie/carafeliz.json", style: { top: 78, left: 70, width: 18, height: 18, transform: "rotate(8deg)" } },
+                  { src: "/lottie/carafeliz.json", style: { top: 142, left: 18, width: 16, height: 16, transform: "rotate(-14deg)" } },
+                  { src: "/lottie/carafeliz.json", style: { top: 206, left: 66, width: 19, height: 19, transform: "rotate(12deg)" } },
+                ]}
               >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 70,
-                    letterSpacing: "-0.03em",
-                    lineHeight: "90%",
-                    color: "#ffffff",
-                    whiteSpace: "nowrap",
-                    display: "block",
-                    textTransform: "uppercase",
-                    transform: "rotate(-97.5deg)",
-                    position: "relative",
-                  }}
-                >
-                  FAQS
-                </span>
-              </div>
-
-              <img
-                src="/assets/Flecha_FAQS.png"
-                alt=""
-                aria-hidden="true"
-                style={{
-                  ...enter(),
-                  position: "absolute",
-                  left: 2900.13,
-                  top: 200.86,
-                  width: 55.62,
-                  height: 54.81,
-                  zIndex: 7,
-                }}
-              />
+                <img
+                  src="/assets/FAQS.png"
+                  alt="FAQS"
+                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                />
+              </HoverTitle>
 
               <img
                 src="/assets/Brush_blanco_fotos.png"

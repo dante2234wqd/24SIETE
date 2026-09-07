@@ -51,7 +51,7 @@ const inputStyle: React.CSSProperties = {
   padding: "12px 16px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
   fontSize: 14,
-  color: "#101010",
+  color: "#110f10",
   outline: "none",
   boxSizing: "border-box",
 }
@@ -62,8 +62,8 @@ const submitButtonStyle: React.CSSProperties = {
   justifyContent: "center",
   background: "#39ff14",
   borderRadius: 10,
-  border: "2.5px solid #000",
-  boxShadow: "3px 3px 0px #000",
+  border: "2.5px solid #110f10",
+  boxShadow: "3px 3px 0px #110f10",
   padding: "12px 46px",
   transform: "rotate(-1.8deg)",
   cursor: "pointer",
@@ -74,7 +74,7 @@ const submitButtonTextStyle: React.CSSProperties = {
   fontWeight: 900,
   fontSize: 16,
   letterSpacing: "0.1em",
-  color: "#000",
+  color: "#110f10",
   textTransform: "uppercase",
 }
 
@@ -97,14 +97,14 @@ function ToggleGroup({
             type="button"
             onClick={() => onSelect(opt)}
             style={{
-              border: "2px solid #101010",
+              border: "2px solid #110f10",
               borderRadius: 10,
               padding: "9px 16px",
               backgroundColor: active ? "#0FFF1E" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
               fontSize: 13,
-              color: "#101010",
+              color: "#110f10",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
             }}
@@ -153,11 +153,7 @@ export default function ActivateMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: "url(/assets/fondo%20mobile.png)",
-        backgroundRepeat: "repeat-y",
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
+        backgroundColor: "#110f10",
         overflowX: "hidden",
       }}
     >

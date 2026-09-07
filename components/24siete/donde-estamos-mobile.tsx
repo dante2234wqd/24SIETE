@@ -97,11 +97,7 @@ export default function DondeEstamosMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: "url(/assets/fondo%20mobile.png)",
-        backgroundRepeat: "repeat-y",
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
+        backgroundColor: "#110f10",
         overflowX: "hidden",
       }}
     >

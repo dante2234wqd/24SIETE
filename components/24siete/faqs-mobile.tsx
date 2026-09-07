@@ -59,7 +59,7 @@ function QuestionPill({ text, active, onClick }: { text: string; active: boolean
           fontWeight: 700,
           fontSize: 11,
           lineHeight: "120%",
-          color: "#101010",
+          color: "#110f10",
         }}
       >
         {text}
@@ -84,11 +84,7 @@ export default function FaqsMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: "url(/assets/fondo%20mobile.png)",
-        backgroundRepeat: "repeat-y",
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
+        backgroundColor: "#110f10",
         overflowX: "hidden",
       }}
     >
@@ -142,7 +138,7 @@ export default function FaqsMobile() {
                   fontSize: "clamp(1.5rem, 7.5vw, 2rem)",
                   lineHeight: "98%",
                   letterSpacing: "-0.02em",
-                  color: "#101010",
+                  color: "#110f10",
                   textTransform: "uppercase",
                 }}
               >

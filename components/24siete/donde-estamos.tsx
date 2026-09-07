@@ -13,9 +13,7 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const BACKGROUND_URL = "/assets/fondo%20donde%20estamos.png"
-const LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
+const LOGO_URL = "/assets/favicon-03.svg"
 const BRUSH_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
 const PIN_ICON_URL =
@@ -83,7 +81,7 @@ function AddressLink({
       }}
     >
       <span
-        className="pointer-events-none absolute -top-9 left-0 z-10 whitespace-nowrap rounded-md border-2 border-black px-3 py-1 text-[11px] font-bold uppercase text-black opacity-0 shadow-[2px_2px_0px_#000] transition-opacity duration-150 group-hover:opacity-100"
+        className="pointer-events-none absolute -top-9 left-0 z-10 whitespace-nowrap rounded-md border-2 border-[#110f10] px-3 py-1 text-[11px] font-bold uppercase text-[#110f10] opacity-0 shadow-[2px_2px_0px_#110f10] transition-opacity duration-150 group-hover:opacity-100"
         style={{
           background: "#39ff14",
           fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
@@ -160,11 +158,7 @@ export default function DondeEstamos() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: `url(${BACKGROUND_URL})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundColor: "#110f10",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -250,7 +244,7 @@ export default function DondeEstamos() {
                       fontWeight: 900,
                       fontSize: "clamp(22px, 2.6vw, 38px)",
                       letterSpacing: "-0.03em",
-                      color: "#101010",
+                      color: "#110f10",
                       whiteSpace: "nowrap",
                       textTransform: "uppercase",
                     }}

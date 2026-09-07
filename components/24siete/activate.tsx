@@ -13,7 +13,6 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const BACKGROUND_URL = "/assets/fondo%20donde%20estamos.png"
 const HABLANOS_ICON_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/HABLANOS%201-ZwLdgrogKIGt37GTm3IKYkYnOrgNjq.png"
 
@@ -51,7 +50,7 @@ const inputStyle: React.CSSProperties = {
   padding: "12px 16px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
   fontSize: 14,
-  color: "#101010",
+  color: "#110f10",
   outline: "none",
   boxSizing: "border-box",
 }
@@ -75,14 +74,14 @@ function ToggleGroup({
             type="button"
             onClick={() => onSelect(opt)}
             style={{
-              border: "2px solid #101010",
+              border: "2px solid #110f10",
               borderRadius: 10,
               padding: "9px 18px",
               backgroundColor: active ? "#0FFF1E" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
               fontSize: 14,
-              color: "#101010",
+              color: "#110f10",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
             }}
@@ -139,11 +138,7 @@ export default function Activate() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: `url(${BACKGROUND_URL})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundColor: "#110f10",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -272,8 +267,8 @@ export default function Activate() {
                   justifyContent: "center",
                   background: "#39ff14",
                   borderRadius: 10,
-                  border: "2.5px solid #000",
-                  boxShadow: "3px 3px 0px #000",
+                  border: "2.5px solid #110f10",
+                  boxShadow: "3px 3px 0px #110f10",
                   padding: "12px 46px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
@@ -285,7 +280,7 @@ export default function Activate() {
                     fontWeight: 900,
                     fontSize: 16,
                     letterSpacing: "0.1em",
-                    color: "#000",
+                    color: "#110f10",
                     textTransform: "uppercase",
                   }}
                 >
@@ -349,8 +344,8 @@ export default function Activate() {
                   justifyContent: "center",
                   background: "#39ff14",
                   borderRadius: 10,
-                  border: "2.5px solid #000",
-                  boxShadow: "3px 3px 0px #000",
+                  border: "2.5px solid #110f10",
+                  boxShadow: "3px 3px 0px #110f10",
                   padding: "12px 46px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
@@ -362,7 +357,7 @@ export default function Activate() {
                     fontWeight: 900,
                     fontSize: 16,
                     letterSpacing: "0.1em",
-                    color: "#000",
+                    color: "#110f10",
                     textTransform: "uppercase",
                   }}
                 >

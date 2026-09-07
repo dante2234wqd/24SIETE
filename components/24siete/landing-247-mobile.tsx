@@ -52,11 +52,7 @@ export default function Landing247Mobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
-        backgroundImage: "url(/assets/fondo%20mobile.png)",
-        backgroundRepeat: "repeat-y",
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
+        backgroundColor: "#110f10",
         overflowX: "hidden",
       }}
     >
@@ -208,7 +204,7 @@ export default function Landing247Mobile() {
           />
         </div>
 
-        {/* ── PAQUETES + SEGUINOS  |  MAPA + NACIDOS EN RIO NEGRO ── */}
+        {/* ── PAQUETES + SEGUINOS  |  MAPA + NACIDOS EN BUENOS AIRES ── */}
         <section style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 18, width: "42%" }}>
             <img
@@ -297,7 +293,7 @@ export default function Landing247Mobile() {
                   display: "block",
                 }}
               >
-                RIO NEGRO
+                BUENOS AIRES
               </span>
               <span
                 style={{
@@ -310,7 +306,7 @@ export default function Landing247Mobile() {
                   marginTop: 6,
                 }}
               >
-                -40.7342° -63.1256°
+                -34.6037° -58.3816°
               </span>
             </div>
           </div>

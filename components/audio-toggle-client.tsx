@@ -67,7 +67,7 @@ export default function AudioToggleClient() {
           style={{ width: "clamp(48px, 6vw, 90px)", height: "clamp(48px, 6vw, 90px)" }}
         >
           <Image
-            src="/assets/logo_24SIETE.svg"
+            src="/assets/favicon-03.svg"
             alt="Logo 24SIETE"
             fill
             sizes="90px"

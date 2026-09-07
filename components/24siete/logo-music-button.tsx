@@ -2,8 +2,7 @@
 
 import { useMusic } from "./music-provider"
 
-const LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_24SIETE-763F9MXWDBGbgG9D9rB5eXlsyu8VUo.svg"
+const LOGO_URL = "/assets/favicon-03.svg"
 
 interface LogoMusicButtonProps {
   // estilo del contenedor: reemplaza el `style` que antes tenía el <img> del
@@ -55,16 +54,16 @@ export default function LogoMusicButton({ style, badgePosition = "right", compac
           ...badgeStyle,
           whiteSpace: "nowrap",
           background: "#39ff14",
-          border: compact ? "1.5px solid #000" : "2px solid #000",
+          border: compact ? "1.5px solid #110f10" : "2px solid #110f10",
           borderRadius: 999,
           padding: compact ? "3px 8px" : "5px 12px",
           fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
           fontWeight: 900,
           fontSize: compact ? 9 : 12,
           letterSpacing: "0.02em",
-          color: "#000",
+          color: "#110f10",
           textTransform: "uppercase",
-          boxShadow: compact ? "1.5px 1.5px 0 #000" : "2px 2px 0 #000",
+          boxShadow: compact ? "1.5px 1.5px 0 #110f10" : "2px 2px 0 #110f10",
           pointerEvents: "none",
           zIndex: 1,
         }}

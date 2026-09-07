@@ -80,7 +80,7 @@ export default function SubscribeFormClient({
                 fontFamily: 'var(--font-grold-rounded), sans-serif',
                 fontSize: 15,
                 letterSpacing: "-0.03em",
-                color: "#000",
+                color: "#110f10",
                 fontWeight: 500,
               }}
             >
@@ -155,7 +155,7 @@ export default function SubscribeFormClient({
                   fontFamily: 'var(--font-grold-rounded), sans-serif',
                   fontSize: 15,
                   letterSpacing: "-0.03em",
-                  color: "#000",
+                  color: "#110f10",
                   whiteSpace: "nowrap",
                   opacity: sending ? 0.7 : 1,
                 }}
@@ -199,7 +199,7 @@ export default function SubscribeFormClient({
               fontFamily: 'var(--font-grold-rounded), sans-serif',
               fontSize: "clamp(13px, 1.4vw, 20px)",
               letterSpacing: "-0.03em",
-              color: "#000",
+              color: "#110f10",
               fontWeight: 500,
             }}
           >
@@ -278,7 +278,7 @@ export default function SubscribeFormClient({
                 fontFamily: 'var(--font-grold-rounded), sans-serif',
                 fontSize: "clamp(13px, 1.4vw, 22px)",
                 letterSpacing: "-0.03em",
-                color: "#000",
+                color: "#110f10",
                 whiteSpace: "nowrap",
                 opacity: sending ? 0.7 : 1,
               }}
