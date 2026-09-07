@@ -101,6 +101,22 @@ export default function DondeEstamosMobile() {
         overflowX: "hidden",
       }}
     >
+      {/* Fondo general (mismo que la home desktop) */}
+      <img
+        src="/assets/fondo_nuevo.webp"
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      />
+
       <MobileNavBar items={DONDE_ESTAMOS_MOBILE_NAV_ITEMS} activeKey="donde-estamos" ctaHref="/activate" />
 
       <main

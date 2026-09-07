@@ -164,6 +164,23 @@ export default function DondeEstamos() {
         justifyContent: "center",
       }}
     >
+      {/* Fondo general (mismo que la home) */}
+      <img
+        src="/assets/fondo_nuevo.webp"
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        style={{
+          ...enter("fade"),
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      />
+
       {/* Fondo pincelada blanca detrás de la barra de navegación: fuera del stage escalado para poder ocupar el 100% del ancho real del viewport */}
       <img
         src="/assets/fondo%20menu%20navegacionv3.png"
