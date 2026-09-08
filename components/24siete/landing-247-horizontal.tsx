@@ -316,8 +316,8 @@ export default function Landing247Horizontal() {
 
               {/* ── 4. FLOATING STICKER (movido junto a la foto de la chica) ─── */}
               <img
-                src="/assets/ALFAJORES.webp"
-                alt="ALFAJORES.webp"
+                src="/assets/alfajores-blanco-negro.webp"
+                alt="Paquetes de alfajores 24SIETE blanco y negro"
                 style={{
                   ...enter("fade"),
                   position: "absolute",

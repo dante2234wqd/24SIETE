@@ -214,7 +214,7 @@ export default function Landing247Mobile() {
           <div style={{ display: "flex", flexDirection: "column", gap: 18, width: "42%" }}>
             <img
               ref={alfajoresImg.ref}
-              src="/assets/ALFAJORES.webp"
+              src="/assets/alfajores-blanco-negro.webp"
               alt="Paquetes de alfajores 24SIETE"
               style={{
                 ...alfajoresImg.style,
