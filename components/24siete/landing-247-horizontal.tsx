@@ -149,7 +149,6 @@ export default function Landing247Horizontal() {
   }, [scale])
 
   const modoSticker = useDraggableSticker(scale)
-  const activeSticker = useDraggableSticker(scale)
 
   let enterDelay = 0
   const enter = (
@@ -266,8 +265,8 @@ export default function Landing247Horizontal() {
 
               {/* ── 3. MAIN HERO IMAGE LEFT (stacked alfajores) ── */}
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Imagen_principal_inicio-ewY7pC9CfdrundPdqgGTzfbS0EVGQq.png"
-                alt="Stack of 24SIETE alfajores"
+                src="/assets/alfajores_blanco_negro.webp"
+                alt="Stack de alfajores 24SIETE blanco y negro"
                 style={{
                   ...enter(),
                   position: "absolute",
@@ -287,30 +286,6 @@ export default function Landing247Horizontal() {
                 }}
                 onMouseLeave={(e) => {
                   ;(e.currentTarget as HTMLImageElement).style.transform = "scale(1)"
-                }}
-              />
-
-              {/* ── STIKER_24SIETE (por encima de la torre de alfajores, arrastrable) ─── */}
-              <img
-                src="/assets/Stiker_24SIETE.png"
-                alt="Sticker 24SIETE - ¿Estás active o estás mirando?"
-                draggable={false}
-                onPointerDown={activeSticker.onPointerDown}
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 450 + activeSticker.offset.x,
-                  top: 34 + activeSticker.offset.y,
-                  width: 230,
-                  height: 258,
-                  objectFit: "contain",
-                  transform: `rotate(-10.43deg) scale(${activeSticker.isDragging ? 1.08 : 1})`,
-                  transition: activeSticker.isDragging ? "none" : "transform 0.2s ease",
-                  opacity: 1,
-                  zIndex: activeSticker.isDragging ? 999 : 9,
-                  cursor: activeSticker.isDragging ? "grabbing" : "grab",
-                  touchAction: "none",
-                  userSelect: "none",
                 }}
               />
 
@@ -657,7 +632,7 @@ export default function Landing247Horizontal() {
                     full: "CACAO SIN MIEDO.",
                   },
                   {
-                    full: "RÍO NEGRO, ARGENTINA",
+                    full: "BUENOS AIRES, ARGENTINA",
                   },
                 ].map((item, index) => (
                   <div
@@ -791,12 +766,12 @@ export default function Landing247Horizontal() {
               />
 
               <img
-                src="/assets/redes.png"
+                src="/assets/qr_instagram.png"
                 alt="Seguinos en redes - código QR de Instagram"
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2300,
+                  left: 2150,
                   top: 473,
                   width: 436,
                   height: 166.76,

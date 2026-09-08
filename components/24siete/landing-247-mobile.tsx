@@ -25,7 +25,7 @@ const LANDING_MOBILE_NAV_ITEMS: NavBarItem[] = [
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-const BULLETS = ["70G DE DECISIÓN", "MUCHO DULCE DE LECHE.", "CACAO SIN MIEDO.", "RÍO NEGRO, ARGENTINA"]
+const BULLETS = ["70G DE DECISIÓN", "MUCHO DULCE DE LECHE.", "CACAO SIN MIEDO.", "BUENOS AIRES, ARGENTINA"]
 
 export default function Landing247Mobile() {
   const enter = useScrollReveal()
