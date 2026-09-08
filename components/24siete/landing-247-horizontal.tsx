@@ -272,8 +272,8 @@ export default function Landing247Horizontal() {
                   position: "absolute",
                   left: -13,
                   top: 69,
-                  width: 740,
-                  height: 679,
+                  width: 576,
+                  height: 539,
                   objectFit: "contain",
                   objectPosition: "left center",
                   zIndex: 4,
@@ -765,6 +765,7 @@ export default function Landing247Horizontal() {
                 }}
               />
 
+              {/* ── SEGUINOS / QR (agrandado: antes compartía este espacio con el texto "doble capa...", que sacamos) ── */}
               <img
                 src="/assets/qr_instagram.png"
                 alt="Seguinos en redes - código QR de Instagram"
@@ -772,72 +773,14 @@ export default function Landing247Horizontal() {
                   ...enter(),
                   position: "absolute",
                   left: 2150,
-                  top: 473,
-                  width: 436,
-                  height: 166.76,
+                  top: 431,
+                  width: 654,
+                  height: 250.14,
                   objectFit: "contain",
+                  objectPosition: "left center",
                   zIndex: 8,
                 }}
               />
-
-              {/* ── DOBLE CAPA... (al lado derecho de redes.png) ─────────── */}
-              <div
-                style={{
-                  ...enter(),
-                  position: "absolute",
-                  left: 2600,
-                  top: 473,
-                  width: 436,
-                  height: 166.76,
-                  zIndex: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-grold-rounded), sans-serif",
-                    fontWeight: 700,
-                    fontSize: 44,
-                    lineHeight: "105%",
-                    letterSpacing: "0.01em",
-                    color: "#ffffff",
-                    textTransform: "uppercase",
-                    display: "block",
-                  }}
-                >
-                  DOBLE CAPA...
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-grold-rounded), sans-serif",
-                    fontWeight: 700,
-                    fontSize: 44,
-                    lineHeight: "105%",
-                    letterSpacing: "0.01em",
-                    color: "#ffffff",
-                    textTransform: "uppercase",
-                    display: "block",
-                  }}
-                >
-                  PORQUE SIMPLE
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-grold-rounded), sans-serif",
-                    fontWeight: 700,
-                    fontSize: 44,
-                    lineHeight: "105%",
-                    letterSpacing: "0.01em",
-                    color: "#ffffff",
-                    textTransform: "uppercase",
-                    display: "block",
-                  }}
-                >
-                  NO ALCANZABA...
-                </span>
-              </div>
 
               {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
               {/* left al máximo posible pegado al borde derecho del stage sin que
