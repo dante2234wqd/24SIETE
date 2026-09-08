@@ -31,12 +31,13 @@ function Modelo() {
     const sphere = box.getBoundingSphere(new THREE.Sphere())
     if (sphere.radius <= 0) return
 
-    // 1.42 es el radio "siempre entra en cámara" a cualquier rotación; el
-    // *1.15 la agranda a propósito más allá de esa garantía, así que el
-    // rango de inclinación de abajo (minPolarAngle/maxPolarAngle) está
-    // recortado para que, dentro de lo que el usuario puede llegar a
-    // girar, la caja nunca se salga del cuadro
-    const scaleFactor = (1.42 * 1.15) / sphere.radius
+    // 1.42 es el radio que garantiza que la caja entra en cámara SIN
+    // IMPORTAR el ángulo (ni inclinación ni giro horizontal): agrandarlo
+    // rompe esa garantía y la caja termina saliéndose del cuadro en
+    // algún ángulo de giro tarde o temprano. Para que se vea más grande
+    // sin ese riesgo, agrandá el contenedor del visor en la página, no
+    // este número.
+    const scaleFactor = 1.42 / sphere.radius
     group.scale.setScalar(scaleFactor)
     group.position.set(-center.x * scaleFactor, -center.y * scaleFactor, -center.z * scaleFactor)
   }, [scene])
@@ -69,7 +70,7 @@ export default function CajaAlfajor3D() {
         dampingFactor={0.08}
         rotateSpeed={0.7}
         minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 1.95 /* tope: hasta acá se ve bien el interior sin que se corte abajo */}
+        maxPolarAngle={Math.PI / 1.95 /* tope de inclinación: hasta acá se alcanza a ver el interior */}
       />
     </Canvas>
   )

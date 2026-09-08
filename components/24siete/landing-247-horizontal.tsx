@@ -871,10 +871,10 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2953,
-                  top: 220,
-                  width: 600,
-                  height: 620.7,
+                  left: 2878,
+                  top: 142,
+                  width: 675,
+                  height: 698.3,
                   zIndex: 4,
                 }}
               >

@@ -382,7 +382,7 @@ export default function Landing247Mobile() {
           ref={footerBox.ref}
           style={{ ...footerBox.style, display: "flex", justifyContent: "flex-end", marginRight: -40, marginBottom: -64 }}
         >
-          <div style={{ width: "105%", maxWidth: 420, aspectRatio: "368 / 373" }}>
+          <div style={{ width: "120%", maxWidth: 480, aspectRatio: "368 / 373" }}>
             <CajaAlfajor3D />
           </div>
         </div>
