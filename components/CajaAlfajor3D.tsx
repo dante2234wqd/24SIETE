@@ -6,7 +6,7 @@ import { Suspense, useEffect, useRef } from "react"
 import * as THREE from "three"
 
 function Modelo() {
-  const { scene } = useGLTF("/assets/Caja_alfajor.glb")
+  const { scene } = useGLTF("/assets/Cajas12.glb")
   const ref = useRef<THREE.Group>(null)
 
   // el .glb puede venir en cualquier escala/origen: centramos el modelo y lo
@@ -70,4 +70,4 @@ export default function CajaAlfajor3D() {
   )
 }
 
-useGLTF.preload("/assets/Caja_alfajor.glb")
+useGLTF.preload("/assets/Cajas12.glb")
