@@ -265,15 +265,15 @@ export default function Landing247Horizontal() {
 
               {/* ── 3. MAIN HERO IMAGE LEFT (stacked alfajores) ── */}
               <img
-                src="/assets/alfajores_blanco_negro.webp"
+                src="/assets/alfajores_home_v2.webp"
                 alt="Stack de alfajores 24SIETE blanco y negro"
                 style={{
                   ...enter(),
                   position: "absolute",
                   left: -13,
-                  top: 69,
-                  width: 576,
-                  height: 539,
+                  top: 50,
+                  width: 1276,
+                  height: 830,
                   objectFit: "contain",
                   objectPosition: "left center",
                   zIndex: 4,
@@ -772,9 +772,9 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2150,
+                  left: 2400,
                   top: 431,
-                  width: 654,
+                  width: 484,
                   height: 250.14,
                   objectFit: "contain",
                   objectPosition: "left center",
