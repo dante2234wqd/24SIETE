@@ -1,14 +1,17 @@
 "use client"
 
-import MobileNavBar from "./mobile-nav-bar"
+import MobileNavBar, { MOBILE_NAV_BAR_HEIGHT } from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
-import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { LETTER_FLICKER, LOS_24_HORAS } from "./donde-estamos"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Mobile ¿Dónde estamos?
-//  Layout de flujo normal (no stage escalado), pensado
-//  para pantallas angostas. Reutiliza los mismos datos
-//  de direcciones que la versión de escritorio.
+//  Versión responsive de la sección de escritorio
+//  ("Próximamente · En todos Los 24 horas"): mismo
+//  cartel de neón por letra, misma barra de carga y
+//  mismas estrellas, con tamaños en vw para que el
+//  cartel entre en cualquier ancho de pantalla.
+//  Fondo: el mismo que la home mobile.
 // ─────────────────────────────────────────────────
 
 const DONDE_ESTAMOS_MOBILE_NAV_ITEMS: NavBarItem[] = [
@@ -17,158 +20,194 @@ const DONDE_ESTAMOS_MOBILE_NAV_ITEMS: NavBarItem[] = [
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-interface Neighborhood {
-  name: string
-  address: string
-  labelSrc: string
-  labelW: number
-  labelH: number
-}
+const CUBANO = "var(--font-cubano), 'Impact', 'Arial Black', sans-serif"
 
-// mismas direcciones que la versión de escritorio, redistribuidas para el
-// layout mobile: 3 filas de a pares arriba y una columna de 3 abajo.
-const TOP_ROWS: [Neighborhood, Neighborhood][] = [
-  [
-    { name: "Palermo", address: "Santa Fe 4300", labelSrc: "/assets/Group%208.png", labelW: 120, labelH: 42 },
-    { name: "Microcentro", address: "Corrientes 900", labelSrc: "/assets/Group%2011.png", labelW: 120, labelH: 42 },
-  ],
-  [
-    { name: "Soho", address: "Gurruchaga 1700", labelSrc: "/assets/Group%206.png", labelW: 119, labelH: 41 },
-    { name: "Belgrano", address: "Cabildo 2200", labelSrc: "/assets/Group%209.png", labelW: 119, labelH: 41 },
-  ],
-  [
-    { name: "Recoleta", address: "Callao 1200", labelSrc: "/assets/Group%207.png", labelW: 119, labelH: 41 },
-    { name: "Caballito", address: "Rivadavia 5200", labelSrc: "/assets/Group%2010.png", labelW: 119, labelH: 41 },
-  ],
-]
-
-const BOTTOM_LEFT_COLUMN: Neighborhood[] = [
-  { name: "Villa Crespo", address: "Corrientes 4800", labelSrc: "/assets/Group%2014.png", labelW: 120, labelH: 42 },
-  { name: "Chacarita", address: "Federico Lacroze 3900", labelSrc: "/assets/Group%2012.png", labelW: 119, labelH: 41 },
-  { name: "Nuñez", address: "Cabildo 3500", labelSrc: "/assets/Group%2013.png", labelW: 127, labelH: 41 },
-]
-
-function AddressLink({ name, address, labelSrc, labelW, labelH }: Neighborhood) {
-  const query = encodeURIComponent(`${address}, ${name}, Buenos Aires, Argentina`)
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${query}`
-  const displayWidth = 104
-  const displayHeight = Math.round((displayWidth * labelH) / labelW)
-
-  return (
-    <a
-      href={mapsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6, textDecoration: "none" }}
-    >
-      <img
-        src={labelSrc}
-        alt={name}
-        draggable={false}
-        width={displayWidth}
-        height={displayHeight}
-        style={{ width: displayWidth, height: displayHeight, aspectRatio: `${labelW} / ${labelH}` }}
-      />
-      <span
-        style={{
-          fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-          fontWeight: 700,
-          fontSize: 12.5,
-          color: "#fff",
-        }}
-      >
-        {address}
-      </span>
-    </a>
-  )
+// misma animación de entrada escalonada que el stage de escritorio
+let enterDelay = 0
+function enter(variant: "slide" | "fade" = "slide", step = 0.055): React.CSSProperties {
+  const delay = enterDelay
+  enterDelay += step
+  const name = variant === "slide" ? "stage-slide-in" : "stage-fade-in"
+  return { animation: `${name} 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(2)}s backwards` }
 }
 
 export default function DondeEstamosMobile() {
-  const enter = useScrollReveal()
-
-  const titleImg = enter("fade")
-  const mapImg = enter("fade")
-  const topGrid = enter()
-  const bottomRow = enter()
+  enterDelay = 0
 
   return (
     <div
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         backgroundColor: "#110f10",
-        backgroundImage: "url(/assets/fondo_nuevo.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "top center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        overflowX: "hidden",
+        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
+        backgroundSize: "100% auto, cover",
+        backgroundPosition: "top center, top center",
+        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundAttachment: "scroll, fixed",
+        overflowX: "clip",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <MobileNavBar items={DONDE_ESTAMOS_MOBILE_NAV_ITEMS} activeKey="donde-estamos" ctaHref="/activate" />
 
       <main
         style={{
-          maxWidth: 480,
-          margin: "0 auto",
-          padding: "28px 20px 64px",
+          flex: 1,
           display: "flex",
-          flexDirection: "column",
-          gap: 32,
+          alignItems: "center",
+          justifyContent: "center",
+          padding: `${MOBILE_NAV_BAR_HEIGHT + 24}px 16px 48px`,
+          color: "#fff",
         }}
       >
-        {/* ── TITULO ─────────────────────────────── */}
-        <img
-          ref={titleImg.ref}
-          src="/assets/donde_estamos_titulo_mobile.png"
-          alt="¿Dónde estamos?"
-          style={{ ...titleImg.style, width: "calc(100% + 20px)", maxWidth: 360, objectFit: "contain", marginLeft: -20 }}
-        />
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            minWidth: 0,
+            maxWidth: 480,
+          }}
+        >
+          <img
+            src="/assets/ESTRELLA_BLANCA_V2.png"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            style={{
+              ...enter("fade"),
+              position: "absolute",
+              left: "2%",
+              top: "min(11vw, 50px)",
+              width: "min(15vw, 68px)",
+              height: "auto",
+              transform: "rotate(-12deg)",
+            }}
+          />
 
-        {/* ── MAPA ─────────────────────────────────── */}
-        <img
-          ref={mapImg.ref}
-          src="/assets/mapa_buenos_aires_mobile.png"
-          alt="Mapa de la provincia de Buenos Aires con nuestros puntos de venta"
-          style={{ ...mapImg.style, width: "100%", objectFit: "contain" }}
-        />
+          <span
+            style={{
+              ...enter(),
+              fontFamily: "var(--font-sora), sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(1rem, 5.6vw, 1.9rem)",
+              letterSpacing: "-0.02em",
+              color: "#fff",
+            }}
+          >
+            Próximamente
+          </span>
 
-        {/* ── DIRECCIONES: 3 filas de a pares ───────── */}
-        <div ref={topGrid.ref} style={{ ...topGrid.style, display: "flex", flexDirection: "column", gap: 22 }}>
-          {TOP_ROWS.map(([left, right]) => (
-            <div key={left.name} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 12 }}>
-              <AddressLink {...left} />
-              <div style={{ borderLeft: "3px solid #39ff14", paddingLeft: 20 }}>
-                <AddressLink {...right} />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ── VILLA CRESPO / CHACARITA / NUÑEZ  +  CTA ── */}
-        <div ref={bottomRow.ref} style={{ ...bottomRow.style, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 12 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-            {BOTTOM_LEFT_COLUMN.map((n) => (
-              <AddressLink key={n.name} {...n} />
-            ))}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "flex-end", paddingLeft: 20 }}>
-            <p
+          {/* relleno blanco sólido, sin efecto de neón */}
+          <div style={{ ...enter("fade") }}>
+            <h2
               style={{
-                fontFamily: "var(--font-grold-rounded), sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(1.1rem, 5vw, 1.4rem)",
-                lineHeight: "116%",
+                fontFamily: CUBANO,
+                fontWeight: 900,
+                fontSize: "min(9.4vw, 4.4rem)",
+                lineHeight: 1.02,
+                letterSpacing: "-0.02em",
                 color: "#fff",
-                margin: 0,
+                textTransform: "uppercase",
+                margin: "min(4vw, 24px) 0 0",
+                textAlign: "center",
               }}
             >
-              CUANDO TE PINTE...
-              <br />
-              SIEMPRE HAY UN <span style={{ color: "#39ff14" }}>24SIETE</span> CERCA.
-            </p>
+              En todos
+            </h2>
+          </div>
+
+          {/* la entrada va en este wrapper; el glow del tubo en el h2 (className);
+              el parpadeo va letra por letra con su propio ritmo */}
+          <div style={{ ...enter("fade") }}>
+            <h2
+              className="neon-24horas"
+              style={{
+                fontFamily: CUBANO,
+                fontWeight: 900,
+                fontSize: "min(13.4vw, 6.4rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.02em",
+                color: "transparent",
+                WebkitTextStroke: "max(1.5px, 0.0227em) #39ff14",
+                textTransform: "uppercase",
+                margin: "min(2.6vw, 16px) 0 0",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {LOS_24_HORAS.split("").map((char, i) => {
+                const cfg = LETTER_FLICKER[i]
+                if (!cfg) return <span key={i}>{" "}</span>
+                return (
+                  <span
+                    key={i}
+                    className={`neon-letter neon-letter-${cfg.variant}`}
+                    data-text={char}
+                    style={{ animationDuration: `${cfg.duration}s`, animationDelay: `${cfg.delay}s` }}
+                  >
+                    {char}
+                  </span>
+                )
+              })}
+            </h2>
+          </div>
+
+          {/* barra de carga 80% */}
+          <div
+            style={{
+              ...enter(),
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              gap: "min(3vw, 14px)",
+              width: "86%",
+              marginTop: "min(12vw, 56px)",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                height: "clamp(10px, 2.4vw, 14px)",
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.12)",
+                border: "1px solid rgba(255,255,255,0.3)",
+                overflow: "hidden",
+              }}
+            >
+              <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#39ff14" }} />
+            </div>
+            <span
+              style={{
+                fontFamily: "var(--font-sora), sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(0.95rem, 4.4vw, 1.3rem)",
+                color: "#fff",
+              }}
+            >
+              80%
+            </span>
+
+            <img
+              src="/assets/ESTRELLA_VERDE_V2.png"
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              style={{
+                ...enter("fade"),
+                position: "absolute",
+                right: "-4%",
+                bottom: "min(-13vw, -56px)",
+                width: "min(15vw, 68px)",
+                height: "auto",
+                transform: "rotate(14deg)",
+              }}
+            />
           </div>
         </div>
       </main>

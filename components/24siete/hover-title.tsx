@@ -38,7 +38,7 @@ interface HoverTitleLottie {
 // El wrapper externo posiciona/rota el ícono (según `style`, p.ej. rotate());
 // el interno maneja únicamente la animación de entrada (fade + scale) para
 // que ambas cosas no se pisen en la misma propiedad `transform`.
-function LottieOverlay({ src, style, hovered }: { src: string; style?: CSSProperties; hovered: boolean }) {
+export function LottieOverlay({ src, style, hovered }: { src: string; style?: CSSProperties; hovered: boolean }) {
   const data = useLottieData(src)
   return (
     <div aria-hidden="true" style={{ position: "absolute", pointerEvents: "none", zIndex: 2, ...style }}>

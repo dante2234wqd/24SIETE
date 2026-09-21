@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { MusicProvider } from '@/components/24siete/music-provider'
 import './globals.css'
@@ -29,6 +29,13 @@ const groldRounded = localFont({
   ],
   display: 'swap',
   variable: '--font-grold-rounded',
+})
+
+const sora = Sora({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sora',
 })
 
 export const metadata: Metadata = {
@@ -126,7 +133,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${cubano.variable} ${groldRounded.variable} font-sans antialiased`}
+        className={`${cubano.variable} ${groldRounded.variable} ${sora.variable} font-sans antialiased`}
       >
         <MusicProvider>{children}</MusicProvider>
         <Analytics />

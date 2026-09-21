@@ -1,7 +1,7 @@
 "use client"
 
 import { Canvas } from "@react-three/fiber"
-import { OrbitControls, useGLTF, Environment, ContactShadows } from "@react-three/drei"
+import { OrbitControls, useGLTF, ContactShadows } from "@react-three/drei"
 import { Suspense, useEffect, useRef } from "react"
 import * as THREE from "three"
 
@@ -54,10 +54,11 @@ export default function CajaAlfajor3D() {
       dpr={[1, 2]}
     >
       <Suspense fallback={null}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[5, 5, 5]} intensity={1.4} />
+        <directionalLight position={[-5, 2, -3]} intensity={0.6} />
+        <pointLight position={[0, 3, 2]} intensity={0.5} />
         <Modelo />
-        <Environment preset="city" />
         <ContactShadows position={[0, -1, 0]} opacity={0.4} blur={2} />
       </Suspense>
 

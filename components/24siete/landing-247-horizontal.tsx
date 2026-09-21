@@ -276,7 +276,7 @@ export default function Landing247Horizontal() {
                   height: 830,
                   objectFit: "contain",
                   objectPosition: "left center",
-                  zIndex: 4,
+                  zIndex: 6,
                   transform: "scale(1)",
                   transition: "transform 0.25s ease",
                   cursor: "pointer",
@@ -406,83 +406,21 @@ export default function Landing247Horizontal() {
                 />
               </HoverTitle>
 
-              {/* ── 8. PHOTO CARD 1 — KIOSCO ─────────────── */}
-              <div
+              {/* ── 8. FOTO MOMENTOS (kiosco / madrugada / parcial) ─── */}
+              <img
+                src="/assets/FOTO_MOMENTOS.png"
+                alt="Momentos 24SIETE: kiosco, madrugada y parcial"
                 style={{
                   ...enter("fade"),
                   position: "absolute",
-                  left: 710.6,
-                  top: 324.63,
-                  width: 283.8,
-                  height: 364.89,
-                  transform: "rotate(-2.36deg)",
+                  left: -12.6,
+                  top: 297.31,
+                  width: 2052,
+                  height: 576,
+                  objectFit: "contain",
                   zIndex: 5,
-                  boxShadow: "6px 8px 24px rgba(0,0,0,0.55)",
                 }}
-              >
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Alfajores_kiosco-stHZ8K5D5dJ8m1V6MYUHgONdilVRRd.png"
-                  alt="24SIETE alfajores on a kiosk shelf"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-              </div>
-
-              {/* ── 9. PHOTO CARD 2 — MADRUGADA ──────────── */}
-              <div
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 1011.34,
-                  top: 335.81,
-                  width: 283.8,
-                  height: 364.89,
-                  transform: "rotate(-0.53deg)",
-                  zIndex: 5,
-                  boxShadow: "6px 8px 24px rgba(0,0,0,0.55)",
-                }}
-              >
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Madrugada-ElOYydir8rDVcatl0RpEvLQqjlzhb7.png"
-                  alt="Person eating 24SIETE alfajor at night"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-              </div>
-
-              {/* ── 10. PHOTO CARD 3 — PARCIAL ───────────── */}
-              <div
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 1314.07,
-                  top: 338.23,
-                  width: 283.66,
-                  height: 363.4,
-                  transform: "rotate(3.70deg)",
-                  zIndex: 5,
-                  boxShadow: "6px 8px 24px rgba(0,0,0,0.55)",
-                }}
-              >
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Chica_parcial-f0uRu4oysFTGMeuu2N0cvZgMnQRiqG.png"
-                  alt="Student studying eating a 24SIETE alfajor"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-              </div>
+              />
 
               {/* ── STICKER #MODO24SIETE (arrastrable) ─────────────── */}
               <img
@@ -506,109 +444,6 @@ export default function Landing247Horizontal() {
                   userSelect: "none",
                 }}
               />
-
-              {/* ── 11. GREEN LABEL — KIOSCO ─────────────── */}
-              <div
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 807,
-                  top: 307.13,
-                  width: 120.75,
-                  height: 60.57,
-                  transform: "rotate(1.01deg)",
-                  zIndex: 7,
-                  background: "#39ff14",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "2px 3px 0px #110f10",
-                  border: "2px solid #110f10",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 22,
-                    letterSpacing: "0.02em",
-                    color: "#110f10",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  KIOSCO
-                </span>
-              </div>
-
-              {/* ── 12. GREEN LABEL — MADRUGADA ──────────── */}
-              <div
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 1060,
-                  top: 312,
-                  width: 182,
-                  height: 60,
-                  transform: "rotate(-0.8deg)",
-                  zIndex: 7,
-                  background: "#39ff14",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "2px 3px 0px #110f10",
-                  border: "2px solid #110f10",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 20,
-                    letterSpacing: "0.01em",
-                    color: "#110f10",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  MADRUGADA
-                </span>
-              </div>
-
-              {/* ── 13. GREEN LABEL — PARCIAL ─────────────── */}
-              <div
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 1415,
-                  top: 319,
-                  width: 120,
-                  height: 58,
-                  transform: "rotate(0.05deg)",
-                  zIndex: 7,
-                  background: "#39ff14",
-                  borderRadius: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "2px 3px 0px #110f10",
-                  border: "2px solid #110f10",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-                    fontWeight: 900,
-                    fontSize: 20,
-                    letterSpacing: "-0.03em",
-                    lineHeight: "63%",
-                    color: "#110f10", 
-                    textTransform: "uppercase",
-                  }}
-                >
-                  PARCIAL...
-                </span>
-              </div>
 
               {/* ── 14. LOWER BULLET LIST ─────────────────── */}
               <div

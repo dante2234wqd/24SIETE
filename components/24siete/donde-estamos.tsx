@@ -13,109 +13,31 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const LOGO_URL = "/assets/favicon-03.svg"
-const BRUSH_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
-const PIN_ICON_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Icono_Ubicacion-BrZW3HwXymcG5cS8uWR0qVAEQWULBU.png"
-
 const DONDE_ESTAMOS_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-const NEIGHBORHOODS: { name: string; address: string; labelSrc: string; labelW: number; labelH: number }[] = [
-  { name: "Palermo", address: "Santa Fe 4300", labelSrc: "/assets/Group%208.png", labelW: 120, labelH: 42 },
-  { name: "Soho", address: "Gurruchaga 1700", labelSrc: "/assets/Group%206.png", labelW: 119, labelH: 41 },
-  { name: "Recoleta", address: "Callao 1200", labelSrc: "/assets/Group%207.png", labelW: 119, labelH: 41 },
-  { name: "Microcentro", address: "Corrientes 900", labelSrc: "/assets/Group%2011.png", labelW: 120, labelH: 42 },
-  { name: "Belgrano", address: "Cabildo 2200", labelSrc: "/assets/Group%209.png", labelW: 119, labelH: 41 },
-  { name: "Caballito", address: "Rivadavia 5200", labelSrc: "/assets/Group%2010.png", labelW: 119, labelH: 41 },
-  { name: "Villa Crespo", address: "Corrientes 4800", labelSrc: "/assets/Group%2014.png", labelW: 120, labelH: 42 },
-  { name: "Chacarita", address: "Federico Lacroze 3900", labelSrc: "/assets/Group%2012.png", labelW: 119, labelH: 41 },
-  { name: "Nuñez", address: "Cabildo 3500", labelSrc: "/assets/Group%2013.png", labelW: 127, labelH: 41 },
+// "Los 24 horas" letra por letra: cada una parpadea con su propio ritmo
+// (variante + delay + duración), para que el cartel se sienta vivo en vez
+// de titilar todo junto. "dropout" = la letra se apaga y vuelve, cada
+// tanto — el resto nunca lo hace, para que sea un detalle raro, no la regla.
+export const LOS_24_HORAS = "Los 24 horas"
+export const LETTER_FLICKER: ({ variant: "calm" | "twitchy" | "dropout"; delay: number; duration: number } | null)[] = [
+  { variant: "calm", delay: 0, duration: 11 }, // L
+  { variant: "twitchy", delay: 1.4, duration: 3.6 }, // o
+  { variant: "calm", delay: 3.2, duration: 13 }, // s
+  null, // " "
+  { variant: "dropout", delay: 2.1, duration: 17 }, // 2
+  { variant: "calm", delay: 5.5, duration: 10 }, // 4
+  null, // " "
+  { variant: "twitchy", delay: 0.6, duration: 4.2 }, // h
+  { variant: "calm", delay: 4.4, duration: 12 }, // o
+  { variant: "twitchy", delay: 2.8, duration: 3.9 }, // r
+  { variant: "dropout", delay: 6.7, duration: 19 }, // a
+  { variant: "calm", delay: 1.9, duration: 11.5 }, // s
 ]
-
-// cluster de pines decorativo sobre la zona de CABA en el mapa (posiciones relativas en %)
-const MAP_PIN_CLUSTER = [
-  { x: 46, y: 32 }, { x: 53, y: 28 }, { x: 60, y: 31 }, { x: 66, y: 27 },
-  { x: 49, y: 38 }, { x: 56, y: 36 }, { x: 63, y: 38 }, { x: 69, y: 34 },
-  { x: 44, y: 44 }, { x: 51, y: 44 }, { x: 58, y: 45 }, { x: 65, y: 43 },
-  { x: 71, y: 41 }, { x: 47, y: 51 }, { x: 55, y: 52 }, { x: 62, y: 50 },
-  { x: 68, y: 49 }, { x: 53, y: 58 },
-]
-
-function AddressLink({
-  name,
-  address,
-  labelSrc,
-  labelW,
-  labelH,
-}: {
-  name: string
-  address: string
-  labelSrc: string
-  labelW: number
-  labelH: number
-}) {
-  const query = encodeURIComponent(`${address}, ${name}, Buenos Aires, Argentina`)
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${query}`
-  const displayWidth = 118
-  const displayHeight = Math.round((displayWidth * labelH) / labelW)
-
-  return (
-    <a
-      href={mapsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group"
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        gap: 8,
-        textDecoration: "none",
-        cursor: "pointer",
-      }}
-    >
-      <span
-        className="pointer-events-none absolute -top-9 left-0 z-10 whitespace-nowrap rounded-md border-2 border-[#110f10] px-3 py-1 text-[11px] font-bold uppercase text-[#110f10] opacity-0 shadow-[2px_2px_0px_#110f10] transition-opacity duration-150 group-hover:opacity-100"
-        style={{
-          background: "#39ff14",
-          fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-        }}
-      >
-        Ir a Google Maps →
-      </span>
-
-      <img
-        src={labelSrc}
-        alt={name}
-        draggable={false}
-        width={displayWidth}
-        height={displayHeight}
-        style={{
-          width: displayWidth,
-          height: displayHeight,
-          aspectRatio: `${labelW} / ${labelH}`,
-          pointerEvents: "none",
-        }}
-      />
-      <span
-        style={{
-          fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-          fontWeight: 700,
-          fontSize: 16,
-          color: "#fff",
-        }}
-      >
-        {address}
-      </span>
-    </a>
-  )
-}
 
 export default function DondeEstamos() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
@@ -208,7 +130,7 @@ export default function DondeEstamos() {
           color: "#fff",
         }}
       >
-        {/* Contenido principal: logo + título, mapa + direcciones */}
+        {/* Logo (misma posición que antes) */}
         <div
           style={{
             position: "absolute",
@@ -222,158 +144,159 @@ export default function DondeEstamos() {
           }}
         >
           <div style={{ maxWidth: 1230, marginLeft: 114, marginRight: 0 }}>
-            {/* Logo + título */}
-            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-              <LogoMusicButton
-                style={{ ...enter(), width: 72, height: 74, flexShrink: 0 }}
-                badgePosition="bottom"
-              />
-
-              <div style={{ position: "relative", width: "100%", maxWidth: 480 }}>
-                <img
-                  src={BRUSH_URL}
-                  alt=""
-                  aria-hidden="true"
-                  draggable={false}
-                  style={{
-                    ...enter("fade"),
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                    transform: "rotate(1.5deg)",
-                    pointerEvents: "none",
-                  }}
-                />
-                <div
-                  style={{
-                    ...enter(),
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    paddingLeft: "6%",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', 'Oswald', sans-serif",
-                      fontWeight: 900,
-                      fontSize: "clamp(22px, 2.6vw, 38px)",
-                      letterSpacing: "-0.03em",
-                      color: "#110f10",
-                      whiteSpace: "nowrap",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    ¿DONDE ESTAMOS?
-                  </span>
-                  <img
-                    src={PIN_ICON_URL}
-                    alt=""
-                    aria-hidden="true"
-                    style={{
-                      width: "10%",
-                      minWidth: 28,
-                      height: "auto",
-                      filter: "drop-shadow(0 4px 10px rgba(0,255,0,0.3))",
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Mapa + direcciones */}
-            <div
-              style={{
-                marginTop: 56,
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                gap: 56,
-              }}
-            >
-              <div style={{ ...enter("fade"), position: "relative", width: "100%", maxWidth: 460, flexShrink: 0 }}>
-                <img
-                  src="/assets/Mapa_buenos_aires.png"
-                  alt="Mapa de la provincia de Buenos Aires"
-                  draggable={false}
-                  style={{ width: "100%", height: "auto", display: "block" }}
-                />
-                {MAP_PIN_CLUSTER.map((p, i) => (
-                  <img
-                    key={i}
-                    src={LOGO_URL}
-                    alt=""
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      left: `${p.x}%`,
-                      top: `${p.y}%`,
-                      width: "6.5%",
-                      height: "auto",
-                      transform: "translate(-50%, -50%)",
-                      filter: "drop-shadow(0 0 4px rgba(57,255,20,0.5))",
-                    }}
-                  />
-                ))}
-              </div>
-
-              <div
-                style={{
-                  ...enter(),
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, minmax(120px, 1fr))",
-                  columnGap: 0,
-                  rowGap: 36,
-                  flex: 1,
-                  minWidth: 0,
-                }}
-              >
-                {NEIGHBORHOODS.map((n, i) => (
-                  <div
-                    key={n.name}
-                    style={{
-                      borderLeft: i % 3 === 0 ? "none" : "3px solid #39ff14",
-                      paddingLeft: i % 3 === 0 ? 0 : 32,
-                      paddingRight: 16,
-                    }}
-                  >
-                    <AddressLink {...n} />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <LogoMusicButton
+              style={{ ...enter(), width: 72, height: 74, flexShrink: 0 }}
+              badgePosition="bottom"
+            />
           </div>
         </div>
 
-        {/* CTA text */}
+        {/* ── PRÓXIMAMENTE: EN TODOS LOS 24 HORAS ─────────── */}
         <div
           style={{
-            ...enter(),
             position: "absolute",
-            left: 870,
-            top: 790,
-            width: 460,
-            height: 150,
-            transform: "rotate(0deg)",
-            zIndex: 6,
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 4,
           }}
         >
-          <p
-            style={{
-              fontFamily: "var(--font-grold-rounded), sans-serif",
-              fontWeight: 700,
-              fontSize: 33,
-              lineHeight: "112%",
-              color: "#fff",
-              margin: 0,
-            }}
-          >
-            CUANDO TE PINTE...
-            <br />
-            SIEMPRE HAY UN <span style={{ color: "#39ff14" }}>24SIETE</span> CERCA.
-          </p>
+          <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <img
+              src="/assets/ESTRELLA_BLANCA_V2.png"
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              style={{
+                ...enter("fade"),
+                position: "absolute",
+                left: -190,
+                top: 46,
+                width: 84,
+                height: "auto",
+                transform: "rotate(-12deg)",
+              }}
+            />
+
+            <span
+              style={{
+                ...enter(),
+                fontFamily: "var(--font-sora), sans-serif",
+                fontWeight: 500,
+                fontSize: 42,
+                letterSpacing: "-0.02em",
+                color: "#fff",
+              }}
+            >
+              Próximamente
+            </span>
+
+            {/* relleno blanco sólido, sin ningún efecto de neón */}
+            <div style={{ ...enter("fade") }}>
+              <h2
+                style={{
+                  fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
+                  fontWeight: 900,
+                  fontSize: 92,
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.02em",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                  margin: "26px 0 0",
+                  textAlign: "center",
+                }}
+              >
+                En todos
+              </h2>
+            </div>
+
+            {/* la entrada (una sola vez) va en este wrapper; el glow del
+                tubo va en el h2 (className, estático); el parpadeo va
+                letra por letra, cada una con su propio ritmo */}
+            <div style={{ ...enter("fade") }}>
+              <h2
+                className="neon-24horas"
+                style={{
+                  fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
+                  fontWeight: 900,
+                  fontSize: 132,
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
+                  color: "transparent",
+                  WebkitTextStroke: "3px #39ff14",
+                  textTransform: "uppercase",
+                  margin: "20px 0 0",
+                  textAlign: "center",
+                }}
+              >
+                {LOS_24_HORAS.split("").map((char, i) => {
+                  const cfg = LETTER_FLICKER[i]
+                  if (!cfg) return <span key={i}>{" "}</span>
+                  return (
+                    <span
+                      key={i}
+                      className={`neon-letter neon-letter-${cfg.variant}`}
+                      data-text={char}
+                      style={{ animationDuration: `${cfg.duration}s`, animationDelay: `${cfg.delay}s` }}
+                    >
+                      {char}
+                    </span>
+                  )
+                })}
+              </h2>
+            </div>
+
+            <div
+              style={{
+                ...enter(),
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                gap: 20,
+                marginTop: 64,
+              }}
+            >
+              <div
+                style={{
+                  width: 720,
+                  height: 16,
+                  borderRadius: 999,
+                  background: "rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  overflow: "hidden",
+                }}
+              >
+                <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#39ff14" }} />
+              </div>
+              <span
+                style={{
+                  fontFamily: "var(--font-sora), sans-serif",
+                  fontWeight: 700,
+                  fontSize: 26,
+                  color: "#fff",
+                }}
+              >
+                80%
+              </span>
+
+              <img
+                src="/assets/ESTRELLA_VERDE_V2.png"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                style={{
+                  ...enter("fade"),
+                  position: "absolute",
+                  right: -170,
+                  bottom: -80,
+                  width: 96,
+                  height: "auto",
+                  transform: "rotate(14deg)",
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Bottom nav */}
@@ -382,7 +305,6 @@ export default function DondeEstamos() {
             items={DONDE_ESTAMOS_NAV_ITEMS}
             activeKey="donde-estamos"
             ctaHref="/activate"
-            scale={1080 / 873}
           />
         </div>
       </div>

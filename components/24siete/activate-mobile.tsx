@@ -33,9 +33,9 @@ function FieldLabel({ children }: { children: string }) {
         display: "block",
         fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
         fontWeight: 700,
-        fontSize: 14,
+        fontSize: 12.5,
         color: "#fff",
-        marginBottom: 8,
+        marginBottom: 5,
       }}
     >
       {children}
@@ -47,10 +47,10 @@ const inputStyle: React.CSSProperties = {
   width: "100%",
   backgroundColor: "#fff",
   border: "none",
-  borderRadius: 10,
-  padding: "12px 16px",
+  borderRadius: 8,
+  padding: "8px 12px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-  fontSize: 14,
+  fontSize: 13,
   color: "#110f10",
   outline: "none",
   boxSizing: "border-box",
@@ -64,7 +64,7 @@ const submitButtonStyle: React.CSSProperties = {
   borderRadius: 10,
   border: "2.5px solid #110f10",
   boxShadow: "3px 3px 0px #110f10",
-  padding: "12px 46px",
+  padding: "9px 34px",
   transform: "rotate(-1.8deg)",
   cursor: "pointer",
 }
@@ -72,7 +72,7 @@ const submitButtonStyle: React.CSSProperties = {
 const submitButtonTextStyle: React.CSSProperties = {
   fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
   fontWeight: 900,
-  fontSize: 16,
+  fontSize: 14,
   letterSpacing: "0.1em",
   color: "#110f10",
   textTransform: "uppercase",
@@ -88,7 +88,7 @@ function ToggleGroup({
   onSelect: (v: string) => void
 }) {
   return (
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
       {options.map((opt) => {
         const active = selected === opt
         return (
@@ -98,12 +98,12 @@ function ToggleGroup({
             onClick={() => onSelect(opt)}
             style={{
               border: "2px solid #110f10",
-              borderRadius: 10,
-              padding: "9px 16px",
+              borderRadius: 8,
+              padding: "6px 12px",
               backgroundColor: active ? "#0FFF1E" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
-              fontSize: 13,
+              fontSize: 12,
               color: "#110f10",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
@@ -154,11 +154,11 @@ export default function ActivateMobile() {
         width: "100%",
         minHeight: "100vh",
         backgroundColor: "#110f10",
-        backgroundImage: "url(/assets/fondo_nuevo.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "top center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
+        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
+        backgroundSize: "100% auto, cover",
+        backgroundPosition: "top center, top center",
+        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundAttachment: "scroll, fixed",
         overflowX: "hidden",
       }}
     >
@@ -247,7 +247,7 @@ export default function ActivateMobile() {
               e.preventDefault()
               setSubmitted(true)
             }}
-            style={{ display: "flex", flexDirection: "column", gap: 22 }}
+            style={{ display: "flex", flexDirection: "column", gap: 15 }}
           >
             <div ref={nombreReveal.ref} style={nombreReveal.style}>
               <FieldLabel>¿Cómo te llamás?</FieldLabel>
@@ -273,19 +273,19 @@ export default function ActivateMobile() {
               <FieldLabel>Mensaje</FieldLabel>
               <textarea
                 placeholder="Escribí cualquier consulta que nos quieras hacer..."
-                rows={4}
+                rows={3}
                 style={{ ...inputStyle, resize: "none" }}
               />
             </div>
 
             <div
               ref={submitReveal.ref}
-              style={{ ...submitReveal.style, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginTop: 6 }}
+              style={{ ...submitReveal.style, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginTop: 2 }}
             >
               <button type="submit" style={submitButtonStyle}>
                 <span style={submitButtonTextStyle}>ENVIAR</span>
               </button>
-              <span style={{ fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif", fontSize: 12, color: "rgba(255,255,255,0.7)" }}>
+              <span style={{ fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif", fontSize: 11, color: "rgba(255,255,255,0.7)" }}>
                 Respondemos 24SIETE (o casi)...
               </span>
             </div>

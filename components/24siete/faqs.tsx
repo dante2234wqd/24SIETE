@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
+import FaqSection from "./faq-section"
+import FaqTitleEmojis from "./faq-title-emojis"
 import LogoMusicButton from "./logo-music-button"
 
 // ─────────────────────────────────────────────────
@@ -23,69 +25,8 @@ const FAQS_NAV_ITEMS: NavBarItem[] = [
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-const QUESTIONS: { id: string; text: string; answerSrc?: string; answerW?: number; answerH?: number }[] = [
-  { id: "q1", text: "01. ¿DÓNDE LO CONSIGO?", answerSrc: "/assets/pregunta1.png", answerW: 556, answerH: 317 },
-  { id: "q2", text: "02. ¿LO PUEDO VENDER EN MI KIOSCO?", answerSrc: "/assets/pregunta2.png", answerW: 556, answerH: 317 },
-  { id: "q3", text: "03. ¿QUÉ TIENE DE DISTINTO?", answerSrc: "/assets/pregunta3.png", answerW: 556, answerH: 317 },
-  { id: "q4", text: "04. ¿TIENE VARIOS SABORES?", answerSrc: "/assets/pregunta4.png", answerW: 556, answerH: 317 },
-  { id: "q5", text: "05. TENGO UNA IDEA O QUIERO COLABORAR", answerSrc: "/assets/pregunta5.png", answerW: 556, answerH: 317 },
-  { id: "q6", text: "06. ¿24SIETE TIENE REDES?", answerSrc: "/assets/pregunta6.png", answerW: 556, answerH: 317 },
-]
-
-const HOVER_GREEN = "#0FFF1E"
-
-function QuestionPill({
-  text,
-  active,
-  onEnter,
-  onLeave,
-  onClick,
-}: {
-  text: string
-  active: boolean
-  onEnter: () => void
-  onLeave: () => void
-  onClick: () => void
-}) {
-  return (
-    <div
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      onClick={onClick}
-      style={{
-        width: 430,
-        height: 76,
-        border: "3px solid #39ff14",
-        borderRadius: 16,
-        backgroundColor: active ? HOVER_GREEN : "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        padding: "0 22px",
-        cursor: "pointer",
-        transition: "background-color 0.15s ease",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-          fontWeight: 700,
-          fontSize: 19,
-          lineHeight: "118%",
-          color: "#110f10",
-        }}
-      >
-        {text}
-      </span>
-    </div>
-  )
-}
-
 export default function Faqs() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   useEffect(() => {
     const updateViewport = () => {
@@ -103,7 +44,6 @@ export default function Faqs() {
     return Math.min(viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
   }, [viewport])
 
-  const selectedAnswer = QUESTIONS.find((q) => q.id === selectedId && q.answerSrc)
   const mascotSticker = useDraggableSticker(scale)
 
   let enterDelay = 0
@@ -207,7 +147,7 @@ export default function Faqs() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                paddingLeft: "16%",
+                paddingLeft: "22%",
               }}
             >
               <span
@@ -226,52 +166,16 @@ export default function Faqs() {
                 HACEN A LAS 3 AM
               </span>
             </div>
+            <FaqTitleEmojis size={34} />
           </div>
         </div>
 
-        {/* Grilla de preguntas */}
-        <div
-          style={{
-            ...enter(),
-            position: "absolute",
-            left: 200,
-            top: 340,
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 430px)",
-            gap: 34,
-            zIndex: 4,
-          }}
-        >
-          {QUESTIONS.map((q) => (
-            <QuestionPill
-              key={q.id}
-              text={q.text}
-              active={hoveredId === q.id || selectedId === q.id}
-              onEnter={() => setHoveredId(q.id)}
-              onLeave={() => setHoveredId(null)}
-              onClick={() => setSelectedId(q.id)}
-            />
-          ))}
+        {/* Preguntas + card de respuesta (entra desde la derecha) — ver faq-section.tsx */}
+        <div style={{ ...enter(), position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none" }}>
+          <FaqSection variant="stage" />
         </div>
 
-        {/* Mascota + tagline, o el personaje respondiendo la pregunta seleccionada */}
-        {selectedAnswer ? (
-          <img
-            src={selectedAnswer.answerSrc}
-            alt="Respuesta"
-            draggable={false}
-            style={{
-              ...enter("fade"),
-              position: "absolute",
-              left: 1010,
-              top: 700,
-              width: 870,
-              height: 370,
-              objectFit: "contain",
-              zIndex: 4,
-            }}
-          />
-        ) : (
+        {/* Mascota + tagline (la respuesta ya no lleva personaje) */}
           <img
             src="/assets/Stiker_24SIETE.png"
             alt="¿Estás active o estás mirando?"
@@ -294,7 +198,6 @@ export default function Faqs() {
               userSelect: "none",
             }}
           />
-        )}
 
         {/* Bottom nav */}
         <div style={{ ...enter(), position: "absolute", left: 200, top: 986, zIndex: 7 }}>

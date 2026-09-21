@@ -218,3 +218,421 @@ select:-webkit-autofill:focus {
     opacity: var(--enter-to-opacity, 1);
   }
 }
+
+/* =========================
+   PRÓXIMAMENTE — "24 HORAS" neon + barra de carga
+========================= */
+
+/* tubo de neón hueco: relleno transparente + stroke (puesto inline en el
+   componente) para el trazo principal. El glow ambiente del cartel entero
+   va acá, estático (no titila la palabra completa: titila cada letra). */
+.neon-24horas {
+  filter: drop-shadow(0 0 1.5px #39ff14) drop-shadow(0 0 5px #39ff14) drop-shadow(0 0 12px rgba(57, 255, 20, 0.55))
+    drop-shadow(0 0 22px rgba(57, 255, 20, 0.28));
+}
+
+/* cada letra es su propio elemento: además del trazo (heredado del h2)
+   tiene un ::after con el mismo carácter (via data-text) que dibuja el
+   núcleo más claro/caliente del tubo, y anima su propia opacity — así se
+   puede apagar/prender una letra sin afectar a las demás. */
+.neon-letter {
+  position: relative;
+  display: inline-block;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.neon-letter::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px #eaffea;
+}
+
+/* tres "personalidades" de parpadeo para que no titilen todas igual:
+   calma (rara, lenta), twitchy (más seguido, más rápido) y dropout (la
+   letra se apaga casi del todo por un rato largo y vuelve — el detalle
+   raro, no la regla; ver LETTER_FLICKER en donde-estamos.tsx para qué
+   letra usa cuál, con qué delay/duración). */
+.neon-letter-calm {
+  animation-name: neon-flicker-calm;
+}
+
+@keyframes neon-flicker-calm {
+  0%, 88%, 100% {
+    opacity: 1;
+  }
+  90%, 93% {
+    opacity: 0.55;
+  }
+}
+
+.neon-letter-twitchy {
+  animation-name: neon-flicker-twitchy;
+}
+
+@keyframes neon-flicker-twitchy {
+  0%, 30%, 33%, 60%, 64%, 100% {
+    opacity: 1;
+  }
+  31%, 62% {
+    opacity: 0.4;
+  }
+}
+
+.neon-letter-dropout {
+  animation-name: neon-flicker-dropout;
+}
+
+@keyframes neon-flicker-dropout {
+  0%, 82%, 100% {
+    opacity: 1;
+  }
+  84%, 90% {
+    opacity: 0.08;
+  }
+  92% {
+    opacity: 1;
+  }
+  93%, 96% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-letter-calm,
+  .neon-letter-twitchy,
+  .neon-letter-dropout {
+    animation: none;
+    opacity: 1;
+  }
+
+  .proximamente-progress-fill {
+    animation: none;
+    width: 80%;
+  }
+}
+
+.proximamente-progress-fill {
+  width: 0%;
+  animation: proximamente-fill 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+@keyframes proximamente-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 80%;
+  }
+}
+/* =========================
+   FAQ — sección interactiva (components/24siete/faq-section.tsx)
+   Tokens: cambiar acá los colores/tiempos de todo el bloque.
+========================= */
+
+.faq-section {
+  --faq-primary: #39ff14;
+  --faq-text: #ffffff;
+  --faq-text-on-primary: #110f10;
+  --faq-card-bg: #e6e6e6;
+  --faq-card-text: #110f10;
+  --faq-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --faq-dur: 350ms;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 32px 16px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  color: var(--faq-text);
+  /* la card cerrada espera fuera de pantalla: sin esto habría scroll horizontal */
+  overflow-x: clip;
+}
+
+.faq-section--auto {
+  min-height: 0;
+}
+
+.faq-title {
+  font-family: var(--font-cubano), "Impact", "Arial Black", sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 9vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.faq-item {
+  position: relative;
+}
+
+/* pill: borde fino, fondo transparente; seleccionada = relleno sólido */
+.faq-pill {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  text-align: left;
+  background: transparent;
+  color: var(--faq-text);
+  border: 2px solid var(--faq-primary);
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* hover: relleno blanco sólido (solo en dispositivos con cursor, para que no quede "pegado" al tocar en el celular) */
+@media (hover: hover) {
+  .faq-pill:hover {
+    background: #ffffff;
+    color: var(--faq-text-on-primary);
+  }
+}
+
+.faq-pill[aria-expanded="true"],
+.faq-pill[aria-expanded="true"]:hover {
+  background: var(--faq-primary);
+  color: var(--faq-text-on-primary);
+}
+
+.faq-pill:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.faq-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* card de respuesta — estado cerrado: fuera de pantalla a la derecha */
+.faq-card {
+  box-sizing: border-box;
+  background: var(--faq-card-bg);
+  color: var(--faq-card-text);
+  border-radius: 22px;
+  padding: 16px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(110%);
+  /* al cerrar, visibility espera a que termine el deslizamiento de salida */
+  transition:
+    transform var(--faq-dur) var(--faq-ease),
+    opacity var(--faq-dur) var(--faq-ease),
+    visibility 0s linear var(--faq-dur);
+}
+
+/* estado abierto: entra deslizándose desde la derecha + fade-in */
+.faq-card[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition:
+    transform var(--faq-dur) var(--faq-ease),
+    opacity var(--faq-dur) var(--faq-ease),
+    visibility 0s;
+}
+
+.faq-card p {
+  margin: 0;
+}
+
+/* acentos de marca, rotados, detrás del contenido */
+.faq-deco {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+}
+.faq-deco--white {
+  width: clamp(36px, 9vw, 64px);
+  top: 3%;
+  right: 6%;
+  transform: rotate(-12deg);
+}
+.faq-deco--green {
+  width: clamp(40px, 10vw, 76px);
+  left: 4%;
+  bottom: 4%;
+  transform: rotate(14deg);
+}
+
+/* ── Mobile / tablet (< 992px): preguntas apiladas; la respuesta queda
+   en el flujo, debajo de su pregunta y a la derecha, tipo burbuja ── */
+@media (max-width: 991px) {
+  .faq-card {
+    position: relative;
+    width: 88%;
+    margin-left: auto;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition:
+      transform var(--faq-dur) var(--faq-ease),
+      opacity var(--faq-dur) var(--faq-ease),
+      max-height var(--faq-dur) var(--faq-ease),
+      padding var(--faq-dur) var(--faq-ease),
+      margin var(--faq-dur) var(--faq-ease),
+      visibility 0s linear var(--faq-dur);
+  }
+  .faq-card[data-open="true"] {
+    max-height: 60vh;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-top: 14px; /* pegada debajo de su pregunta, con un espacio visible */
+    transition:
+      transform var(--faq-dur) var(--faq-ease),
+      opacity var(--faq-dur) var(--faq-ease),
+      max-height var(--faq-dur) var(--faq-ease),
+      padding var(--faq-dur) var(--faq-ease),
+      margin var(--faq-dur) var(--faq-ease),
+      visibility 0s;
+  }
+}
+
+/* ── Desktop (>= 992px): grilla que envuelve + card fija abajo a la derecha ── */
+@media (min-width: 992px) {
+  .faq-section {
+    padding: clamp(40px, 7vh, 96px) clamp(32px, 6vw, 120px);
+    gap: clamp(28px, 5vh, 56px);
+  }
+  /* ni la lista ni el item son "positioned": así la card se ancla a la sección */
+  .faq-list {
+    position: static;
+    /* pills del ancho de su texto (unas largas, otras cortas) que envuelven en filas */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 14px 14px;
+    max-width: 70%;
+  }
+  .faq-item {
+    position: static;
+    flex: 0 0 auto;
+  }
+  .faq-pill {
+    width: auto;
+    white-space: nowrap;
+    font-size: 18px;
+    padding: 18px 32px;
+  }
+  .faq-card {
+    position: absolute;
+    right: clamp(16px, 4vw, 64px);
+    bottom: clamp(16px, 6vh, 64px);
+    width: min(46vw, 640px);
+    padding: 22px 28px;
+    font-size: 18px;
+    z-index: 3;
+  }
+}
+
+/* ── Variante dentro del stage 1920×1080 del desktop (px del stage, se escala junto con él) ── */
+.faq-section.faq-section--stage {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  min-height: 0;
+  padding: 340px 200px 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.faq-section--stage .faq-list,
+.faq-section--stage .faq-item {
+  position: static;
+}
+.faq-section--stage .faq-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 26px 24px;
+  width: 1480px;
+  max-width: none;
+  pointer-events: auto;
+}
+.faq-section--stage .faq-item {
+  flex: 0 0 auto;
+}
+.faq-section--stage .faq-pill {
+  width: auto;
+  white-space: nowrap;
+  height: 84px;
+  padding: 0 46px;
+  border-width: 3px;
+  font-size: 26px;
+}
+.faq-section.faq-section--stage .faq-card {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+  left: auto;
+  width: 820px;
+  max-height: none;
+  margin: 0;
+  padding: 30px 40px;
+  font-size: 24px;
+  pointer-events: auto;
+}
+.faq-section--stage .faq-deco {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* sin deslizamiento: solo fade */
+  .faq-card,
+  .faq-card[data-open="true"] {
+    transform: none;
+    transition: opacity 0.2s linear, visibility 0s linear 0.2s;
+  }
+  .faq-card[data-open="true"] {
+    transition: opacity 0.2s linear, visibility 0s;
+  }
+}
+
+/* variante "auto": alto según contenido y sin padding propio (para incrustar en una página que ya lo tiene) */
+.faq-section.faq-section--auto {
+  min-height: 0;
+  padding: 0;
+}
+
+/* variante "auto" (incrustada): las estrellas van en el margen, sin tapar las pills */
+.faq-section--auto .faq-deco--white {
+  top: -38px;
+  right: 4%;
+}
+.faq-section--auto .faq-deco--green {
+  bottom: -46px;
+  left: 2%;
+}
+
+
