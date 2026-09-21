@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
+import TitleEmojis from "./title-emojis"
+import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
+import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 // ─────────────────────────────────────────────────
@@ -14,17 +16,11 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 //  no incluye ninguna mascota/personaje.
 // ─────────────────────────────────────────────────
 
-const HABLANOS_ICON_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/HABLANOS%201-ZwLdgrogKIGt37GTm3IKYkYnOrgNjq.png"
-
 const ACTIVATE_MOBILE_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
-
-const TIPOS = ["Kiosco", "Distribuidor", "Colaborador"]
-const ZONAS = ["CABA", "GBA", "INTERIOR"]
 
 function FieldLabel({ children }: { children: string }) {
   return (
@@ -79,22 +75,36 @@ const submitButtonTextStyle: React.CSSProperties = {
 }
 
 function ToggleGroup({
+  id,
   options,
   selected,
   onSelect,
+  invalid,
+  describedBy,
 }: {
+  id: string
   options: string[]
   selected: string | null
   onSelect: (v: string) => void
+  invalid?: boolean
+  describedBy?: string
 }) {
   return (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+    <div
+      id={id}
+      tabIndex={-1}
+      role="group"
+      aria-invalid={invalid || undefined}
+      aria-describedby={describedBy}
+      style={{ display: "flex", gap: 8, flexWrap: "wrap", outline: "none", ...(invalid ? { borderRadius: 10, boxShadow: "0 0 0 2px #ff5a5a", padding: 4, margin: -4 } : null) }}
+    >
       {options.map((opt) => {
         const active = selected === opt
         return (
           <button
             key={opt}
             type="button"
+            aria-pressed={active}
             onClick={() => onSelect(opt)}
             style={{
               border: "2px solid #110f10",
@@ -133,9 +143,9 @@ function mountEnter(variant: "slide" | "fade" = "slide", opts?: { step?: number 
 
 export default function ActivateMobile() {
   const enter = useScrollReveal()
-  const [tipo, setTipo] = useState<string | null>(null)
-  const [zona, setZona] = useState<string | null>(null)
-  const [submitted, setSubmitted] = useState(false)
+  const ID = "contact-m"
+  const form = useContactForm(ID)
+  const { values, errors, submitted } = form
 
   const headerReveal = enter("fade")
   const nombreReveal = enter()
@@ -160,6 +170,8 @@ export default function ActivateMobile() {
         backgroundRepeat: "no-repeat, no-repeat",
         backgroundAttachment: "scroll, fixed",
         overflowX: "hidden",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <MobileNavBar items={ACTIVATE_MOBILE_NAV_ITEMS} activeKey="activate" ctaHref="/activate" />
@@ -167,35 +179,40 @@ export default function ActivateMobile() {
       <main
         style={{
           maxWidth: 480,
+          width: "100%",
           margin: "0 auto",
-          padding: "28px 20px 64px",
+          boxSizing: "border-box",
+          // título + formulario centrados en la altura visible (debajo de la barra de navegación)
+          flex: 1,
+          justifyContent: "center",
+          padding: "96px 20px 56px",
           display: "flex",
           flexDirection: "column",
           gap: 32,
         }}
       >
-        {/* ── HABLANOS: ícono + título ─────────────── */}
-        <div ref={headerReveal.ref} style={{ ...headerReveal.style, display: "flex", alignItems: "center", gap: 14 }}>
-          <img
-            src={HABLANOS_ICON_URL}
-            alt="Hablanos icon"
-            style={{ width: 56, height: 56, objectFit: "contain", flexShrink: 0, filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.5))" }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(2.4rem, 13vw, 3.2rem)",
-              letterSpacing: "0.01em",
-              lineHeight: "90%",
-              color: "#ffffff",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}
-          >
-            HABLANOS
-          </span>
-        </div>
+        {/* ── HABLANOS: título con los emojis animados de "¿Dónde estamos?" (siempre visibles); se oculta al enviar ── */}
+        {!submitted && (
+          <div ref={headerReveal.ref} style={{ ...headerReveal.style, display: "flex", alignItems: "center" }}>
+            <span
+              style={{
+                position: "relative",
+                display: "inline-block",
+                fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
+                fontWeight: 900,
+                fontSize: "clamp(2.4rem, 13vw, 3.2rem)",
+                letterSpacing: "0.01em",
+                lineHeight: "90%",
+                color: "#ffffff",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }}
+            >
+              HABLANOS
+              <TitleEmojis size={24} />
+            </span>
+          </div>
+        )}
 
         {submitted ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
@@ -236,55 +253,115 @@ export default function ActivateMobile() {
             </div>
 
             <div style={{ ...mountEnter(), display: "flex", justifyContent: "center", marginTop: 6 }}>
-              <button type="button" onClick={() => setSubmitted(false)} style={submitButtonStyle}>
+              <button type="button" onClick={form.reset} style={submitButtonStyle}>
                 <span style={submitButtonTextStyle}>VOLVER</span>
               </button>
             </div>
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              setSubmitted(true)
-            }}
+            noValidate
+            onSubmit={form.submit}
             style={{ display: "flex", flexDirection: "column", gap: 15 }}
           >
             <div ref={nombreReveal.ref} style={nombreReveal.style}>
               <FieldLabel>¿Cómo te llamás?</FieldLabel>
-              <input type="text" placeholder="Para saber con quién hablamos." style={inputStyle} />
+              <input
+                id={`${ID}-nombre`}
+                type="text"
+                name="nombre"
+                autoComplete="name"
+                maxLength={LIMITS.nombreMax}
+                placeholder="Para saber con quién hablamos."
+                value={values.nombre}
+                onChange={(e) => form.setField("nombre", e.target.value)}
+                onBlur={() => form.touch("nombre")}
+                aria-invalid={!!errors.nombre}
+                aria-describedby={errors.nombre ? `${ID}-nombre-error` : undefined}
+                style={{ ...inputStyle, ...(errors.nombre ? invalidFieldStyle : null) }}
+              />
+              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} />
             </div>
 
             <div ref={whatsappReveal.ref} style={whatsappReveal.style}>
               <FieldLabel>Numero de whatsapp</FieldLabel>
-              <input type="tel" placeholder="Dejanos tu número y nos contactamos" style={inputStyle} />
+              <input
+                id={`${ID}-whatsapp`}
+                type="tel"
+                name="whatsapp"
+                inputMode="tel"
+                autoComplete="tel"
+                maxLength={20}
+                placeholder="Dejanos tu número y nos contactamos"
+                value={values.whatsapp}
+                onChange={(e) => form.setField("whatsapp", e.target.value)}
+                onBlur={() => form.touch("whatsapp")}
+                aria-invalid={!!errors.whatsapp}
+                aria-describedby={errors.whatsapp ? `${ID}-whatsapp-error` : undefined}
+                style={{ ...inputStyle, ...(errors.whatsapp ? invalidFieldStyle : null) }}
+              />
+              <FieldError id={`${ID}-whatsapp-error`} message={errors.whatsapp} />
             </div>
 
             <div ref={tipoReveal.ref} style={tipoReveal.style}>
               <FieldLabel>¿Qué sos?</FieldLabel>
-              <ToggleGroup options={TIPOS} selected={tipo} onSelect={setTipo} />
+              <ToggleGroup
+                id={`${ID}-tipo`}
+                options={TIPOS}
+                selected={values.tipo}
+                onSelect={(v) => {
+                  form.setField("tipo", v)
+                  form.touch("tipo")
+                }}
+                invalid={!!errors.tipo}
+                describedBy={errors.tipo ? `${ID}-tipo-error` : undefined}
+              />
+              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} />
             </div>
 
             <div ref={zonaReveal.ref} style={zonaReveal.style}>
               <FieldLabel>Zona (opcional)</FieldLabel>
-              <ToggleGroup options={ZONAS} selected={zona} onSelect={setZona} />
+              {/* opcional: tocar la zona elegida de nuevo la desmarca */}
+              <ToggleGroup
+                id={`${ID}-zona`}
+                options={ZONAS}
+                selected={values.zona}
+                onSelect={(v) => form.setField("zona", values.zona === v ? null : v)}
+              />
             </div>
 
             <div ref={mensajeReveal.ref} style={mensajeReveal.style}>
               <FieldLabel>Mensaje</FieldLabel>
               <textarea
+                id={`${ID}-mensaje`}
+                name="mensaje"
+                maxLength={LIMITS.mensajeMax}
                 placeholder="Escribí cualquier consulta que nos quieras hacer..."
                 rows={3}
-                style={{ ...inputStyle, resize: "none" }}
+                value={values.mensaje}
+                onChange={(e) => form.setField("mensaje", e.target.value)}
+                onBlur={() => form.touch("mensaje")}
+                aria-invalid={!!errors.mensaje}
+                aria-describedby={errors.mensaje ? `${ID}-mensaje-error` : undefined}
+                style={{ ...inputStyle, resize: "none", ...(errors.mensaje ? invalidFieldStyle : null) }}
               />
+              <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
+              <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} />
             </div>
 
             <div
               ref={submitReveal.ref}
               style={{ ...submitReveal.style, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginTop: 2 }}
             >
-              <button type="submit" style={submitButtonStyle}>
-                <span style={submitButtonTextStyle}>ENVIAR</span>
+              <Honeypot value={values.website} onChange={(v) => form.setField("website", v)} />
+              <button
+                type="submit"
+                disabled={form.status === "sending"}
+                style={{ ...submitButtonStyle, opacity: form.status === "sending" ? 0.7 : 1 }}
+              >
+                <span style={submitButtonTextStyle}>{form.status === "sending" ? "ENVIANDO..." : "ENVIAR"}</span>
               </button>
+              <FieldError id={`${ID}-send-error`} message={form.sendError ?? undefined} />
               <span style={{ fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif", fontSize: 11, color: "rgba(255,255,255,0.7)" }}>
                 Respondemos 24SIETE (o casi)...
               </span>

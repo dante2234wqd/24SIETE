@@ -16,9 +16,6 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const BRUSH_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Brush_blanco_donde%20estamos-yZAFCxUsKMT38Rwe1RoDyS835o3dTd.png"
-
 const FAQS_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
@@ -119,55 +116,30 @@ export default function Faqs() {
         }}
       >
         {/* Logo + título */}
-        <div style={{ position: "absolute", left: 200, top: 60, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
+        <div style={{ position: "absolute", left: 200, top: 130, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
           <LogoMusicButton style={{ ...enter(), width: 74, height: 76, flexShrink: 0 }} badgePosition="bottom" />
 
-          <div style={{ position: "relative", width: 560, height: 150 }}>
-            <img
-              src={BRUSH_URL}
-              alt=""
-              aria-hidden="true"
-              draggable={false}
-              style={{
-                ...enter("fade"),
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "fill",
-                transform: "rotate(-1.2deg)",
-                pointerEvents: "none",
-              }}
-            />
-            <div
-              style={{
-                ...enter(),
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                paddingLeft: "22%",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', 'Oswald', sans-serif",
-                  fontWeight: 900,
-                  fontSize: 36,
-                  lineHeight: "98%",
-                  letterSpacing: "-0.02em",
-                  color: "#110f10",
-                  textTransform: "uppercase",
-                }}
-              >
-                PREGUNTAS QUE SE
-                <br />
-                HACEN A LAS 3 AM
-              </span>
-            </div>
+          {/* título: texto blanco (sin pincelada), mismo tamaño que HABLANOS, con emojis siempre visibles */}
+          <span
+            style={{
+              ...enter(),
+              position: "relative",
+              display: "inline-block",
+              fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
+              fontWeight: 900,
+              fontSize: 64,
+              letterSpacing: "0.01em",
+              lineHeight: "90%",
+              color: "#ffffff",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+            }}
+          >
+            PREGUNTAS QUE SE
+            <br />
+            HACEN A LAS 3 AM
             <FaqTitleEmojis size={34} />
-          </div>
+          </span>
         </div>
 
         {/* Preguntas + card de respuesta (entra desde la derecha) — ver faq-section.tsx */}
@@ -185,7 +157,7 @@ export default function Faqs() {
               ...enter(),
               position: "absolute",
               left: 200 + mascotSticker.offset.x,
-              top: 570 + mascotSticker.offset.y,
+              top: 640 + mascotSticker.offset.y,
               width: 300,
               height: 300,
               objectFit: "contain",

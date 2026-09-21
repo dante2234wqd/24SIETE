@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
+import TitleEmojis from "./title-emojis"
 import LogoMusicButton from "./logo-music-button"
+import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
+import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Activate (Hablanos)
@@ -13,17 +16,11 @@ import LogoMusicButton from "./logo-music-button"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
-const HABLANOS_ICON_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/HABLANOS%201-ZwLdgrogKIGt37GTm3IKYkYnOrgNjq.png"
-
 const ACTIVATE_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
-
-const TIPOS = ["Kiosco", "Distribuidor", "Colaborador"]
-const ZONAS = ["CABA", "GBA", "INTERIOR"]
 
 function FieldLabel({ children }: { children: string }) {
   return (
@@ -56,22 +53,36 @@ const inputStyle: React.CSSProperties = {
 }
 
 function ToggleGroup({
+  id,
   options,
   selected,
   onSelect,
+  invalid,
+  describedBy,
 }: {
+  id: string
   options: string[]
   selected: string | null
   onSelect: (v: string) => void
+  invalid?: boolean
+  describedBy?: string
 }) {
   return (
-    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+    <div
+      id={id}
+      tabIndex={-1}
+      role="group"
+      aria-invalid={invalid || undefined}
+      aria-describedby={describedBy}
+      style={{ display: "flex", gap: 12, flexWrap: "wrap", outline: "none", ...(invalid ? { borderRadius: 12, boxShadow: "0 0 0 2px #ff5a5a", padding: 4, margin: -4 } : null) }}
+    >
       {options.map((opt) => {
         const active = selected === opt
         return (
           <button
             key={opt}
             type="button"
+            aria-pressed={active}
             onClick={() => onSelect(opt)}
             style={{
               border: "2px solid #110f10",
@@ -96,9 +107,9 @@ function ToggleGroup({
 
 export default function Activate() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
-  const [tipo, setTipo] = useState<string | null>(null)
-  const [zona, setZona] = useState<string | null>(null)
-  const [submitted, setSubmitted] = useState(false)
+  const ID = "contact-d"
+  const form = useContactForm(ID)
+  const { values, errors, submitted } = form
 
   useEffect(() => {
     const updateViewport = () => {
@@ -193,23 +204,13 @@ export default function Activate() {
           style={{ ...enter(), position: "absolute", left: 70, top: 40, width: 76, height: 78, zIndex: 4 }}
         />
 
-        {/* HABLANOS: ícono + título, mismo estilo que en la home */}
-        <div style={{ position: "absolute", left: 660, top: 70, display: "flex", alignItems: "center", gap: 20, zIndex: 4 }}>
-          <img
-            src={HABLANOS_ICON_URL}
-            alt="Hablanos icon"
-            style={{
-              ...enter(),
-              width: 96,
-              height: 96,
-              objectFit: "contain",
-              flexShrink: 0,
-              filter: "drop-shadow(2px 4px 8px rgba(0,0,0,0.5))",
-            }}
-          />
+        {/* HABLANOS: título con los emojis animados de "¿Dónde estamos?" (siempre visibles) */}
+        {!submitted && (
+        <div style={{ ...enter(), position: "absolute", left: 660, top: 100, zIndex: 4 }}>
           <span
             style={{
-              ...enter(),
+              position: "relative",
+              display: "inline-block",
               fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
               fontWeight: 900,
               fontSize: 64,
@@ -221,8 +222,10 @@ export default function Activate() {
             }}
           >
             HABLANOS
+            <TitleEmojis size={34} />
           </span>
         </div>
+        )}
 
         {/* Formulario / Confirmación de envío */}
         {submitted ? (
@@ -230,7 +233,7 @@ export default function Activate() {
             style={{
               position: "absolute",
               left: 660,
-              top: 300,
+              top: 230,
               width: 640,
               zIndex: 4,
               display: "flex",
@@ -277,7 +280,7 @@ export default function Activate() {
             <div style={{ ...enter(), marginTop: 6 }}>
               <button
                 type="button"
-                onClick={() => setSubmitted(false)}
+                onClick={form.reset}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -308,54 +311,111 @@ export default function Activate() {
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              setSubmitted(true)
-            }}
+            noValidate
+            onSubmit={form.submit}
             style={{
               position: "absolute",
               left: 660,
-              top: 220,
+              top: 235,
               width: 420,
               zIndex: 4,
               display: "flex",
               flexDirection: "column",
-              gap: 22,
+              gap: 18,
             }}
           >
             <div style={enter()}>
               <FieldLabel>¿Cómo te llamás?</FieldLabel>
-              <input type="text" placeholder="Para saber con quién hablamos." style={inputStyle} />
+              <input
+                id={`${ID}-nombre`}
+                type="text"
+                name="nombre"
+                autoComplete="name"
+                maxLength={LIMITS.nombreMax}
+                placeholder="Para saber con quién hablamos."
+                value={values.nombre}
+                onChange={(e) => form.setField("nombre", e.target.value)}
+                onBlur={() => form.touch("nombre")}
+                aria-invalid={!!errors.nombre}
+                aria-describedby={errors.nombre ? `${ID}-nombre-error` : undefined}
+                style={{ ...inputStyle, ...(errors.nombre ? invalidFieldStyle : null) }}
+              />
+              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} fontSize={13} />
             </div>
 
             <div style={enter()}>
               <FieldLabel>Numero de whatsapp</FieldLabel>
-              <input type="tel" placeholder="Dejanos tu número y nos contactamos" style={inputStyle} />
+              <input
+                id={`${ID}-whatsapp`}
+                type="tel"
+                name="whatsapp"
+                inputMode="tel"
+                autoComplete="tel"
+                maxLength={20}
+                placeholder="Dejanos tu número y nos contactamos"
+                value={values.whatsapp}
+                onChange={(e) => form.setField("whatsapp", e.target.value)}
+                onBlur={() => form.touch("whatsapp")}
+                aria-invalid={!!errors.whatsapp}
+                aria-describedby={errors.whatsapp ? `${ID}-whatsapp-error` : undefined}
+                style={{ ...inputStyle, ...(errors.whatsapp ? invalidFieldStyle : null) }}
+              />
+              <FieldError id={`${ID}-whatsapp-error`} message={errors.whatsapp} fontSize={13} />
             </div>
 
             <div style={enter()}>
               <FieldLabel>¿Qué sos?</FieldLabel>
-              <ToggleGroup options={TIPOS} selected={tipo} onSelect={setTipo} />
+              <ToggleGroup
+                id={`${ID}-tipo`}
+                options={TIPOS}
+                selected={values.tipo}
+                onSelect={(v) => {
+                  form.setField("tipo", v)
+                  form.touch("tipo")
+                }}
+                invalid={!!errors.tipo}
+                describedBy={errors.tipo ? `${ID}-tipo-error` : undefined}
+              />
+              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} fontSize={13} />
             </div>
 
             <div style={enter()}>
               <FieldLabel>Zona (opcional)</FieldLabel>
-              <ToggleGroup options={ZONAS} selected={zona} onSelect={setZona} />
+              {/* opcional: tocar la zona elegida de nuevo la desmarca */}
+              <ToggleGroup
+                id={`${ID}-zona`}
+                options={ZONAS}
+                selected={values.zona}
+                onSelect={(v) => form.setField("zona", values.zona === v ? null : v)}
+              />
             </div>
 
             <div style={enter()}>
               <FieldLabel>Mensaje</FieldLabel>
               <textarea
+                id={`${ID}-mensaje`}
+                name="mensaje"
+                maxLength={LIMITS.mensajeMax}
                 placeholder="Escribí cualquier consulta que nos quieras hacer..."
-                rows={4}
-                style={{ ...inputStyle, resize: "none" }}
+                rows={3}
+                value={values.mensaje}
+                onChange={(e) => form.setField("mensaje", e.target.value)}
+                onBlur={() => form.touch("mensaje")}
+                aria-invalid={!!errors.mensaje}
+                aria-describedby={errors.mensaje ? `${ID}-mensaje-error` : undefined}
+                style={{ ...inputStyle, resize: "none", ...(errors.mensaje ? invalidFieldStyle : null) }}
               />
+              <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
+              <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} fontSize={13} />
             </div>
 
             <div style={{ ...enter(), display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginTop: 6 }}>
+              <Honeypot value={values.website} onChange={(v) => form.setField("website", v)} />
               <button
                 type="submit"
+                disabled={form.status === "sending"}
                 style={{
+                  opacity: form.status === "sending" ? 0.7 : 1,
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -378,9 +438,10 @@ export default function Activate() {
                     textTransform: "uppercase",
                   }}
                 >
-                  ENVIAR
+                  {form.status === "sending" ? "ENVIANDO..." : "ENVIAR"}
                 </span>
               </button>
+              <FieldError id={`${ID}-send-error`} message={form.sendError ?? undefined} fontSize={13} />
               <span
                 style={{
                   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
