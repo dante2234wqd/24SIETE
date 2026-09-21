@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
 import TitleEmojis from "./title-emojis"
-import LogoMusicButton from "./logo-music-button"
+import DesktopLogo from "./desktop-logo"
 import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
 import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
 
@@ -189,6 +189,8 @@ export default function Activate() {
         }}
       />
 
+      <DesktopLogo />
+
       <div
         style={{
           position: "relative",
@@ -199,11 +201,6 @@ export default function Activate() {
           color: "#fff",
         }}
       >
-        {/* Logo (también botón de música) */}
-        <LogoMusicButton
-          style={{ ...enter(), position: "absolute", left: 70, top: 40, width: 76, height: 78, zIndex: 4 }}
-        />
-
         {/* HABLANOS: título con los emojis animados de "¿Dónde estamos?" (siempre visibles) */}
         {!submitted && (
         <div style={{ ...enter(), position: "absolute", left: 660, top: 100, zIndex: 4 }}>

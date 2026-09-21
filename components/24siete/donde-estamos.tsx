@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import NavBar, { type NavBarItem } from "./nav-bar"
-import LogoMusicButton from "./logo-music-button"
+import DesktopLogo from "./desktop-logo"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — ¿Dónde estamos?
@@ -120,6 +120,8 @@ export default function DondeEstamos() {
         }}
       />
 
+      <DesktopLogo />
+
       <div
         style={{
           position: "relative",
@@ -130,27 +132,6 @@ export default function DondeEstamos() {
           color: "#fff",
         }}
       >
-        {/* Logo (misma posición que antes) */}
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            padding: "32px 40px",
-            zIndex: 4,
-            transform: "scale(1.3)",
-            transformOrigin: "top left",
-          }}
-        >
-          <div style={{ maxWidth: 1230, marginLeft: 114, marginRight: 0 }}>
-            <LogoMusicButton
-              style={{ ...enter(), width: 72, height: 74, flexShrink: 0 }}
-              badgePosition="bottom"
-            />
-          </div>
-        </div>
-
         {/* ── PRÓXIMAMENTE: EN TODOS LOS 24 HORAS ─────────── */}
         <div
           style={{

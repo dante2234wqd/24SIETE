@@ -5,7 +5,7 @@ import NavBar, { type NavBarItem } from "./nav-bar"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
 import FaqSection from "./faq-section"
 import FaqTitleEmojis from "./faq-title-emojis"
-import LogoMusicButton from "./logo-music-button"
+import DesktopLogo from "./desktop-logo"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — FAQS
@@ -105,6 +105,8 @@ export default function Faqs() {
         }}
       />
 
+      <DesktopLogo />
+
       <div
         style={{
           position: "relative",
@@ -115,10 +117,8 @@ export default function Faqs() {
           color: "#fff",
         }}
       >
-        {/* Logo + título */}
-        <div style={{ position: "absolute", left: 200, top: 130, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
-          <LogoMusicButton style={{ ...enter(), width: 74, height: 76, flexShrink: 0 }} badgePosition="bottom" />
-
+        {/* Título (más separado del logo, que ahora va fijo en la esquina) */}
+        <div style={{ position: "absolute", left: 280, top: 130, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
           {/* título: texto blanco (sin pincelada), mismo tamaño que HABLANOS, con emojis siempre visibles */}
           <span
             style={{
@@ -156,7 +156,7 @@ export default function Faqs() {
             style={{
               ...enter(),
               position: "absolute",
-              left: 200 + mascotSticker.offset.x,
+              left: 280 + mascotSticker.offset.x,
               top: 640 + mascotSticker.offset.y,
               width: 300,
               height: 300,
