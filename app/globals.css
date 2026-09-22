@@ -655,3 +655,23 @@ select:-webkit-autofill:focus {
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome/Safari/Edge nuevo */
 }
+
+/* =========================
+   Home / Dónde estamos / FAQs / Hablanos — desktop vs mobile
+   El layout de escritorio de estas 4 páginas es un "stage" cinematográfico
+   ancho, pensado para ventanas apaisadas. El corte por defecto (min-width:
+   768px) alcanza a una tablet en VERTICAL (ej. iPad, 768-820px de ancho,
+   más alta que ancha): ahí "ancho" sobra pero el diseño no está pensado
+   para esa proporción — todo escala por altura y el resultado es
+   gigante/vacío. Estas clases fuerzan la versión mobile (que sí es fluida
+   en cualquier ancho angosto) siempre que la ventana sea más alta que
+   ancha, sin importar el ancho.
+========================= */
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  .home-desktop-only {
+    display: none !important;
+  }
+  .home-mobile-only {
+    display: block !important;
+  }
+}
