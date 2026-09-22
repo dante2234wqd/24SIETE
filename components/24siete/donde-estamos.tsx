@@ -113,9 +113,9 @@ export default function DondeEstamos() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          left: 0,
+          left: -10,
           bottom: 0,
-          width: "100%",
+          width: "200",
           aspectRatio: "2065 / 354",
           pointerEvents: "none",
         }}
