@@ -117,7 +117,7 @@ export default function Faqs() {
         }}
       >
         {/* Título (más separado del logo, que ahora va fijo en la esquina) */}
-        <div style={{ position: "absolute", left: 280, top: 130, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
+        <div style={{ position: "absolute", left: 280, top: 190, display: "flex", alignItems: "center", gap: 28, zIndex: 4 }}>
           {/* título: texto blanco (sin pincelada), mismo tamaño que HABLANOS, con emojis siempre visibles */}
           <span
             style={{

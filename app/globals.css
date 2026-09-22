@@ -594,7 +594,9 @@ select:-webkit-autofill:focus {
 .faq-section.faq-section--stage .faq-card {
   position: absolute;
   right: 40px;
-  bottom: 30px;
+  /* siempre sobre el fondo negro: la pincelada blanca de la nav empieza a
+     283px del piso del stage (ver el mismo cálculo en donde-estamos/faqs/activate) */
+  bottom: 330px;
   left: auto;
   width: 820px;
   max-height: none;
