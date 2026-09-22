@@ -88,7 +88,7 @@ export default function Faqs() {
 
       {/* Fondo pincelada blanca detrás de la barra de navegación: fuera del stage escalado para poder ocupar el 100% del ancho real del viewport */}
       <img
-        src="/assets/fondo%20menu%20navegacionv3.png"
+        src="/assets/fondo%20menu%20navegacionv3_v3.png"
         alt=""
         aria-hidden="true"
         draggable={false}
