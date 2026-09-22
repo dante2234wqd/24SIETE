@@ -636,3 +636,19 @@ select:-webkit-autofill:focus {
 }
 
 
+
+/* =========================
+   Barra de scroll horizontal de la home
+   La home scrollea horizontal con la rueda (ver landing-247-horizontal.tsx).
+   La scrollbar nativa, en navegadores sin overlay scrollbars, reserva su
+   propio espacio DENTRO del contenedor de 100vh: eso empuja/recorta el
+   borde inferior del stage (donde vive la nav) contra el borde real de la
+   ventana. Se oculta visualmente; el scroll con rueda sigue funcionando.
+========================= */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge viejo */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Edge nuevo */
+}

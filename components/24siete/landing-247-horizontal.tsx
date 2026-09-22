@@ -169,7 +169,7 @@ export default function Landing247Horizontal() {
   return (
     <div
       ref={containerRef}
-      className="overflow-x-auto overflow-y-hidden"
+      className="overflow-x-auto overflow-y-hidden hide-scrollbar"
       style={{
         width: "100vw",
         height: "100vh",
@@ -446,12 +446,12 @@ export default function Landing247Horizontal() {
                 }}
               />
 
-              {/* ── 14. LOWER BULLET LIST ─────────────────── */}
+              {/* ── 14. LOWER BULLET LIST (corrido a la derecha para no quedar debajo del botón ACTIVATE de la nav) ── */}
               <div
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 770,
+                  left: 950,
                   top: 720,
                   zIndex: 6,
                 }}
