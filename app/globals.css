@@ -596,7 +596,7 @@ select:-webkit-autofill:focus {
   right: 40px;
   /* debajo de las 2 filas de preguntas (termina en 410+84+26+84=604) y arriba
      de donde empieza la pincelada blanca de la nav (~797) */
-  top: 632px;
+  top: 660px;
   bottom: auto;
   left: auto;
   width: 820px;
