@@ -106,7 +106,7 @@ export default function DondeEstamos() {
 
       {/* Fondo pincelada blanca detrás de la barra de navegación: fuera del stage escalado para poder ocupar el 100% del ancho real del viewport */}
       <img
-        src="/assets/fondo%20menu%20navegacionv3_v3.png"
+        src="/assets/BRUSH_NUEVO.png"
         alt=""
         aria-hidden="true"
         draggable={false}
@@ -116,7 +116,7 @@ export default function DondeEstamos() {
           left: 0,
           bottom: 0,
           width: "100%",
-          height: `${(283 / STAGE_HEIGHT) * 100}%`,
+          aspectRatio: "2065 / 354",
           pointerEvents: "none",
         }}
       />
