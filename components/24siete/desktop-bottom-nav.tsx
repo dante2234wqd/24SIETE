@@ -33,7 +33,7 @@ export default function DesktopBottomNav({
   }, [])
 
   return (
-    <div style={{ position: "absolute", left: 100 * scale, top: 800 * scale, zIndex: 9 }}>
+    <div style={{ position: "absolute", left: 100 * scale, top: 740 * scale, zIndex: 9 }}>
       <NavBar items={items} activeKey={activeKey} ctaHref={ctaHref} scale={scale * NAV_SCALE_BOOST} />
     </div>
   )

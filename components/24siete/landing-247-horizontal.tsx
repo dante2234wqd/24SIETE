@@ -451,7 +451,7 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 950,
+                  left: 860,
                   top: 720,
                   zIndex: 6,
                 }}
@@ -521,7 +521,7 @@ export default function Landing247Horizontal() {
                   ...enter(),
                   position: "absolute",
                   left: 100,
-                  top: 800,
+                  top: 740,
                   zIndex: 9,
                 }}
               >
