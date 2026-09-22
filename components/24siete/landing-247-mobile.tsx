@@ -503,7 +503,9 @@ export default function Landing247Mobile() {
             fuerza marginTop:0 en el elemento que anima al revelarlo */}
         <div style={{ marginTop: BOX_OFFSET_Y, marginBottom: -110 }}>
           <div ref={footerBox.ref} style={{ ...footerBox.style, display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "150%", maxWidth: 900, flexShrink: 0, aspectRatio: "398 / 403" }}>
+            {/* 110%, no 150%: a ese tamaño el visor se salía del ancho real de la
+                pantalla (que recorta el desborde horizontal) y quedaba cortado */}
+            <div style={{ width: "110%", maxWidth: 900, flexShrink: 0, aspectRatio: "398 / 403" }}>
               <CajaAlfajor3D />
             </div>
           </div>
