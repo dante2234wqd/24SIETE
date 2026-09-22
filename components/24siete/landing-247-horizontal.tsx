@@ -325,9 +325,9 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter("slide", { toOpacity: 0.72 }),
                   position: "absolute",
-                  left: 2145,
-                  top: 70,
-                  width: 600,
+                  left: 2200,
+                  top: 10,
+                  width: 450,
                   height: 700,
                   objectFit: "contain",
                   zIndex: 3,
@@ -451,7 +451,7 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 860,
+                  left: 880,
                   top: 720,
                   zIndex: 6,
                 }}
@@ -521,7 +521,7 @@ export default function Landing247Horizontal() {
                   ...enter(),
                   position: "absolute",
                   left: 100,
-                  top: 740,
+                  top: 760,
                   zIndex: 9,
                 }}
               >
@@ -535,8 +535,8 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2318,
-                  top: 173,
+                  left: 2250,
+                  top: 300,
                   width: 360,
                   zIndex: 8,
                   textAlign: "center",
