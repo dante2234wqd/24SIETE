@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
 import LogoMusicButton from "./logo-music-button"
 import HoverTitle from "./hover-title"
+import { INSTAGRAM_URL } from "./social-links"
 
 const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
@@ -601,9 +602,12 @@ export default function Landing247Horizontal() {
               />
 
               {/* ── SEGUINOS / QR (agrandado: antes compartía este espacio con el texto "doble capa...", que sacamos) ── */}
-              <img
-                src="/assets/qr_instagram.png"
-                alt="Seguinos en redes - código QR de Instagram"
+              {/* todo el bloque es un link a Instagram, no solo el QR */}
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Seguinos en Instagram"
                 style={{
                   ...enter(),
                   position: "absolute",
@@ -611,11 +615,24 @@ export default function Landing247Horizontal() {
                   top: 431,
                   width: 484,
                   height: 250.14,
-                  objectFit: "contain",
-                  objectPosition: "left center",
                   zIndex: 8,
+                  display: "block",
+                  cursor: "pointer",
                 }}
-              />
+              >
+                <img
+                  src="/assets/qr_instagram.png"
+                  alt="Seguinos en redes - código QR de Instagram"
+                  draggable={false}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    objectPosition: "left center",
+                    display: "block",
+                  }}
+                />
+              </a>
 
               {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
               {/* left al máximo posible pegado al borde derecho del stage sin que

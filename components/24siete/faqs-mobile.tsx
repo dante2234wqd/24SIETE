@@ -61,18 +61,17 @@ export default function FaqsMobile() {
               display: "inline-block",
               fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
               fontWeight: 900,
-              fontSize: "clamp(2.4rem, 13vw, 3.2rem)",
+              fontSize: "clamp(1.7rem, 9.6vw, 2.9rem)",
               letterSpacing: "0.01em",
               lineHeight: "90%",
               color: "#ffffff",
               textTransform: "uppercase",
             }}
           >
-            PREGUNTAS QUE
-            <br />
-            SE HACEN A
-            <br />
-            LAS 3 AM
+            {/* whiteSpace: nowrap por línea: sin esto el navegador puede volver a
+                partir una línea a la mitad (p.ej. "QUE" solo) si no entra en el ancho */}
+            <span style={{ display: "block", whiteSpace: "nowrap" }}>PREGUNTAS QUE SE</span>
+            <span style={{ display: "block", whiteSpace: "nowrap" }}>HACEN A LAS 3 AM</span>
             <FaqTitleEmojis size={24} />
           </span>
         </div>

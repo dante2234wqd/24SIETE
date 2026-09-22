@@ -8,6 +8,7 @@ import type { NavBarItem } from "./nav-bar"
 import { LottieOverlay } from "./hover-title"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
+import { INSTAGRAM_URL } from "./social-links"
 
 // Coordenadas dadas por diseño para el hero (alfajor + estrellas + sticker)
 // están medidas sobre un frame de referencia de 396px de ancho, re-ancladas
@@ -48,7 +49,7 @@ const LANDING_MOBILE_NAV_ITEMS: NavBarItem[] = [
 // foto del chico (180×251) y FAQS (88×253) escalan juntos para mantener su proporción
 const FOTO_FAQS_SCALE = 1
 
-const BULLETS = ["72G DE DECISIÓN", "MUCHO DULCE DE LECHE.", "CACAO SIN MIEDO.", "BUENOS AIRES, ARGENTINA"]
+const BULLETS = ["70G DE DECISIÓN", "MUCHO DULCE DE LECHE.", "CACAO SIN MIEDO.", "BUENOS AIRES, ARGENTINA"]
 
 export default function Landing247Mobile() {
   const enter = useScrollReveal()
@@ -392,14 +393,17 @@ export default function Landing247Mobile() {
             </div>
           </div>
 
-          {/* Seguinos (QR de Instagram) */}
+          {/* Seguinos (QR de Instagram) — todo el bloque es un link a Instagram */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <div ref={seguinosBox.ref} style={{ ...seguinosBox.style, flexShrink: 0, marginLeft: Math.max(37, qrOffset - 5) }}>
-              <img
-                src="/assets/mobile_qr_seguinos_v2.png"
-                alt="Seguinos en Instagram - código QR"
-                style={{ width: 316, height: "auto", objectFit: "contain", display: "block" }}
-              />
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Seguinos en Instagram" style={{ display: "block" }}>
+                <img
+                  src="/assets/mobile_qr_seguinos_v2.png"
+                  alt="Seguinos en Instagram - código QR"
+                  draggable={false}
+                  style={{ width: 316, height: "auto", objectFit: "contain", display: "block" }}
+                />
+              </a>
             </div>
           </div>
         </section>
