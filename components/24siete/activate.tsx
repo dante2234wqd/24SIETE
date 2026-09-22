@@ -1,9 +1,10 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import NavBar, { type NavBarItem } from "./nav-bar"
+import { type NavBarItem } from "./nav-bar"
 import TitleEmojis from "./title-emojis"
 import DesktopLogo from "./desktop-logo"
+import DesktopBottomNav from "./desktop-bottom-nav"
 import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
 import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
 
@@ -190,6 +191,7 @@ export default function Activate() {
       />
 
       <DesktopLogo />
+      <DesktopBottomNav items={ACTIVATE_NAV_ITEMS} activeKey="activate" ctaHref="/activate" />
 
       <div
         style={{
@@ -452,10 +454,6 @@ export default function Activate() {
           </form>
         )}
 
-        {/* Bottom nav */}
-        <div style={{ ...enter(), position: "absolute", left: 200, top: 986, zIndex: 7 }}>
-          <NavBar items={ACTIVATE_NAV_ITEMS} activeKey="activate" ctaHref="/activate" />
-        </div>
       </div>
     </div>
   )

@@ -318,10 +318,10 @@ export default function Landing247Horizontal() {
                 }}
               />
 
-              {/* ── 4B. MAPA ARGENTINA agregado al lado del paquete/pulseras ─── */}
+              {/* ── 4B. MAPA DE BUENOS AIRES (mismo que en mobile) agregado al lado del paquete/pulseras ─── */}
               <img
-                src="/assets/Mapa_argentina1.webp"
-                alt="Mapa de Argentina"
+                src="/assets/Mapa%20de%20buenos%20aires%202.png"
+                alt="Mapa de la provincia de Buenos Aires"
                 style={{
                   ...enter("slide", { toOpacity: 0.72 }),
                   position: "absolute",
@@ -515,17 +515,17 @@ export default function Landing247Horizontal() {
                 ))}
               </div>
 
-              {/* ── 15. BOTTOM NAV + CTA ──────────────────── */}
+              {/* ── 15. BOTTOM NAV + CTA (misma posición/tamaño que en dónde estamos, FAQs y hablanos — ver desktop-bottom-nav.tsx) ── */}
               <div
                 style={{
                   ...enter(),
                   position: "absolute",
                   left: 100,
-                  top: 778,
+                  top: 800,
                   zIndex: 9,
                 }}
               >
-                <NavBar items={LANDING_NAV_ITEMS} activeKey={activeSection} ctaHref="/activate" />
+                <NavBar items={LANDING_NAV_ITEMS} activeKey={activeSection} ctaHref="/activate" scale={1.12} />
               </div>
 
               {/* ── RIGHT SIDE EXPANSION ZONE (corrida más a la derecha) ───────────────── */}
@@ -583,23 +583,6 @@ export default function Landing247Horizontal() {
                   -34.6037° -58.3816°
                 </span>
               </div>
-
-              <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ICONO%20DE%20UBICACION%20MAPA%20ARGENTINA-zxvl7GYUooF1ZkJyy0XhaUpKq1HnQy.png"
-                alt="Argentina location pin"
-                style={{
-                  ...enter("fade"),
-                  position: "absolute",
-                  left: 2448,
-                  top: 134,
-                  width: 100,
-                  height: 405,
-                  objectFit: "contain",
-                  transform: "rotate(-5deg)",
-                  zIndex: 8,
-                  filter: "drop-shadow(0 4px 10px rgba(0,255,0,0.3))",
-                }}
-              />
 
               {/* ── SEGUINOS / QR (agrandado: antes compartía este espacio con el texto "doble capa...", que sacamos) ── */}
               {/* todo el bloque es un link a Instagram, no solo el QR */}

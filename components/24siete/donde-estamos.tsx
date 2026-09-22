@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import NavBar, { type NavBarItem } from "./nav-bar"
+import { type NavBarItem } from "./nav-bar"
 import DesktopLogo from "./desktop-logo"
+import DesktopBottomNav from "./desktop-bottom-nav"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — ¿Dónde estamos?
@@ -121,6 +122,7 @@ export default function DondeEstamos() {
       />
 
       <DesktopLogo />
+      <DesktopBottomNav items={DONDE_ESTAMOS_NAV_ITEMS} activeKey="donde-estamos" ctaHref="/activate" />
 
       <div
         style={{
@@ -280,14 +282,6 @@ export default function DondeEstamos() {
           </div>
         </div>
 
-        {/* Bottom nav */}
-        <div style={{ ...enter(), position: "absolute", left: 200, top: 986, zIndex: 7 }}>
-          <NavBar
-            items={DONDE_ESTAMOS_NAV_ITEMS}
-            activeKey="donde-estamos"
-            ctaHref="/activate"
-          />
-        </div>
       </div>
     </div>
   )

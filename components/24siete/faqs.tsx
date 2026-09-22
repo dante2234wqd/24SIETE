@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import NavBar, { type NavBarItem } from "./nav-bar"
-import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
+import { type NavBarItem } from "./nav-bar"
 import FaqSection from "./faq-section"
 import FaqTitleEmojis from "./faq-title-emojis"
 import DesktopLogo from "./desktop-logo"
+import DesktopBottomNav from "./desktop-bottom-nav"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — FAQS
@@ -40,8 +40,6 @@ export default function Faqs() {
     if (!viewport.width || !viewport.height) return 1
     return Math.min(viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
   }, [viewport])
-
-  const mascotSticker = useDraggableSticker(scale)
 
   let enterDelay = 0
   const enter = (
@@ -106,6 +104,7 @@ export default function Faqs() {
       />
 
       <DesktopLogo />
+      <DesktopBottomNav items={FAQS_NAV_ITEMS} activeKey="faqs" ctaHref="/activate" />
 
       <div
         style={{
@@ -147,34 +146,6 @@ export default function Faqs() {
           <FaqSection variant="stage" />
         </div>
 
-        {/* Mascota + tagline (la respuesta ya no lleva personaje) */}
-          <img
-            src="/assets/Stiker_24SIETE.png"
-            alt="¿Estás active o estás mirando?"
-            draggable={false}
-            onPointerDown={mascotSticker.onPointerDown}
-            style={{
-              ...enter(),
-              position: "absolute",
-              left: 280 + mascotSticker.offset.x,
-              top: 640 + mascotSticker.offset.y,
-              width: 300,
-              height: 300,
-              objectFit: "contain",
-              zIndex: mascotSticker.isDragging ? 999 : 4,
-              filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.5))",
-              transform: `scale(${mascotSticker.isDragging ? 1.06 : 1})`,
-              transition: mascotSticker.isDragging ? "none" : "transform 0.2s ease",
-              cursor: mascotSticker.isDragging ? "grabbing" : "grab",
-              touchAction: "none",
-              userSelect: "none",
-            }}
-          />
-
-        {/* Bottom nav */}
-        <div style={{ ...enter(), position: "absolute", left: 200, top: 986, zIndex: 7 }}>
-          <NavBar items={FAQS_NAV_ITEMS} activeKey="faqs" ctaHref="/activate" />
-        </div>
       </div>
     </div>
   )
