@@ -18,6 +18,9 @@ const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr:
 const STAGE_WIDTH = 3359
 const STAGE_HEIGHT = 873
 
+// tamaño fijo en px reales del visor 3D de la caja (no crece en pantallas altas)
+const BOX_VIEWER_PX = 520
+
 const LANDING_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "#" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
@@ -617,23 +620,6 @@ export default function Landing247Horizontal() {
                 />
               </a>
 
-              {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
-              {/* left al máximo posible pegado al borde derecho del stage sin que
-                  el overflow:hidden del stage (3359px de ancho) lo corte */}
-              <div
-                style={{
-                  ...enter(),
-                  position: "absolute",
-                  left: 2878,
-                  top: 142,
-                  width: 675,
-                  height: 698.3,
-                  zIndex: 4,
-                }}
-              >
-                <CajaAlfajor3D />
-              </div>
-
               <HoverTitle
                 href="/faqs"
                 style={{
@@ -676,6 +662,30 @@ export default function Landing247Horizontal() {
                 }}
               />
             </div>
+          </div>
+
+          {/* ── CAJA DE ALFAJORES (lado derecho) — visor 3D interactivo ─────────── */}
+          {/* Vive FUERA del transform:scale del stage (y de su overflow:hidden a
+              3359px), como hermano de ese div, adentro del mismo contenedor que ya
+              scrollea horizontalmente. left/top se escalan a mano (stageValue*scale)
+              para que la posición siga acompañando al resto del contenido, pero el
+              tamaño queda FIJO en px reales (BOX_VIEWER_PX): antes, al vivir dentro
+              del transform, el visor 3D medía su propio contenedor ya escalado y
+              aplicaba la escala una segunda vez al pintarse — en pantallas altas
+              terminaba mucho más grande de lo pensado y se cortaba contra el borde
+              del stage. Acá ni crece con la altura de pantalla ni puede cortarse. */}
+          <div
+            style={{
+              ...enter(),
+              position: "absolute",
+              left: 2900 * scale,
+              top: 142 * scale,
+              width: BOX_VIEWER_PX,
+              height: BOX_VIEWER_PX,
+              zIndex: 4,
+            }}
+          >
+            <CajaAlfajor3D />
           </div>
         </div>
       </div>
