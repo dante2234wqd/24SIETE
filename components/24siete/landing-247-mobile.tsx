@@ -395,13 +395,24 @@ export default function Landing247Mobile() {
 
           {/* Seguinos (QR de Instagram) — todo el bloque es un link a Instagram */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div ref={seguinosBox.ref} style={{ ...seguinosBox.style, flexShrink: 0, marginLeft: Math.max(37, qrOffset - 5) }}>
+            {/* 316px de ancho, pero sin pasarse del contenedor: en celulares de 360px
+                el arte se salía por la derecha y cortaba "NO ALCANZABA..." */}
+            <div
+              ref={seguinosBox.ref}
+              style={{
+                ...seguinosBox.style,
+                flexShrink: 0,
+                marginLeft: Math.max(37, qrOffset - 5),
+                width: 316,
+                maxWidth: `calc(100% - ${Math.max(37, qrOffset - 5)}px)`,
+              }}
+            >
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Seguinos en Instagram" style={{ display: "block" }}>
                 <img
                   src="/assets/mobile_qr_seguinos_v2.png"
                   alt="Seguinos en Instagram - código QR"
                   draggable={false}
-                  style={{ width: 316, height: "auto", objectFit: "contain", display: "block" }}
+                  style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
                 />
               </a>
             </div>
