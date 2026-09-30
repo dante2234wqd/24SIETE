@@ -3,8 +3,8 @@
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
 import TitleEmojis from "./title-emojis"
-import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
-import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
+import { CharCount, FieldError, Honeypot, PhoneInput, WhatsappCheckbox, invalidFieldStyle } from "./contact-form-parts"
+import { LIMITS, TIPOS, ZONAS, formatTelefono, useContactForm } from "@/hooks/use-contact-form"
 import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 
 // ─────────────────────────────────────────────────
@@ -22,9 +22,11 @@ const ACTIVATE_MOBILE_NAV_ITEMS: NavBarItem[] = [
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-function FieldLabel({ children }: { children: string }) {
+function FieldLabel({ children, htmlFor, id }: { children: string; htmlFor?: string; id?: string }) {
   return (
     <label
+      htmlFor={htmlFor}
+      id={id}
       style={{
         display: "block",
         fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
@@ -94,6 +96,7 @@ function ToggleGroup({
       id={id}
       tabIndex={-1}
       role="group"
+      aria-labelledby={`${id}-label`}
       aria-invalid={invalid || undefined}
       aria-describedby={describedBy}
       style={{ display: "flex", gap: 8, flexWrap: "wrap", outline: "none", ...(invalid ? { borderRadius: 10, boxShadow: "0 0 0 2px #ff5a5a", padding: 4, margin: -4 } : null) }}
@@ -149,10 +152,12 @@ export default function ActivateMobile() {
 
   const headerReveal = enter("fade")
   const nombreReveal = enter()
+  const emailReveal = enter()
   const whatsappReveal = enter()
   const tipoReveal = enter()
   const zonaReveal = enter()
   const mensajeReveal = enter()
+  const whatsappOkReveal = enter()
   const submitReveal = enter()
 
   mountDelay = 0
@@ -265,7 +270,7 @@ export default function ActivateMobile() {
             style={{ display: "flex", flexDirection: "column", gap: 15 }}
           >
             <div ref={nombreReveal.ref} style={nombreReveal.style}>
-              <FieldLabel>¿Cómo te llamás?</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-nombre`}>¿Cómo te llamás?</FieldLabel>
               <input
                 id={`${ID}-nombre`}
                 type="text"
@@ -280,31 +285,51 @@ export default function ActivateMobile() {
                 aria-describedby={errors.nombre ? `${ID}-nombre-error` : undefined}
                 style={{ ...inputStyle, ...(errors.nombre ? invalidFieldStyle : null) }}
               />
-              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} />
+              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} overlap={15} />
+            </div>
+
+            <div ref={emailReveal.ref} style={emailReveal.style}>
+              <FieldLabel htmlFor={`${ID}-email`}>Tu email</FieldLabel>
+              <input
+                id={`${ID}-email`}
+                type="email"
+                name="email"
+                autoComplete="email"
+                inputMode="email"
+                maxLength={254}
+                placeholder="Para mandarte la info."
+                value={values.email}
+                onChange={(e) => form.setEmail(e.target.value)}
+                onBlur={() => form.touch("email")}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? `${ID}-email-error` : undefined}
+                style={{ ...inputStyle, ...(errors.email ? invalidFieldStyle : null) }}
+              />
+              <FieldError id={`${ID}-email-error`} message={errors.email} overlap={15} />
             </div>
 
             <div ref={whatsappReveal.ref} style={whatsappReveal.style}>
-              <FieldLabel>Numero de whatsapp</FieldLabel>
-              <input
-                id={`${ID}-whatsapp`}
-                type="tel"
-                name="whatsapp"
-                inputMode="tel"
-                autoComplete="tel"
-                maxLength={20}
-                placeholder="Dejanos tu número y nos contactamos"
-                value={values.whatsapp}
-                onChange={(e) => form.setField("whatsapp", e.target.value)}
-                onBlur={() => form.touch("whatsapp")}
-                aria-invalid={!!errors.whatsapp}
-                aria-describedby={errors.whatsapp ? `${ID}-whatsapp-error` : undefined}
-                style={{ ...inputStyle, ...(errors.whatsapp ? invalidFieldStyle : null) }}
+              <FieldLabel htmlFor={`${ID}-telefono`}>Numero de whatsapp</FieldLabel>
+              <PhoneInput
+                id={`${ID}-telefono`}
+                inputStyle={inputStyle}
+                value={formatTelefono(values.telefono)}
+                onChange={form.setTelefono}
+                onBlur={() => form.touch("telefono")}
+                invalid={!!errors.telefono}
+                describedBy={`${ID}-telefono-desc`}
               />
-              <FieldError id={`${ID}-whatsapp-error`} message={errors.whatsapp} />
+              {/* ayuda en gris; si hay error, el error la reemplaza en el mismo lugar */}
+              <FieldError
+                id={`${ID}-telefono-desc`}
+                message={errors.telefono}
+                hint="Código de área + número, sin 0 ni 15."
+                overlap={15}
+              />
             </div>
 
             <div ref={tipoReveal.ref} style={tipoReveal.style}>
-              <FieldLabel>¿Qué sos?</FieldLabel>
+              <FieldLabel id={`${ID}-tipo-label`}>¿Qué sos?</FieldLabel>
               <ToggleGroup
                 id={`${ID}-tipo`}
                 options={TIPOS}
@@ -316,22 +341,27 @@ export default function ActivateMobile() {
                 invalid={!!errors.tipo}
                 describedBy={errors.tipo ? `${ID}-tipo-error` : undefined}
               />
-              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} />
+              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} overlap={15} offset={4} />
             </div>
 
             <div ref={zonaReveal.ref} style={zonaReveal.style}>
-              <FieldLabel>Zona (opcional)</FieldLabel>
-              {/* opcional: tocar la zona elegida de nuevo la desmarca */}
+              <FieldLabel id={`${ID}-zona-label`}>Zona</FieldLabel>
               <ToggleGroup
                 id={`${ID}-zona`}
                 options={ZONAS}
                 selected={values.zona}
-                onSelect={(v) => form.setField("zona", values.zona === v ? null : v)}
+                onSelect={(v) => {
+                  form.setField("zona", v)
+                  form.touch("zona")
+                }}
+                invalid={!!errors.zona}
+                describedBy={errors.zona ? `${ID}-zona-error` : undefined}
               />
+              <FieldError id={`${ID}-zona-error`} message={errors.zona} overlap={15} offset={4} />
             </div>
 
             <div ref={mensajeReveal.ref} style={mensajeReveal.style}>
-              <FieldLabel>Mensaje</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-mensaje`}>Mensaje (opcional)</FieldLabel>
               <textarea
                 id={`${ID}-mensaje`}
                 name="mensaje"
@@ -345,8 +375,20 @@ export default function ActivateMobile() {
                 aria-describedby={errors.mensaje ? `${ID}-mensaje-error` : undefined}
                 style={{ ...inputStyle, resize: "none", ...(errors.mensaje ? invalidFieldStyle : null) }}
               />
-              <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
-              <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} />
+              {/* error pegado a la caja, en la misma línea que el contador */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} />
+                <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
+              </div>
+            </div>
+
+            <div ref={whatsappOkReveal.ref} style={whatsappOkReveal.style}>
+              <WhatsappCheckbox
+                id={`${ID}-acepta-whatsapp`}
+                checked={values.aceptaWhatsapp}
+                onChange={(v) => form.setField("aceptaWhatsapp", v)}
+                fontSize={12.5}
+              />
             </div>
 
             <div
