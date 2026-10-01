@@ -3,7 +3,7 @@ import Link from "next/link"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Política de privacidad
-//  Página de texto simple: fondo y tipografías de la
+//  Página de texto simple: fondo negro liso y tipografías de la
 //  marca, una sola columna de lectura (máx. 720px).
 // ─────────────────────────────────────────────────
 
@@ -55,11 +55,8 @@ export default function PrivacidadPage() {
     <div
       style={{
         minHeight: "100dvh",
+        // fondo negro liso, sin textura ni efectos, para que el texto se lea limpio
         backgroundColor: "#110f10",
-        backgroundImage: "url(/assets/fondo_nuevo.webp)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
         color: "rgba(255,255,255,0.88)",
         fontFamily: textFont,
         fontSize: 16,

@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import PrivacyLink from "./privacy-link"
 
 export type NavKey = "yo-soy-24siete" | "donde-estamos" | "faqs" | "activate"
 
@@ -23,7 +24,7 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
   const [hoveredKey, setHoveredKey] = useState<NavKey | null>(null)
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 36 * scale, ...style }}>
+    <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 36 * scale, ...style }}>
       {items.map(({ label, key, href }) => {
         const isMarked = activeKey === key || hoveredKey === key
         return (
@@ -91,6 +92,12 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
           ACTIVATE
         </span>
       </Link>
+
+      {/* debajo de "YO SOY 24SIETE", alineado a su borde izquierdo; absoluto
+          para no cambiar el alto de la barra ni mover ningún item */}
+      <div style={{ position: "absolute", left: 0, top: "100%", marginTop: 8 * scale, display: "flex" }}>
+        <PrivacyLink tone="dark" fontSize={10 * scale} />
+      </div>
     </div>
   )
 }
