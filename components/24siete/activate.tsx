@@ -21,13 +21,13 @@ const STAGE_HEIGHT = 1080
 // la imagen) donde empieza el blanco sobre la columna del formulario
 const BRUSH_ASPECT_W = 2065
 const BRUSH_ASPECT_H = 354
-const BRUSH_WHITE_START = 0.4
-const BRUSH_MARGIN = 16 // px de pantalla libres entre el formulario y el blanco
+const BRUSH_WHITE_START = 0.44 // medido en el PNG: 0.444 en toda la franja del formulario
+const BRUSH_MARGIN = 10 // px de pantalla libres entre el formulario y el blanco
 // px del stage que pueden subir: el título hasta 60 (arranca en top 100 y los
-// cohetes sobresalen por arriba) y el formulario 45 más, achicando el espacio
+// cohetes sobresalen por arriba) y el formulario 50 más, achicando el espacio
 // entre el título y el formulario
 const TITLE_MAX_LIFT = 60
-const MAX_LIFT = TITLE_MAX_LIFT + 45
+const MAX_LIFT = TITLE_MAX_LIFT + 50
 
 const ACTIVATE_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
@@ -145,10 +145,19 @@ export default function Activate() {
   // alcanza, 2) se achica el stage lo necesario para que entre.
   const formRef = useRef<HTMLFormElement>(null)
   const [formBottom, setFormBottom] = useState(0) // coords del stage (sin escalar)
+  // se re-mide cada vez que el form cambia de alto (p. ej. cuando terminan de
+  // cargar las tipografías, o al aparecer errores); medirlo solo en el primer
+  // render lo tomaba con la fuente de reemplazo, más alto, y lo achicaba de más
+  // hasta la primera tecla
   useLayoutEffect(() => {
     const f = formRef.current
-    setFormBottom(f ? f.offsetTop + f.offsetHeight : 0)
-  })
+    if (!f) return setFormBottom(0)
+    const update = () => setFormBottom(f.offsetTop + f.offsetHeight)
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(f)
+    return () => ro.disconnect()
+  }, [submitted])
 
   const { scale, lift } = useMemo(() => {
     const { width: w, height: h } = viewport
