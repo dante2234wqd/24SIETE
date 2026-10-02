@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import { Geist, Geist_Mono, Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { MusicProvider } from '@/components/24siete/music-provider'
+import MetaPixel from '@/components/MetaPixel'
 import './globals.css'
 
 const _geist = Geist({ subsets: ['latin'] })
@@ -137,6 +138,7 @@ export default function RootLayout({
       >
         <MusicProvider>{children}</MusicProvider>
         <Analytics />
+        <MetaPixel />
       </body>
     </html>
   )
