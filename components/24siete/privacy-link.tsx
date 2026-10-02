@@ -5,13 +5,22 @@ import { useState } from "react"
 
 // Link chico (tipo texto legal) a la política de privacidad. Lo usan la barra
 // de navegación de desktop (sobre el blanco de la pincelada → tone "dark") y
-// el pie de las páginas mobile (sobre el fondo oscuro → tone "light").
-export default function PrivacyLink({ tone, fontSize }: { tone: "dark" | "light"; fontSize: number }) {
+// el menú desplegable de mobile (sobre el fondo oscuro → tone "light").
+export default function PrivacyLink({
+  tone,
+  fontSize,
+  onClick,
+}: {
+  tone: "dark" | "light"
+  fontSize: number
+  onClick?: () => void
+}) {
   const [hovered, setHovered] = useState(false)
 
   return (
     <Link
       href="/privacidad"
+      onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

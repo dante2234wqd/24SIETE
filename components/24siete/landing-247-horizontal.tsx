@@ -680,8 +680,11 @@ export default function Landing247Horizontal() {
               position: "absolute",
               left: 2900 * scale,
               top: 142 * scale,
-              width: BOX_VIEWER_PX,
-              height: BOX_VIEWER_PX,
+              // nunca más ancho que lo que queda de stage a su derecha: en ventanas
+              // bajas (stage chico) los 520px fijos se pasaban del final y dejaban
+              // una franja negra del contenedor a la derecha
+              width: Math.min(BOX_VIEWER_PX, scaledWidth - 2900 * scale),
+              height: Math.min(BOX_VIEWER_PX, scaledWidth - 2900 * scale),
               zIndex: 4,
             }}
           >

@@ -111,13 +111,6 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
       {/* espaciador para que el contenido no quede debajo de la barra fija */}
       <div style={{ height: MOBILE_NAV_BAR_HEIGHT }} />
 
-      {/* pie de página: se ancla al fondo del contenedor de la página (que es
-          position: relative en las 4 páginas mobile) y cae en el padding inferior
-          que ya tienen, sin empujar ni mover nada */}
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 16, display: "flex", justifyContent: "center", zIndex: 1 }}>
-        <PrivacyLink tone="light" fontSize={11} />
-      </div>
-
       <div
         style={{
           position: "fixed",
@@ -196,6 +189,11 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               </Link>
             )
           })}
+
+          {/* último item del desplegable, chico (texto legal) */}
+          <div style={{ display: "flex" }}>
+            <PrivacyLink tone="light" fontSize={13} onClick={() => setOpen(false)} />
+          </div>
         </nav>
       </div>
     </>
