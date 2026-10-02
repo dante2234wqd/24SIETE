@@ -68,6 +68,10 @@ export const metadata: Metadata = {
   verification: {
     google: 'UKdvMuBWyyPK5RlGGfvNFC1qZ-nC4jGg151YMlldtVM',
   },
+  // verificación de dominio de Meta (Business Manager)
+  other: {
+    'facebook-domain-verification': 'uhgdzhg2k452gkg800yzhm05e8ppq1',
+  },
   alternates: {
     canonical: '/',
   },
