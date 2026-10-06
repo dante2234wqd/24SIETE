@@ -24,7 +24,7 @@ const h2Style: React.CSSProperties = {
   fontSize: "clamp(1.25rem, 4.5vw, 1.6rem)",
   letterSpacing: "0.02em",
   lineHeight: 1.15,
-  color: "#39ff14",
+  color: "#42ab0c",
   textTransform: "uppercase",
   margin: "44px 0 14px",
 }
@@ -40,7 +40,7 @@ const ulStyle: React.CSSProperties = {
   gap: 8,
 }
 
-const linkStyle: React.CSSProperties = { color: "#39ff14", textDecoration: "underline", textUnderlineOffset: 3 }
+const linkStyle: React.CSSProperties = { color: "#42ab0c", textDecoration: "underline", textUnderlineOffset: 3 }
 
 function MailLink() {
   return (
@@ -56,7 +56,7 @@ export default function PrivacidadPage() {
       style={{
         minHeight: "100dvh",
         // fondo negro liso, sin textura ni efectos, para que el texto se lea limpio
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         color: "rgba(255,255,255,0.88)",
         fontFamily: textFont,
         fontSize: 16,

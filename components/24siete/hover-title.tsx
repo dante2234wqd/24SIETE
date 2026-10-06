@@ -2,7 +2,8 @@
 
 import Link from "next/link"
 import dynamic from "next/dynamic"
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react"
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react"
+import type { LottieRefCurrentProps } from "lottie-react"
 
 // lottie-react usa APIs de navegador (canvas/SVG) — se carga solo en cliente
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false })
@@ -40,8 +41,32 @@ interface HoverTitleLottie {
 // que ambas cosas no se pisen en la misma propiedad `transform`.
 export function LottieOverlay({ src, style, hovered }: { src: string; style?: CSSProperties; hovered: boolean }) {
   const data = useLottieData(src)
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const lottieRef = useRef<LottieRefCurrentProps | null>(null)
+  const [inView, setInView] = useState(false)
+
+  // La animación solo corre si el emoji está en pantalla Y visible (hovered):
+  // antes seguía en loop aunque estuviera scrolleado fuera de vista o con
+  // opacidad 0. Con root: null el observer ya tiene en cuenta el recorte de
+  // los contenedores con scroll (el stage horizontal de la landing incluido).
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el || typeof IntersectionObserver === "undefined") return setInView(true)
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting))
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  const active = hovered && inView
+  const activeRef = useRef(active)
+  activeRef.current = active
+  useEffect(() => {
+    if (active) lottieRef.current?.play()
+    else lottieRef.current?.pause()
+  }, [active])
+
   return (
-    <div aria-hidden="true" style={{ position: "absolute", pointerEvents: "none", zIndex: 2, ...style }}>
+    <div ref={wrapRef} aria-hidden="true" style={{ position: "absolute", pointerEvents: "none", zIndex: 2, ...style }}>
       <div
         style={{
           width: "100%",
@@ -51,7 +76,20 @@ export function LottieOverlay({ src, style, hovered }: { src: string; style?: CS
           transition: "opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1), transform 0.5s cubic-bezier(0.65, 0, 0.35, 1)",
         }}
       >
-        {data ? <Lottie animationData={data} loop autoplay style={{ width: "100%", height: "100%" }} /> : null}
+        {data ? (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={data}
+            loop
+            autoplay
+            // el reproductor termina de montarse después que este componente:
+            // al quedar listo se pausa si en ese momento no corresponde que corra
+            onDOMLoaded={() => {
+              if (!activeRef.current) lottieRef.current?.pause()
+            }}
+            style={{ width: "100%", height: "100%" }}
+          />
+        ) : null}
       </div>
     </div>
   )

@@ -72,7 +72,7 @@ export default function SubscribeFormClient({
         {submitted ? (
           <div
             className="w-full flex items-center gap-3 px-5"
-            style={{ height: 54, borderRadius: 999, backgroundColor: "#0FFF1E" }}
+            style={{ height: 54, borderRadius: 999, backgroundColor: "#42ab0c" }}
           >
             <Image src="/assets/check_mail.svg" alt="check" width={22} height={22} />
             <span
@@ -80,7 +80,7 @@ export default function SubscribeFormClient({
                 fontFamily: 'var(--font-grold-rounded), sans-serif',
                 fontSize: 15,
                 letterSpacing: "-0.03em",
-                color: "#110f10",
+                color: "#1f140f",
                 fontWeight: 500,
               }}
             >
@@ -151,11 +151,11 @@ export default function SubscribeFormClient({
                 style={{
                   width: 110,
                   borderRadius: 999,
-                  backgroundColor: "#0FFF1E",
+                  backgroundColor: "#42ab0c",
                   fontFamily: 'var(--font-grold-rounded), sans-serif',
                   fontSize: 15,
                   letterSpacing: "-0.03em",
-                  color: "#110f10",
+                  color: "#1f140f",
                   whiteSpace: "nowrap",
                   opacity: sending ? 0.7 : 1,
                 }}
@@ -190,7 +190,7 @@ export default function SubscribeFormClient({
             maxWidth: 620,
             height: "clamp(52px, 5.5vw, 76px)",
             borderRadius: 999,
-            backgroundColor: "#0FFF1E",
+            backgroundColor: "#42ab0c",
           }}
         >
           <Image src="/assets/check_mail.svg" alt="check" width={24} height={24} />
@@ -199,7 +199,7 @@ export default function SubscribeFormClient({
               fontFamily: 'var(--font-grold-rounded), sans-serif',
               fontSize: "clamp(13px, 1.4vw, 20px)",
               letterSpacing: "-0.03em",
-              color: "#110f10",
+              color: "#1f140f",
               fontWeight: 500,
             }}
           >
@@ -274,11 +274,11 @@ export default function SubscribeFormClient({
               style={{
                 width: "clamp(90px, 11vw, 175px)",
                 borderRadius: 999,
-                backgroundColor: "#0FFF1E",
+                backgroundColor: "#42ab0c",
                 fontFamily: 'var(--font-grold-rounded), sans-serif',
                 fontSize: "clamp(13px, 1.4vw, 22px)",
                 letterSpacing: "-0.03em",
-                color: "#110f10",
+                color: "#1f140f",
                 whiteSpace: "nowrap",
                 opacity: sending ? 0.7 : 1,
               }}

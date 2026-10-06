@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import dynamic from "next/dynamic"
+import CajaAlfajor3D from "./caja-alfajor-3d-lazy"
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
 import { LottieOverlay } from "./hover-title"
@@ -30,8 +30,6 @@ function heroBox(x: number, y: number, w: number, h: number) {
     height: `${(h / HERO_LOCAL_HEIGHT) * 100}%`,
   }
 }
-
-const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Mobile Landing
@@ -103,7 +101,7 @@ export default function Landing247Mobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",
@@ -205,9 +203,9 @@ export default function Landing247Mobile() {
                     width: 5,
                     height: 5,
                     borderRadius: "50%",
-                    background: "#39ff14",
+                    background: "#42ab0c",
                     flexShrink: 0,
-                    boxShadow: "0 0 6px #39ff14",
+                    boxShadow: "0 0 6px #42ab0c",
                   }}
                 />
                 <span
@@ -318,6 +316,7 @@ export default function Landing247Mobile() {
                 ref={mapaImg.ref}
                 src="/assets/Mapa%20de%20buenos%20aires%202.png"
                 alt="Mapa de Buenos Aires con nuestros puntos de venta"
+                loading="lazy"
                 style={{ ...mapaImg.style, width: "100%", height: "100%", objectFit: "contain" }}
               />
               <div
@@ -352,9 +351,9 @@ export default function Landing247Mobile() {
                       fontWeight: 900,
                       fontSize: 21,
                       letterSpacing: "0.02em",
-                      color: "#39ff14",
+                      color: "#42ab0c",
                       textTransform: "uppercase",
-                      textShadow: "0 0 10px rgba(57,255,20,0.4)",
+                      textShadow: "0 0 10px rgba(66,171,12,0.4)",
                       display: "inline-block",
                     }}
                   >
@@ -395,13 +394,27 @@ export default function Landing247Mobile() {
 
           {/* Seguinos (QR de Instagram) — todo el bloque es un link a Instagram */}
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div ref={seguinosBox.ref} style={{ ...seguinosBox.style, flexShrink: 0, marginLeft: Math.max(37, qrOffset - 5) }}>
+            {/* 316px de ancho, pero sin pasarse del contenedor: en celulares de 360px
+                el arte se salía por la derecha y cortaba "NO ALCANZABA..." */}
+            <div
+              ref={seguinosBox.ref}
+              style={{
+                ...seguinosBox.style,
+                flexShrink: 0,
+                marginLeft: Math.max(37, qrOffset - 5),
+                width: 316,
+                maxWidth: `calc(100% - ${Math.max(37, qrOffset - 5)}px)`,
+              }}
+            >
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Seguinos en Instagram" style={{ display: "block" }}>
                 <img
                   src="/assets/mobile_qr_seguinos_v2.png"
                   alt="Seguinos en Instagram - código QR"
+                  loading="lazy"
+                  width={342}
+                  height={146}
                   draggable={false}
-                  style={{ width: 316, height: "auto", objectFit: "contain", display: "block" }}
+                  style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
                 />
               </a>
             </div>
@@ -427,6 +440,7 @@ export default function Landing247Mobile() {
             <img
               src="/assets/HABLANOS.png"
               alt="Hablanos"
+              loading="lazy"
               style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
             />
             {[
@@ -469,6 +483,7 @@ export default function Landing247Mobile() {
           <img
             src="/assets/foto_chico_alfajor.png"
             alt="Persona comiendo alfajor 24SIETE"
+            loading="lazy"
             style={{ width: 180 * FOTO_FAQS_SCALE, height: 251 * FOTO_FAQS_SCALE, flexShrink: 0, objectFit: "contain" }}
           />
           {/* mismos íconos animados (carafeliz) que desktop, escalados de 120×247 a 88×253 */}
@@ -476,6 +491,7 @@ export default function Landing247Mobile() {
             <img
               src="/assets/faqs_flecha_,mobile.png?v=2"
               alt="FAQS"
+              loading="lazy"
               style={{ width: "100%", height: "100%", objectFit: "contain", transform: "rotate(9.45deg)", display: "block" }}
             />
             {[

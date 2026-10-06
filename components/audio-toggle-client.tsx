@@ -89,7 +89,7 @@ export default function AudioToggleClient() {
                 height="13"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#0FFF1E"
+                stroke="#42ab0c"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

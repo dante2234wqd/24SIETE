@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { type NavBarItem } from "./nav-bar"
 import TitleEmojis from "./title-emojis"
 import DesktopLogo from "./desktop-logo"
 import DesktopBottomNav from "./desktop-bottom-nav"
-import { CharCount, FieldError, Honeypot, invalidFieldStyle } from "./contact-form-parts"
-import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
+import { CharCount, FieldError, Honeypot, PhoneInput, WhatsappCheckbox, invalidFieldStyle } from "./contact-form-parts"
+import { LIMITS, TIPOS, ZONAS, formatTelefono, useContactForm } from "@/hooks/use-contact-form"
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Activate (Hablanos)
@@ -17,15 +17,31 @@ import { LIMITS, TIPOS, ZONAS, useContactForm } from "@/hooks/use-contact-form"
 const STAGE_WIDTH = 1920
 const STAGE_HEIGHT = 1080
 
+// pincelada del footer (BRUSH_NUEVO.png): proporción y altura (en fracción de
+// la imagen) donde empieza el blanco sobre la columna del formulario
+const BRUSH_ASPECT_W = 2065
+const BRUSH_ASPECT_H = 354
+const BRUSH_WHITE_START = 0.44 // medido en el PNG: 0.444 en toda la franja del formulario
+const BRUSH_BLEED = 0.06 // cuánto sobresale la pincelada por la izquierda (fracción del ancho de pantalla)
+const BRUSH_MARGIN = 10 // px de pantalla libres entre el formulario y el blanco
+const NAV_CLEARANCE = 30 // aire (en unidades de 873 de alto) entre el borde del blanco y el menú inferior
+// px del stage que pueden subir: el título hasta 60 (arranca en top 100 y los
+// cohetes sobresalen por arriba) y el formulario 50 más, achicando el espacio
+// entre el título y el formulario
+const TITLE_MAX_LIFT = 60
+const MAX_LIFT = TITLE_MAX_LIFT + 50
+
 const ACTIVATE_NAV_ITEMS: NavBarItem[] = [
   { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]
 
-function FieldLabel({ children }: { children: string }) {
+function FieldLabel({ children, htmlFor, id }: { children: string; htmlFor?: string; id?: string }) {
   return (
     <label
+      htmlFor={htmlFor}
+      id={id}
       style={{
         display: "block",
         fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
@@ -48,7 +64,7 @@ const inputStyle: React.CSSProperties = {
   padding: "12px 16px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
   fontSize: 14,
-  color: "#110f10",
+  color: "#1f140f",
   outline: "none",
   boxSizing: "border-box",
 }
@@ -73,6 +89,7 @@ function ToggleGroup({
       id={id}
       tabIndex={-1}
       role="group"
+      aria-labelledby={`${id}-label`}
       aria-invalid={invalid || undefined}
       aria-describedby={describedBy}
       style={{ display: "flex", gap: 12, flexWrap: "wrap", outline: "none", ...(invalid ? { borderRadius: 12, boxShadow: "0 0 0 2px #ff5a5a", padding: 4, margin: -4 } : null) }}
@@ -86,14 +103,14 @@ function ToggleGroup({
             aria-pressed={active}
             onClick={() => onSelect(opt)}
             style={{
-              border: "2px solid #110f10",
+              border: "2px solid #1f140f",
               borderRadius: 10,
               padding: "9px 18px",
-              backgroundColor: active ? "#0FFF1E" : "#fff",
+              backgroundColor: active ? "#42ab0c" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
               fontSize: 14,
-              color: "#110f10",
+              color: "#1f140f",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
             }}
@@ -123,10 +140,53 @@ export default function Activate() {
     return () => window.removeEventListener("resize", updateViewport)
   }, [])
 
-  const scale = useMemo(() => {
-    if (!viewport.width || !viewport.height) return 1
-    return Math.min(viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
-  }, [viewport])
+  // La pincelada del footer escala con el ANCHO y el stage con min(ancho, alto):
+  // en ventanas más anchas que 16:9 (o cuando aparecen los errores y el form
+  // crece) el final del formulario puede quedar debajo del blanco. En ese caso
+  // 1) se sube título + formulario lo justo (hasta MAX_LIFT) y, si con eso no
+  // alcanza, 2) se BAJA la pincelada blanca lo que falte (sin dejar al menú
+  // fuera del blanco). El formulario nunca se achica.
+  const formRef = useRef<HTMLFormElement>(null)
+  const [formBottom, setFormBottom] = useState(0) // coords del stage (sin escalar)
+  // se re-mide cada vez que el form cambia de alto (p. ej. cuando terminan de
+  // cargar las tipografías, o al aparecer errores); medirlo solo en el primer
+  // render lo tomaba con la fuente de reemplazo, más alto, y lo achicaba de más
+  // hasta la primera tecla
+  useLayoutEffect(() => {
+    const f = formRef.current
+    if (!f) return setFormBottom(0)
+    const update = () => setFormBottom(f.offsetTop + f.offsetHeight)
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(f)
+    return () => ro.disconnect()
+  }, [submitted])
+
+  const { scale, lift, brushDrop } = useMemo(() => {
+    const { width: w, height: h } = viewport
+    if (!w || !h) return { scale: 1, lift: 0, brushDrop: 0 }
+    const s = Math.min(w / STAGE_WIDTH, h / STAGE_HEIGHT)
+    if (!formBottom) return { scale: s, lift: 0, brushDrop: 0 }
+
+    const brushHeight = w * (1 + BRUSH_BLEED) * (BRUSH_ASPECT_H / BRUSH_ASPECT_W)
+    const safeBottom = h - brushHeight * (1 - BRUSH_WHITE_START) - BRUSH_MARGIN
+    // el stage está centrado en vertical: su borde de arriba en pantalla es (h - 1080·s) / 2
+    const overflow = ((h - STAGE_HEIGHT * s) / 2 + formBottom * s - safeBottom) / s
+    if (overflow > MAX_LIFT) {
+      // con el lift máximo sigue sin entrar: lo que falta (en px de pantalla) se
+      // resuelve bajando la pincelada. Tope: el blanco tiene que seguir
+      // empezando por encima del menú inferior (desktop-bottom-nav.tsx lo ubica
+      // en top = 793/873 del alto de la ventana).
+      const whiteStart = h - brushHeight * (1 - BRUSH_WHITE_START)
+      const navTop = (793 / 873) * h
+      const maxDrop = Math.max(0, navTop - NAV_CLEARANCE * (h / 873) - whiteStart)
+      const needed = Math.ceil((overflow - MAX_LIFT) * s)
+      return { scale: s, lift: MAX_LIFT, brushDrop: Math.min(needed, maxDrop) }
+    }
+    return { scale: s, lift: Math.max(0, Math.ceil(overflow)), brushDrop: 0 }
+  }, [viewport, formBottom])
+  // `translate` (y no `transform`) para no pisar la animación de entrada
+  const liftStyle = (px: number): React.CSSProperties => ({ translate: `0 ${-px}px`, transition: "translate 0.2s ease" })
 
   let enterDelay = 0
   const enter = (
@@ -150,7 +210,7 @@ export default function Activate() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -182,11 +242,18 @@ export default function Activate() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          left: 0,
+          // 6% más ancha y corrida a la izquierda: el borde izquierdo del PNG es
+          // irregular (el blanco arranca recién al ~5% del ancho) y con left 0
+          // dejaba una franja negra en el margen. El lado derecho no se mueve.
+          left: `-${BRUSH_BLEED * 100}%`,
           bottom: 0,
-          width: "100%",
+          width: `${(1 + BRUSH_BLEED) * 100}%`,
+          maxWidth: "none", // globals.css limita toda <img> al 100%
           aspectRatio: "2065 / 354",
           pointerEvents: "none",
+          // baja lo justo cuando el formulario no entra por encima del blanco
+          translate: `0 ${brushDrop}px`,
+          transition: "translate 0.2s ease",
         }}
       />
 
@@ -205,7 +272,7 @@ export default function Activate() {
       >
         {/* HABLANOS: título con los emojis animados de "¿Dónde estamos?" (siempre visibles) */}
         {!submitted && (
-        <div style={{ ...enter(), position: "absolute", left: 660, top: 100, zIndex: 4 }}>
+        <div style={{ ...enter(), ...liftStyle(Math.min(lift, TITLE_MAX_LIFT)), position: "absolute", left: 660, top: 100, zIndex: 4 }}>
           <span
             style={{
               position: "relative",
@@ -230,14 +297,20 @@ export default function Activate() {
         {submitted ? (
           <div
             style={{
+              // centrado en la pantalla: ocupa todo el ancho del stage y el alto
+              // que queda libre por encima de la pincelada blanca del footer
               position: "absolute",
-              left: 660,
-              top: 230,
-              width: 640,
+              left: 0,
+              right: 0,
+              top: 0,
+              height: 840,
               zIndex: 4,
               display: "flex",
               flexDirection: "column",
-              gap: 22,
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              gap: 30,
             }}
           >
             <h1
@@ -245,7 +318,7 @@ export default function Activate() {
                 ...enter(),
                 fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                 fontWeight: 900,
-                fontSize: 56,
+                fontSize: 96,
                 letterSpacing: "0.02em",
                 lineHeight: "100%",
                 color: "#ffffff",
@@ -260,12 +333,12 @@ export default function Activate() {
               style={{
                 ...enter(),
                 fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-                fontSize: 18,
-                lineHeight: "160%",
+                fontSize: 28,
+                lineHeight: "150%",
                 color: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
-                gap: 14,
+                gap: 16,
               }}
             >
               <p style={{ margin: 0 }}>Gracias por escribirnos.</p>
@@ -273,7 +346,7 @@ export default function Activate() {
                 El equipo de <strong>24SIETE</strong> te va a responder pronto.
               </p>
               <p style={{ margin: 0 }}>Mientras tanto...</p>
-              <p style={{ margin: 0, fontWeight: 700, color: "#39ff14" }}>SEGUI EN MODO 24SIETE.</p>
+              <p style={{ margin: 0, fontWeight: 700, color: "#42ab0c" }}>SEGUI EN MODO 24SIETE.</p>
             </div>
 
             <div style={{ ...enter(), marginTop: 6 }}>
@@ -284,11 +357,11 @@ export default function Activate() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#39ff14",
+                  background: "#42ab0c",
                   borderRadius: 10,
-                  border: "2.5px solid #110f10",
-                  boxShadow: "3px 3px 0px #110f10",
-                  padding: "12px 46px",
+                  border: "2.5px solid #1f140f",
+                  boxShadow: "3px 3px 0px #1f140f",
+                  padding: "18px 68px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
                 }}
@@ -297,9 +370,9 @@ export default function Activate() {
                   style={{
                     fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
-                    fontSize: 16,
+                    fontSize: 24,
                     letterSpacing: "0.1em",
-                    color: "#110f10",
+                    color: "#1f140f",
                     textTransform: "uppercase",
                   }}
                 >
@@ -310,9 +383,11 @@ export default function Activate() {
           </div>
         ) : (
           <form
+            ref={formRef}
             noValidate
             onSubmit={form.submit}
             style={{
+              ...liftStyle(lift),
               position: "absolute",
               left: 660,
               top: 235,
@@ -324,7 +399,7 @@ export default function Activate() {
             }}
           >
             <div style={enter()}>
-              <FieldLabel>¿Cómo te llamás?</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-nombre`}>¿Cómo te llamás?</FieldLabel>
               <input
                 id={`${ID}-nombre`}
                 type="text"
@@ -339,31 +414,52 @@ export default function Activate() {
                 aria-describedby={errors.nombre ? `${ID}-nombre-error` : undefined}
                 style={{ ...inputStyle, ...(errors.nombre ? invalidFieldStyle : null) }}
               />
-              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} fontSize={13} />
+              <FieldError id={`${ID}-nombre-error`} message={errors.nombre} fontSize={13} overlap={18} />
             </div>
 
             <div style={enter()}>
-              <FieldLabel>Numero de whatsapp</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-email`}>Tu email</FieldLabel>
               <input
-                id={`${ID}-whatsapp`}
-                type="tel"
-                name="whatsapp"
-                inputMode="tel"
-                autoComplete="tel"
-                maxLength={20}
-                placeholder="Dejanos tu número y nos contactamos"
-                value={values.whatsapp}
-                onChange={(e) => form.setField("whatsapp", e.target.value)}
-                onBlur={() => form.touch("whatsapp")}
-                aria-invalid={!!errors.whatsapp}
-                aria-describedby={errors.whatsapp ? `${ID}-whatsapp-error` : undefined}
-                style={{ ...inputStyle, ...(errors.whatsapp ? invalidFieldStyle : null) }}
+                id={`${ID}-email`}
+                type="email"
+                name="email"
+                autoComplete="email"
+                inputMode="email"
+                maxLength={254}
+                placeholder="Para mandarte la info."
+                value={values.email}
+                onChange={(e) => form.setEmail(e.target.value)}
+                onBlur={() => form.touch("email")}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? `${ID}-email-error` : undefined}
+                style={{ ...inputStyle, ...(errors.email ? invalidFieldStyle : null) }}
               />
-              <FieldError id={`${ID}-whatsapp-error`} message={errors.whatsapp} fontSize={13} />
+              <FieldError id={`${ID}-email-error`} message={errors.email} fontSize={13} overlap={18} />
             </div>
 
             <div style={enter()}>
-              <FieldLabel>¿Qué sos?</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-telefono`}>Numero de whatsapp</FieldLabel>
+              <PhoneInput
+                id={`${ID}-telefono`}
+                inputStyle={inputStyle}
+                value={formatTelefono(values.telefono)}
+                onChange={form.setTelefono}
+                onBlur={() => form.touch("telefono")}
+                invalid={!!errors.telefono}
+                describedBy={`${ID}-telefono-desc`}
+              />
+              {/* ayuda en gris; si hay error, el error la reemplaza en el mismo lugar */}
+              <FieldError
+                id={`${ID}-telefono-desc`}
+                message={errors.telefono}
+                hint="Código de área + número, sin 0 ni 15."
+                fontSize={13}
+                overlap={18}
+              />
+            </div>
+
+            <div style={enter()}>
+              <FieldLabel id={`${ID}-tipo-label`}>¿Qué sos?</FieldLabel>
               <ToggleGroup
                 id={`${ID}-tipo`}
                 options={TIPOS}
@@ -375,22 +471,27 @@ export default function Activate() {
                 invalid={!!errors.tipo}
                 describedBy={errors.tipo ? `${ID}-tipo-error` : undefined}
               />
-              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} fontSize={13} />
+              <FieldError id={`${ID}-tipo-error`} message={errors.tipo} fontSize={13} overlap={18} offset={4} />
             </div>
 
             <div style={enter()}>
-              <FieldLabel>Zona (opcional)</FieldLabel>
-              {/* opcional: tocar la zona elegida de nuevo la desmarca */}
+              <FieldLabel id={`${ID}-zona-label`}>Zona</FieldLabel>
               <ToggleGroup
                 id={`${ID}-zona`}
                 options={ZONAS}
                 selected={values.zona}
-                onSelect={(v) => form.setField("zona", values.zona === v ? null : v)}
+                onSelect={(v) => {
+                  form.setField("zona", v)
+                  form.touch("zona")
+                }}
+                invalid={!!errors.zona}
+                describedBy={errors.zona ? `${ID}-zona-error` : undefined}
               />
+              <FieldError id={`${ID}-zona-error`} message={errors.zona} fontSize={13} overlap={18} offset={4} />
             </div>
 
             <div style={enter()}>
-              <FieldLabel>Mensaje</FieldLabel>
+              <FieldLabel htmlFor={`${ID}-mensaje`}>Mensaje (opcional)</FieldLabel>
               <textarea
                 id={`${ID}-mensaje`}
                 name="mensaje"
@@ -402,10 +503,25 @@ export default function Activate() {
                 onBlur={() => form.touch("mensaje")}
                 aria-invalid={!!errors.mensaje}
                 aria-describedby={errors.mensaje ? `${ID}-mensaje-error` : undefined}
-                style={{ ...inputStyle, resize: "none", ...(errors.mensaje ? invalidFieldStyle : null) }}
+                // verticalAlign:top + margen fijo: alineada a la línea de base dejaba debajo
+                // un espacio que dependía de la fuente heredada (7px con la anterior); así
+                // queda en 7px exactos sin importar la fuente
+                style={{ ...inputStyle, resize: "none", verticalAlign: "top", marginBottom: 7, ...(errors.mensaje ? invalidFieldStyle : null) }}
               />
-              <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
-              <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} fontSize={13} />
+              {/* error pegado a la caja, en la misma línea que el contador */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} fontSize={13} />
+                <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
+              </div>
+            </div>
+
+            <div style={enter()}>
+              <WhatsappCheckbox
+                id={`${ID}-acepta-whatsapp`}
+                checked={values.aceptaWhatsapp}
+                onChange={(v) => form.setField("aceptaWhatsapp", v)}
+                fontSize={14}
+              />
             </div>
 
             <div style={{ ...enter(), display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginTop: 6 }}>
@@ -418,10 +534,10 @@ export default function Activate() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#39ff14",
+                  background: "#42ab0c",
                   borderRadius: 10,
-                  border: "2.5px solid #110f10",
-                  boxShadow: "3px 3px 0px #110f10",
+                  border: "2.5px solid #1f140f",
+                  boxShadow: "3px 3px 0px #1f140f",
                   padding: "12px 46px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
@@ -433,7 +549,7 @@ export default function Activate() {
                     fontWeight: 900,
                     fontSize: 16,
                     letterSpacing: "0.1em",
-                    color: "#110f10",
+                    color: "#1f140f",
                     textTransform: "uppercase",
                   }}
                 >

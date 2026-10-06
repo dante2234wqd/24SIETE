@@ -1,6 +1,6 @@
 "use client"
 
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls, useGLTF, ContactShadows } from "@react-three/drei"
 import { Suspense, useEffect, useRef } from "react"
 import * as THREE from "three"
@@ -8,6 +8,7 @@ import * as THREE from "three"
 function Modelo() {
   const { scene } = useGLTF("/assets/Cajas12.glb")
   const ref = useRef<THREE.Group>(null)
+  const invalidate = useThree((s) => s.invalidate)
 
   // el .glb puede venir en cualquier escala/origen: centramos el modelo y lo
   // reescalamos para que siempre llene el frame, sin importar cómo fue exportado
@@ -40,7 +41,10 @@ function Modelo() {
     const scaleFactor = 1.42 / sphere.radius
     group.scale.setScalar(scaleFactor)
     group.position.set(-center.x * scaleFactor, -center.y * scaleFactor, -center.z * scaleFactor)
-  }, [scene])
+    // con frameloop="demand" no hay redibujado continuo: este ajuste se hace
+    // por fuera de React, así que hay que pedir un cuadro a mano
+    invalidate()
+  }, [scene, invalidate])
 
   return <primitive ref={ref} object={scene} />
 }
@@ -48,6 +52,9 @@ function Modelo() {
 export default function CajaAlfajor3D() {
   return (
     <Canvas
+      // dibuja solo cuando hace falta (carga del modelo, giro del usuario y su
+      // inercia, cambio de tamaño) en vez de ~60 veces por segundo para siempre
+      frameloop="demand"
       camera={{ position: [0, 0, 4], fov: 40 }}
       style={{ width: "100%", height: "100%", background: "transparent" }}
       gl={{ alpha: true, antialias: true }}

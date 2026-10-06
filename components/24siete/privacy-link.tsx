@@ -28,7 +28,7 @@ export default function PrivacyLink({
         fontWeight: 700,
         fontSize,
         lineHeight: 1.2,
-        color: tone === "dark" ? "rgba(17,15,16,0.65)" : "rgba(255,255,255,0.65)",
+        color: tone === "dark" ? "rgba(31,20,15,0.65)" : "rgba(255,255,255,0.65)",
         textDecoration: hovered ? "underline" : "none",
         textUnderlineOffset: 3,
         whiteSpace: "nowrap",
