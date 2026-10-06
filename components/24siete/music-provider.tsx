@@ -25,21 +25,24 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
+  // El Audio se crea recién en el primer play: crearlo al montar (new Audio(src)
+  // arranca con preload="auto") hacía que el mp3 (~1,4 MB) se descargara en
+  // todas las páginas aunque nadie tocara "Activá la música".
   useEffect(() => {
-    const audio = new Audio(trackForNow())
-    audio.loop = true
-    audio.volume = 0.5
-    audioRef.current = audio
-
     return () => {
-      audio.pause()
+      audioRef.current?.pause()
       audioRef.current = null
     }
   }, [])
 
   const toggle = () => {
-    const audio = audioRef.current
-    if (!audio) return
+    let audio = audioRef.current
+    if (!audio) {
+      audio = new Audio(trackForNow())
+      audio.loop = true
+      audio.volume = 0.5
+      audioRef.current = audio
+    }
 
     if (isPlaying) {
       audio.pause()
