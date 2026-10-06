@@ -316,6 +316,7 @@ export default function Landing247Mobile() {
                 ref={mapaImg.ref}
                 src="/assets/Mapa%20de%20buenos%20aires%202.png"
                 alt="Mapa de Buenos Aires con nuestros puntos de venta"
+                loading="lazy"
                 style={{ ...mapaImg.style, width: "100%", height: "100%", objectFit: "contain" }}
               />
               <div
@@ -398,6 +399,9 @@ export default function Landing247Mobile() {
                 <img
                   src="/assets/mobile_qr_seguinos_v2.png"
                   alt="Seguinos en Instagram - código QR"
+                  loading="lazy"
+                  width={342}
+                  height={146}
                   draggable={false}
                   style={{ width: 316, height: "auto", objectFit: "contain", display: "block" }}
                 />
@@ -425,6 +429,7 @@ export default function Landing247Mobile() {
             <img
               src="/assets/HABLANOS.png"
               alt="Hablanos"
+              loading="lazy"
               style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
             />
             {[
@@ -467,6 +472,7 @@ export default function Landing247Mobile() {
           <img
             src="/assets/foto_chico_alfajor.png"
             alt="Persona comiendo alfajor 24SIETE"
+            loading="lazy"
             style={{ width: 180 * FOTO_FAQS_SCALE, height: 251 * FOTO_FAQS_SCALE, flexShrink: 0, objectFit: "contain" }}
           />
           {/* mismos íconos animados (carafeliz) que desktop, escalados de 120×247 a 88×253 */}
@@ -474,6 +480,7 @@ export default function Landing247Mobile() {
             <img
               src="/assets/faqs_flecha_,mobile.png?v=2"
               alt="FAQS"
+              loading="lazy"
               style={{ width: "100%", height: "100%", objectFit: "contain", transform: "rotate(9.45deg)", display: "block" }}
             />
             {[
