@@ -32,6 +32,8 @@ const NAV_SECTION_THRESHOLDS: { key: NavKey; x: number }[] = [
   { key: "donde-estamos", x: 900 },
   { key: "faqs", x: 2200 },
 ]
+// media pantalla 16:9 en unidades del stage (873 de alto → 1552 de ancho)
+const HALF_SCREEN_16_9 = (STAGE_HEIGHT * 16) / 9 / 2
 
 function useDraggableSticker(scale: number) {
   const [offset, setOffset] = useState({ x: 0, y: 0 })
@@ -136,7 +138,17 @@ export default function Landing247Horizontal() {
     if (!container) return
 
     const onScroll = () => {
-      const focalX = (container.scrollLeft + container.clientWidth / 2) / scale
+      // El punto de referencia es el centro de la pantalla, pero en ventanas más
+      // anchas que 16:9 ese centro ya caía pasado el corte de "¿Dónde estamos?"
+      // sin haber scrolleado nada (y el menú marcaba esa sección estando en el
+      // inicio). Al inicio se limita a lo que mide media pantalla 16:9 y va
+      // volviendo al centro real a medida que se avanza, para que al final del
+      // recorrido se siga llegando a la última sección.
+      const half = container.clientWidth / 2 / scale
+      const maxScroll = container.scrollWidth - container.clientWidth
+      const progress = maxScroll > 0 ? Math.min(1, container.scrollLeft / maxScroll) : 0
+      const startHalf = Math.min(half, HALF_SCREEN_16_9)
+      const focalX = container.scrollLeft / scale + startHalf + (half - startHalf) * progress
       let current = NAV_SECTION_THRESHOLDS[0].key
       for (const { key, x } of NAV_SECTION_THRESHOLDS) {
         if (focalX >= x) current = key
