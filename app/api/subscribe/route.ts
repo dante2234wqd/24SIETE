@@ -61,7 +61,7 @@ export async function POST(req: Request) {
             <div style="margin:0; padding:32px 16px; background:#f4f4f5;">
               <div style="max-width:640px; margin:0 auto; background:#ffffff; border-radius:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); overflow:hidden; font-family:Arial, Helvetica, sans-serif; color:#111827;">
                 
-                <div style="height:4px; background:#0FFF1E;"></div>
+                <div style="height:4px; background:#42ab0c;"></div>
 
                 <div style="padding:28px 28px 20px 28px;">
                   <div style="font-size:28px; line-height:1.2; font-weight:700; color:#111827; margin:0 0 8px 0;">

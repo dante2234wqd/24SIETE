@@ -63,7 +63,7 @@ export default function Faqs() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -95,11 +95,13 @@ export default function Faqs() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          // 10px a la izquierda, igual que en ¿Dónde estamos?: con left 0 el borde
-          // irregular del PNG dejaba una franja negra en el margen izquierdo
-          left: -10,
+          // 6% más ancha y corrida a la izquierda: el borde izquierdo del PNG es
+          // irregular (el blanco arranca recién al ~5% del ancho) y dejaba una
+          // franja negra en el margen. El lado derecho no se mueve.
+          left: "-6%",
           bottom: 0,
-          width: "100%",
+          width: "106%",
+          maxWidth: "none", // globals.css limita toda <img> al 100%
           aspectRatio: "2065 / 354",
           pointerEvents: "none",
         }}

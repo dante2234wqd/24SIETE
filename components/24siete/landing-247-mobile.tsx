@@ -101,7 +101,7 @@ export default function Landing247Mobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",
@@ -203,9 +203,9 @@ export default function Landing247Mobile() {
                     width: 5,
                     height: 5,
                     borderRadius: "50%",
-                    background: "#39ff14",
+                    background: "#42ab0c",
                     flexShrink: 0,
-                    boxShadow: "0 0 6px #39ff14",
+                    boxShadow: "0 0 6px #42ab0c",
                   }}
                 />
                 <span
@@ -351,9 +351,9 @@ export default function Landing247Mobile() {
                       fontWeight: 900,
                       fontSize: 21,
                       letterSpacing: "0.02em",
-                      color: "#39ff14",
+                      color: "#42ab0c",
                       textTransform: "uppercase",
-                      textShadow: "0 0 10px rgba(57,255,20,0.4)",
+                      textShadow: "0 0 10px rgba(66,171,12,0.4)",
                       display: "inline-block",
                     }}
                   >

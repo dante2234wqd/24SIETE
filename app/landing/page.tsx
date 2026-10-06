@@ -8,7 +8,7 @@ export default function LandingPage() {
   // Se monta solo la versión que corresponde a la pantalla (antes se montaban
   // las dos y el CSS ocultaba una: se descargaban las imágenes de ambas y
   // quedaban dos visores 3D). null = todavía no se sabe: no se renderiza nada
-  // y se ve el fondo #110f10 del body.
+  // y se ve el fondo #1f140f del body.
   const isMobile = useIsMobileLayout();
   if (isMobile === null) return null;
 

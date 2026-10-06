@@ -49,7 +49,7 @@ const inputStyle: React.CSSProperties = {
   padding: "8px 12px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
   fontSize: 13,
-  color: "#110f10",
+  color: "#1f140f",
   outline: "none",
   boxSizing: "border-box",
 }
@@ -58,10 +58,10 @@ const submitButtonStyle: React.CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  background: "#39ff14",
+  background: "#42ab0c",
   borderRadius: 10,
-  border: "2.5px solid #110f10",
-  boxShadow: "3px 3px 0px #110f10",
+  border: "2.5px solid #1f140f",
+  boxShadow: "3px 3px 0px #1f140f",
   padding: "9px 34px",
   transform: "rotate(-1.8deg)",
   cursor: "pointer",
@@ -72,7 +72,7 @@ const submitButtonTextStyle: React.CSSProperties = {
   fontWeight: 900,
   fontSize: 14,
   letterSpacing: "0.1em",
-  color: "#110f10",
+  color: "#1f140f",
   textTransform: "uppercase",
 }
 
@@ -110,14 +110,14 @@ function ToggleGroup({
             aria-pressed={active}
             onClick={() => onSelect(opt)}
             style={{
-              border: "2px solid #110f10",
+              border: "2px solid #1f140f",
               borderRadius: 8,
               padding: "6px 12px",
-              backgroundColor: active ? "#0FFF1E" : "#fff",
+              backgroundColor: active ? "#42ab0c" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
               fontSize: 12,
-              color: "#110f10",
+              color: "#1f140f",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
             }}
@@ -168,7 +168,7 @@ export default function ActivateMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",
@@ -254,7 +254,7 @@ export default function ActivateMobile() {
                 El equipo de <strong>24SIETE</strong> te va a responder pronto.
               </p>
               <p style={{ margin: 0 }}>Mientras tanto...</p>
-              <p style={{ margin: 0, fontWeight: 700, color: "#39ff14" }}>SEGUI EN MODO 24SIETE.</p>
+              <p style={{ margin: 0, fontWeight: 700, color: "#42ab0c" }}>SEGUI EN MODO 24SIETE.</p>
             </div>
 
             <div style={{ ...mountEnter(), display: "flex", justifyContent: "center", marginTop: 6 }}>

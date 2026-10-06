@@ -186,7 +186,7 @@ export default function Landing247Horizontal() {
       style={{
         width: "100vw",
         height: "100vh",
-        background: "#110f10",
+        background: "#1f140f",
       }}
     >
       <div
@@ -239,7 +239,7 @@ export default function Landing247Horizontal() {
                   width: 3359,
                   height: 873,
                   objectFit: "cover",
-                  backgroundColor: "#110f10",
+                  backgroundColor: "#1f140f",
                   zIndex: 1,
                 }}
               />
@@ -499,9 +499,9 @@ export default function Landing247Horizontal() {
                         width: 9,
                         height: 9,
                         borderRadius: "50%",
-                        background: "#39ff14",
+                        background: "#42ab0c",
                         flexShrink: 0,
-                        boxShadow: "0 0 6px #39ff14",
+                        boxShadow: "0 0 6px #42ab0c",
                       }}
                     />
                     <span
@@ -510,18 +510,18 @@ export default function Landing247Horizontal() {
                         fontWeight: 700,
                         fontSize: 17,
                         letterSpacing: "0.01em",
-                        color: "#110f10",
+                        color: "#1f140f",
                         textTransform: "uppercase",
                         whiteSpace: "nowrap",
                       }}
                     >
                       {"prefix" in item ? (
                         <>
-                          <span style={{ color: "#110f10" }}>{item.prefix}</span>
-                          <span style={{ color: "#110f10" }}>{item.suffix}</span>
+                          <span style={{ color: "#1f140f" }}>{item.prefix}</span>
+                          <span style={{ color: "#1f140f" }}>{item.suffix}</span>
                         </>
                       ) : (
-                        <span style={{ color: "#110f10" }}>{item.full}</span>
+                        <span style={{ color: "#1f140f" }}>{item.full}</span>
                       )}
                     </span>
                   </div>
@@ -574,9 +574,9 @@ export default function Landing247Horizontal() {
                     fontWeight: 900,
                     fontSize: 32,
                     letterSpacing: "0.02em",
-                    color: "#39ff14",
+                    color: "#42ab0c",
                     textTransform: "uppercase",
-                    textShadow: "0 0 14px rgba(57,255,20,0.4)",
+                    textShadow: "0 0 14px rgba(66,171,12,0.4)",
                     display: "block",
                   }}
                 >

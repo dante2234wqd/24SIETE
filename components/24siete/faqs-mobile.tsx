@@ -32,7 +32,7 @@ export default function FaqsMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",

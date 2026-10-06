@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useMusic } from "./music-provider"
 
-const LOGO_URL = "/assets/favicon-03.svg"
+const LOGO_URL = "/assets/logo_v3.svg"
 
 interface LogoMusicButtonProps {
   // estilo del contenedor: reemplaza el `style` que antes tenía el <img> del
@@ -55,17 +55,17 @@ export default function LogoMusicButton({ style, badgePosition = "right", compac
           position: "absolute",
           ...badgeStyle,
           whiteSpace: "nowrap",
-          background: "#39ff14",
-          border: `${(compact ? 1.5 : 2) * scale}px solid #110f10`,
+          background: "#42ab0c",
+          border: `${(compact ? 1.5 : 2) * scale}px solid #1f140f`,
           borderRadius: 999,
           padding: compact ? "3px 8px" : `${5 * scale}px ${12 * scale}px`,
           fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
           fontWeight: 900,
           fontSize: compact ? "clamp(7.5px, 2.4vw, 9px)" : 12 * scale,
           letterSpacing: "0.02em",
-          color: "#110f10",
+          color: "#1f140f",
           textTransform: "uppercase",
-          boxShadow: `${(compact ? 1.5 : 2) * scale}px ${(compact ? 1.5 : 2) * scale}px 0 #110f10`,
+          boxShadow: `${(compact ? 1.5 : 2) * scale}px ${(compact ? 1.5 : 2) * scale}px 0 #1f140f`,
           cursor: "pointer",
           zIndex: 1,
         }}

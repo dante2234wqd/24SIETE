@@ -22,7 +22,9 @@ const STAGE_HEIGHT = 1080
 const BRUSH_ASPECT_W = 2065
 const BRUSH_ASPECT_H = 354
 const BRUSH_WHITE_START = 0.44 // medido en el PNG: 0.444 en toda la franja del formulario
+const BRUSH_BLEED = 0.06 // cuánto sobresale la pincelada por la izquierda (fracción del ancho de pantalla)
 const BRUSH_MARGIN = 10 // px de pantalla libres entre el formulario y el blanco
+const NAV_CLEARANCE = 30 // aire (en unidades de 873 de alto) entre el borde del blanco y el menú inferior
 // px del stage que pueden subir: el título hasta 60 (arranca en top 100 y los
 // cohetes sobresalen por arriba) y el formulario 50 más, achicando el espacio
 // entre el título y el formulario
@@ -62,7 +64,7 @@ const inputStyle: React.CSSProperties = {
   padding: "12px 16px",
   fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
   fontSize: 14,
-  color: "#110f10",
+  color: "#1f140f",
   outline: "none",
   boxSizing: "border-box",
 }
@@ -101,14 +103,14 @@ function ToggleGroup({
             aria-pressed={active}
             onClick={() => onSelect(opt)}
             style={{
-              border: "2px solid #110f10",
+              border: "2px solid #1f140f",
               borderRadius: 10,
               padding: "9px 18px",
-              backgroundColor: active ? "#0FFF1E" : "#fff",
+              backgroundColor: active ? "#42ab0c" : "#fff",
               fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
               fontWeight: 700,
               fontSize: 14,
-              color: "#110f10",
+              color: "#1f140f",
               cursor: "pointer",
               transition: "background-color 0.15s ease",
             }}
@@ -142,7 +144,8 @@ export default function Activate() {
   // en ventanas más anchas que 16:9 (o cuando aparecen los errores y el form
   // crece) el final del formulario puede quedar debajo del blanco. En ese caso
   // 1) se sube título + formulario lo justo (hasta MAX_LIFT) y, si con eso no
-  // alcanza, 2) se achica el stage lo necesario para que entre.
+  // alcanza, 2) se BAJA la pincelada blanca lo que falte (sin dejar al menú
+  // fuera del blanco). El formulario nunca se achica.
   const formRef = useRef<HTMLFormElement>(null)
   const [formBottom, setFormBottom] = useState(0) // coords del stage (sin escalar)
   // se re-mide cada vez que el form cambia de alto (p. ej. cuando terminan de
@@ -159,24 +162,28 @@ export default function Activate() {
     return () => ro.disconnect()
   }, [submitted])
 
-  const { scale, lift } = useMemo(() => {
+  const { scale, lift, brushDrop } = useMemo(() => {
     const { width: w, height: h } = viewport
-    if (!w || !h) return { scale: 1, lift: 0 }
-    let s = Math.min(w / STAGE_WIDTH, h / STAGE_HEIGHT)
-    if (!formBottom) return { scale: s, lift: 0 }
+    if (!w || !h) return { scale: 1, lift: 0, brushDrop: 0 }
+    const s = Math.min(w / STAGE_WIDTH, h / STAGE_HEIGHT)
+    if (!formBottom) return { scale: s, lift: 0, brushDrop: 0 }
 
-    const brushHeight = w * (BRUSH_ASPECT_H / BRUSH_ASPECT_W)
+    const brushHeight = w * (1 + BRUSH_BLEED) * (BRUSH_ASPECT_H / BRUSH_ASPECT_W)
     const safeBottom = h - brushHeight * (1 - BRUSH_WHITE_START) - BRUSH_MARGIN
     // el stage está centrado en vertical: su borde de arriba en pantalla es (h - 1080·s) / 2
     const overflow = ((h - STAGE_HEIGHT * s) / 2 + formBottom * s - safeBottom) / s
     if (overflow > MAX_LIFT) {
-      // con el lift máximo sigue sin entrar: se despeja s de
-      // h/2 + (formBottom - MAX_LIFT - 540)·s = safeBottom
-      const k = formBottom - MAX_LIFT - STAGE_HEIGHT / 2
-      if (k > 0) s = Math.min(s, (safeBottom - h / 2) / k)
-      return { scale: s, lift: MAX_LIFT }
+      // con el lift máximo sigue sin entrar: lo que falta (en px de pantalla) se
+      // resuelve bajando la pincelada. Tope: el blanco tiene que seguir
+      // empezando por encima del menú inferior (desktop-bottom-nav.tsx lo ubica
+      // en top = 793/873 del alto de la ventana).
+      const whiteStart = h - brushHeight * (1 - BRUSH_WHITE_START)
+      const navTop = (793 / 873) * h
+      const maxDrop = Math.max(0, navTop - NAV_CLEARANCE * (h / 873) - whiteStart)
+      const needed = Math.ceil((overflow - MAX_LIFT) * s)
+      return { scale: s, lift: MAX_LIFT, brushDrop: Math.min(needed, maxDrop) }
     }
-    return { scale: s, lift: Math.max(0, Math.ceil(overflow)) }
+    return { scale: s, lift: Math.max(0, Math.ceil(overflow)), brushDrop: 0 }
   }, [viewport, formBottom])
   // `translate` (y no `transform`) para no pisar la animación de entrada
   const liftStyle = (px: number): React.CSSProperties => ({ translate: `0 ${-px}px`, transition: "translate 0.2s ease" })
@@ -203,7 +210,7 @@ export default function Activate() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -235,11 +242,18 @@ export default function Activate() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          left: 0,
+          // 6% más ancha y corrida a la izquierda: el borde izquierdo del PNG es
+          // irregular (el blanco arranca recién al ~5% del ancho) y con left 0
+          // dejaba una franja negra en el margen. El lado derecho no se mueve.
+          left: `-${BRUSH_BLEED * 100}%`,
           bottom: 0,
-          width: "100%",
+          width: `${(1 + BRUSH_BLEED) * 100}%`,
+          maxWidth: "none", // globals.css limita toda <img> al 100%
           aspectRatio: "2065 / 354",
           pointerEvents: "none",
+          // baja lo justo cuando el formulario no entra por encima del blanco
+          translate: `0 ${brushDrop}px`,
+          transition: "translate 0.2s ease",
         }}
       />
 
@@ -283,14 +297,20 @@ export default function Activate() {
         {submitted ? (
           <div
             style={{
+              // centrado en la pantalla: ocupa todo el ancho del stage y el alto
+              // que queda libre por encima de la pincelada blanca del footer
               position: "absolute",
-              left: 660,
-              top: 230,
-              width: 640,
+              left: 0,
+              right: 0,
+              top: 0,
+              height: 840,
               zIndex: 4,
               display: "flex",
               flexDirection: "column",
-              gap: 22,
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              gap: 30,
             }}
           >
             <h1
@@ -298,7 +318,7 @@ export default function Activate() {
                 ...enter(),
                 fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                 fontWeight: 900,
-                fontSize: 56,
+                fontSize: 96,
                 letterSpacing: "0.02em",
                 lineHeight: "100%",
                 color: "#ffffff",
@@ -313,12 +333,12 @@ export default function Activate() {
               style={{
                 ...enter(),
                 fontFamily: "var(--font-grold-rounded), Arial, Helvetica, sans-serif",
-                fontSize: 18,
-                lineHeight: "160%",
+                fontSize: 28,
+                lineHeight: "150%",
                 color: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
-                gap: 14,
+                gap: 16,
               }}
             >
               <p style={{ margin: 0 }}>Gracias por escribirnos.</p>
@@ -326,7 +346,7 @@ export default function Activate() {
                 El equipo de <strong>24SIETE</strong> te va a responder pronto.
               </p>
               <p style={{ margin: 0 }}>Mientras tanto...</p>
-              <p style={{ margin: 0, fontWeight: 700, color: "#39ff14" }}>SEGUI EN MODO 24SIETE.</p>
+              <p style={{ margin: 0, fontWeight: 700, color: "#42ab0c" }}>SEGUI EN MODO 24SIETE.</p>
             </div>
 
             <div style={{ ...enter(), marginTop: 6 }}>
@@ -337,11 +357,11 @@ export default function Activate() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#39ff14",
+                  background: "#42ab0c",
                   borderRadius: 10,
-                  border: "2.5px solid #110f10",
-                  boxShadow: "3px 3px 0px #110f10",
-                  padding: "12px 46px",
+                  border: "2.5px solid #1f140f",
+                  boxShadow: "3px 3px 0px #1f140f",
+                  padding: "18px 68px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
                 }}
@@ -350,9 +370,9 @@ export default function Activate() {
                   style={{
                     fontFamily: "var(--font-cubano), 'Impact', 'Arial Black', sans-serif",
                     fontWeight: 900,
-                    fontSize: 16,
+                    fontSize: 24,
                     letterSpacing: "0.1em",
-                    color: "#110f10",
+                    color: "#1f140f",
                     textTransform: "uppercase",
                   }}
                 >
@@ -514,10 +534,10 @@ export default function Activate() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#39ff14",
+                  background: "#42ab0c",
                   borderRadius: 10,
-                  border: "2.5px solid #110f10",
-                  boxShadow: "3px 3px 0px #110f10",
+                  border: "2.5px solid #1f140f",
+                  boxShadow: "3px 3px 0px #1f140f",
                   padding: "12px 46px",
                   transform: "rotate(-1.8deg)",
                   cursor: "pointer",
@@ -529,7 +549,7 @@ export default function Activate() {
                     fontWeight: 900,
                     fontSize: 16,
                     letterSpacing: "0.1em",
-                    color: "#110f10",
+                    color: "#1f140f",
                     textTransform: "uppercase",
                   }}
                 >

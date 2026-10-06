@@ -16,11 +16,11 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #110f10 !important;
+  -webkit-text-fill-color: #1f140f !important;
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   box-shadow: 0 0 0px 1000px #ffffff inset !important;
   transition: background-color 9999s ease-in-out 0s;
-  caret-color: #110f10;
+  caret-color: #1f140f;
 }
 
 /* =========================
@@ -154,13 +154,13 @@ select:-webkit-autofill:focus {
   }
 
   html {
-    background: #110f10;
+    background: #1f140f;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply text-foreground;
-    background: #110f10;
+    background: #1f140f;
     overflow: hidden;
     overflow-y: auto;
     font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
@@ -227,8 +227,8 @@ select:-webkit-autofill:focus {
    componente) para el trazo principal. El glow ambiente del cartel entero
    va acá, estático (no titila la palabra completa: titila cada letra). */
 .neon-24horas {
-  filter: drop-shadow(0 0 1.5px #39ff14) drop-shadow(0 0 5px #39ff14) drop-shadow(0 0 12px rgba(57, 255, 20, 0.55))
-    drop-shadow(0 0 22px rgba(57, 255, 20, 0.28));
+  filter: drop-shadow(0 0 1.5px #42ab0c) drop-shadow(0 0 5px #42ab0c) drop-shadow(0 0 12px rgba(66,171,12, 0.55))
+    drop-shadow(0 0 22px rgba(66,171,12, 0.28));
 }
 
 /* cada letra es su propio elemento: además del trazo (heredado del h2)
@@ -333,11 +333,11 @@ select:-webkit-autofill:focus {
 ========================= */
 
 .faq-section {
-  --faq-primary: #39ff14;
+  --faq-primary: #42ab0c;
   --faq-text: #ffffff;
-  --faq-text-on-primary: #110f10;
+  --faq-text-on-primary: #1f140f;
   --faq-card-bg: #e6e6e6;
-  --faq-card-text: #110f10;
+  --faq-card-text: #1f140f;
   --faq-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --faq-dur: 350ms;
 

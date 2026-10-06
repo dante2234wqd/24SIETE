@@ -81,7 +81,7 @@ export default function DondeEstamos() {
         width: "100vw",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -113,9 +113,13 @@ export default function DondeEstamos() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          left: -10,
+          // 6% más ancha y corrida a la izquierda: el borde izquierdo del PNG es
+          // irregular (el blanco arranca recién al ~5% del ancho) y dejaba una
+          // franja negra en el margen. El lado derecho no se mueve.
+          left: "-6%",
           bottom: 0,
-          width: "200",
+          width: "106%",
+          maxWidth: "none", // globals.css limita toda <img> al 100%
           aspectRatio: "2065 / 354",
           pointerEvents: "none",
         }}
@@ -207,7 +211,7 @@ export default function DondeEstamos() {
                   lineHeight: 1,
                   letterSpacing: "-0.02em",
                   color: "transparent",
-                  WebkitTextStroke: "3px #39ff14",
+                  WebkitTextStroke: "3px #42ab0c",
                   textTransform: "uppercase",
                   margin: "20px 0 0",
                   textAlign: "center",
@@ -250,7 +254,7 @@ export default function DondeEstamos() {
                   overflow: "hidden",
                 }}
               >
-                <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#39ff14" }} />
+                <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#42ab0c" }} />
               </div>
               <span
                 style={{

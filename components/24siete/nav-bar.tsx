@@ -36,13 +36,13 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
               fontWeight: 700,
               fontSize: 13 * scale,
               letterSpacing: "0.06em",
-              color: "#110f10",
+              color: "#1f140f",
               textTransform: "uppercase",
               textDecoration: "none",
               whiteSpace: "nowrap",
               opacity: 0.85,
               paddingBottom: 4,
-              borderBottom: `2px solid ${isMarked ? "#39ff14" : "transparent"}`,
+              borderBottom: `2px solid ${isMarked ? "#42ab0c" : "transparent"}`,
               transition: "border-color 0.18s ease",
             }}
             onMouseEnter={() => setHoveredKey(key)}
@@ -59,10 +59,10 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#39ff14",
+          background: "#42ab0c",
           borderRadius: 10,
-          border: "2.5px solid #110f10",
-          boxShadow: "3px 3px 0px #110f10",
+          border: "2.5px solid #1f140f",
+          boxShadow: "3px 3px 0px #1f140f",
           padding: `${8 * scale}px ${22 * scale}px`,
           transform: "rotate(-1.8deg)",
           textDecoration: "none",
@@ -71,11 +71,11 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
         }}
         onMouseEnter={(e) => {
           ;(e.currentTarget as HTMLAnchorElement).style.transform = "rotate(-1.8deg) scale(1.04)"
-          ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = "5px 5px 0px #110f10"
+          ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = "5px 5px 0px #1f140f"
         }}
         onMouseLeave={(e) => {
           ;(e.currentTarget as HTMLAnchorElement).style.transform = "rotate(-1.8deg) scale(1)"
-          ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = "3px 3px 0px #110f10"
+          ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = "3px 3px 0px #1f140f"
         }}
       >
         <span
@@ -84,7 +84,7 @@ export default function NavBar({ items, activeKey, ctaHref = "/activate", style,
             fontWeight: 900,
             fontSize: 15 * scale,
             letterSpacing: "1.06em",
-            color: "#110f10",
+            color: "#1f140f",
             textTransform: "uppercase",
             whiteSpace: "nowrap",
           }}

@@ -40,7 +40,7 @@ export default function DondeEstamosMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100dvh",
-        backgroundColor: "#110f10",
+        backgroundColor: "#1f140f",
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",
@@ -134,7 +134,7 @@ export default function DondeEstamosMobile() {
                 lineHeight: 1,
                 letterSpacing: "-0.02em",
                 color: "transparent",
-                WebkitTextStroke: "max(1.5px, 0.0227em) #39ff14",
+                WebkitTextStroke: "max(1.5px, 0.0227em) #42ab0c",
                 textTransform: "uppercase",
                 margin: "min(2.6vw, 16px) 0 0",
                 textAlign: "center",
@@ -180,7 +180,7 @@ export default function DondeEstamosMobile() {
                 overflow: "hidden",
               }}
             >
-              <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#39ff14" }} />
+              <div className="proximamente-progress-fill" style={{ height: "100%", borderRadius: 999, background: "#42ab0c" }} />
             </div>
             <span
               style={{

@@ -7,14 +7,14 @@ export default function ComingSoon() {
     <>
       <style>{`
         .page-bg {
-          background-color: #110f10;
+          background-color: #1f140f;
           background-image: url("/assets/background_proximamente.webp");
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         }
 
-        .dot { color: #0FFF1E; display: inline-block; }
+        .dot { color: #42ab0c; display: inline-block; }
 
         @keyframes dotPulse {
           0%, 100% { opacity: 1; transform: translateY(0px); }
@@ -32,7 +32,7 @@ export default function ComingSoon() {
           display: inline-block;
           width: 3px;
           border-radius: 3px;
-          background: #0FFF1E;
+          background: #42ab0c;
           transform-origin: bottom;
         }
         .bars-active .bar1 { animation: barBounce 0.65s ease-in-out infinite 0s; }
@@ -42,7 +42,7 @@ export default function ComingSoon() {
         .bars-paused .bar { transform: scaleY(0.45); }
 
         .logo-btn { transition: transform 0.22s ease, filter 0.22s ease; }
-        .logo-btn:hover { transform: scale(1.07); filter: drop-shadow(0 0 10px rgba(15,255,30,0.55)); }
+        .logo-btn:hover { transform: scale(1.07); filter: drop-shadow(0 0 10px rgba(66,171,12,0.55)); }
         .logo-btn:active { transform: scale(0.96); }
 
         .audio-pill-wrap {
@@ -80,14 +80,14 @@ export default function ComingSoon() {
         }
         .social-icon:hover,
         .social-icon:focus-visible {
-          background-color: #0FFF1E !important;
+          background-color: #42ab0c !important;
           transform: translateY(-3px) scale(1.08);
-          box-shadow: 0 6px 20px rgba(15,255,30,0.35);
+          box-shadow: 0 6px 20px rgba(66,171,12,0.35);
           outline: none;
         }
 
         .social-label { transition: color 0.2s ease; cursor: default; }
-        .social-label:hover { color: #0FFF1E; }
+        .social-label:hover { color: #42ab0c; }
 
         .btn-enviar {
           transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
@@ -95,7 +95,7 @@ export default function ComingSoon() {
         .btn-enviar:hover {
           background-color: #00e619 !important;
           transform: scale(1.03);
-          box-shadow: 0 4px 18px rgba(15,255,30,0.4);
+          box-shadow: 0 4px 18px rgba(66,171,12,0.4);
         }
         .btn-enviar:active { transform: scale(0.97); }
 
@@ -176,7 +176,7 @@ export default function ComingSoon() {
                     cuando llegue{" "}
                     <span
                       style={{
-                        color: "#0FFF1E",
+                        color: "#42ab0c",
                         fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                       }}
                     >
@@ -251,10 +251,10 @@ export default function ComingSoon() {
                     top: "9%",
                     left: "8%",
                     transform: "rotate(-3deg)",
-                    backgroundColor: "#0FFF1E",
+                    backgroundColor: "#42ab0c",
                     borderRadius: 8,
-                    border: "2px solid #110f10",
-                    boxShadow: "3px 3px 0px #110f10",
+                    border: "2px solid #1f140f",
+                    boxShadow: "3px 3px 0px #1f140f",
                     padding: "clamp(6px, 0.6vw, 12px) clamp(12px, 1.2vw, 20px)",
                   }}
                 >
@@ -264,7 +264,7 @@ export default function ComingSoon() {
                       fontWeight: 500,
                       fontSize: "clamp(13px, 1.2vw, 22px)",
                       letterSpacing: "-0.04em",
-                      color: "#110f10",
+                      color: "#1f140f",
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -295,10 +295,10 @@ export default function ComingSoon() {
                 className="inline-flex items-center justify-center px-5 py-2"
                 style={{
                   transform: "rotate(-3deg)",
-                  backgroundColor: "#0FFF1E",
+                  backgroundColor: "#42ab0c",
                   borderRadius: 8,
-                  border: "2px solid #110f10",
-                  boxShadow: "3px 3px 0px #110f10",
+                  border: "2px solid #1f140f",
+                  boxShadow: "3px 3px 0px #1f140f",
                 }}
               >
                 <span
@@ -307,7 +307,7 @@ export default function ComingSoon() {
                     fontWeight: 500,
                     fontSize: 17,
                     letterSpacing: "-0.04em",
-                    color: "#110f10",
+                    color: "#1f140f",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -379,7 +379,7 @@ export default function ComingSoon() {
                 cuando llegue{" "}
                 <span
                   style={{
-                    color: "#0FFF1E",
+                    color: "#42ab0c",
                     fontFamily: 'var(--font-cubano), "Arial Black", Impact, sans-serif',
                   }}
                 >

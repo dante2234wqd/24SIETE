@@ -23,10 +23,10 @@ function ActivateButton({ href, onClick, small }: { href: string; onClick?: () =
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#39ff14",
+        background: "#42ab0c",
         borderRadius: 8,
-        border: "2px solid #110f10",
-        boxShadow: "2px 2px 0px #110f10",
+        border: "2px solid #1f140f",
+        boxShadow: "2px 2px 0px #1f140f",
         padding: small ? "7px 14px" : "9px 18px",
         transform: "rotate(-1.8deg)",
         textDecoration: "none",
@@ -39,7 +39,7 @@ function ActivateButton({ href, onClick, small }: { href: string; onClick?: () =
           fontWeight: 900,
           fontSize: small ? 12 : 13,
           letterSpacing: "0.06em",
-          color: "#110f10",
+          color: "#1f140f",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
         }}
@@ -97,9 +97,9 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               cursor: "pointer",
             }}
           >
-            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
-            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
-            <span style={{ display: "block", width: 26, height: 3, background: "#110f10", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#1f140f", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#1f140f", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 26, height: 3, background: "#1f140f", borderRadius: 2 }} />
           </button>
 
           <LogoMusicButton style={{ width: 34, height: 34 }} compact />
@@ -116,7 +116,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
           position: "fixed",
           inset: 0,
           zIndex: 200,
-          background: "#110f10",
+          background: "#1f140f",
           display: "flex",
           flexDirection: "column",
           padding: "16px 20px",
@@ -153,7 +153,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               fontFamily: "Arial, Helvetica, sans-serif",
               fontSize: 20,
               lineHeight: 1,
-              color: "#110f10",
+              color: "#1f140f",
             }}
           >
             ✕
@@ -184,7 +184,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
                   fontSize: "clamp(2.1rem, 11vw, 3rem)",
                   lineHeight: 1.05,
                   letterSpacing: "0.01em",
-                  color: isMarked ? "#39ff14" : "#fff",
+                  color: isMarked ? "#42ab0c" : "#fff",
                   textTransform: "uppercase",
                   textDecoration: "none",
                 }}

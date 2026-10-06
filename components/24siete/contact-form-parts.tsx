@@ -124,7 +124,7 @@ export function PhoneInput({
           paddingRight: 14,
           lineHeight: 1,
           fontWeight: 700,
-          borderRight: "1px solid rgba(17,15,16,0.15)",
+          borderRight: "1px solid rgba(31,20,15,0.15)",
           borderRadius: `${r}px 0 0 ${r}px`,
           userSelect: "none",
           whiteSpace: "nowrap",
@@ -181,7 +181,7 @@ export function WhatsappCheckbox({
         name="aceptaWhatsapp"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        style={{ width: 16, height: 16, margin: 0, flexShrink: 0, accentColor: "#39ff14", cursor: "pointer" }}
+        style={{ width: 16, height: 16, margin: 0, flexShrink: 0, accentColor: "#42ab0c", cursor: "pointer" }}
       />
       Acepto que 24SIETE me contacte por WhatsApp.
     </label>
