@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { Geist, Geist_Mono, Sora } from 'next/font/google'
+import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { MusicProvider } from '@/components/24siete/music-provider'
 import MetaPixel from '@/components/MetaPixel'
 import './globals.css'
-
-const _geist = Geist({ subsets: ['latin'] })
-const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 const cubano = localFont({
   src: '../public/fonts/Cubano.woff2',
@@ -36,6 +33,9 @@ const sora = Sora({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
+  // solo la usa "¿Dónde estamos?": sin preload se descarga recién en la página
+  // que la usa, en vez de precargarse en todas
+  preload: false,
   variable: '--font-sora',
 })
 
@@ -130,13 +130,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <head>
-        <link
-          rel="preload"
-          href="/assets/background_proximamente.webp"
-          as="image"
-        />
-      </head>
       <body
         className={`${cubano.variable} ${groldRounded.variable} ${sora.variable} font-sans antialiased`}
       >

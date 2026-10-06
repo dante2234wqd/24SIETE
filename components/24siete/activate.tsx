@@ -402,7 +402,10 @@ export default function Activate() {
                 onBlur={() => form.touch("mensaje")}
                 aria-invalid={!!errors.mensaje}
                 aria-describedby={errors.mensaje ? `${ID}-mensaje-error` : undefined}
-                style={{ ...inputStyle, resize: "none", ...(errors.mensaje ? invalidFieldStyle : null) }}
+                // verticalAlign:top + margen fijo: alineada a la línea de base dejaba debajo
+                // un espacio que dependía de la fuente heredada (7px con la anterior); así
+                // queda en 7px exactos sin importar la fuente
+                style={{ ...inputStyle, resize: "none", verticalAlign: "top", marginBottom: 7, ...(errors.mensaje ? invalidFieldStyle : null) }}
               />
               <CharCount current={values.mensaje.length} max={LIMITS.mensajeMax} />
               <FieldError id={`${ID}-mensaje-error`} message={errors.mensaje} fontSize={13} />

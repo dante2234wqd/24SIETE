@@ -147,6 +147,10 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
               background: "#e5e5e5",
               border: "none",
               cursor: "pointer",
+              // la "✕" la dibuja una fuente de símbolos del sistema, pero se ubica
+              // según las medidas de la fuente del botón: con Arial queda centrada
+              // (con la fuente heredada del body, Grold, quedaba ~2px más arriba)
+              fontFamily: "Arial, Helvetica, sans-serif",
               fontSize: 20,
               lineHeight: 1,
               color: "#110f10",
