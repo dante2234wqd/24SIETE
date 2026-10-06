@@ -1,13 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import dynamic from "next/dynamic"
+import CajaAlfajor3D from "./caja-alfajor-3d-lazy"
 import NavBar, { type NavBarItem, type NavKey } from "./nav-bar"
 import LogoMusicButton from "./logo-music-button"
 import HoverTitle from "./hover-title"
 import { INSTAGRAM_URL } from "./social-links"
-
-const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Horizontal Editorial Landing Stage

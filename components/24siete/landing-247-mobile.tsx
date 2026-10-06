@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import dynamic from "next/dynamic"
+import CajaAlfajor3D from "./caja-alfajor-3d-lazy"
 import MobileNavBar from "./mobile-nav-bar"
 import type { NavBarItem } from "./nav-bar"
 import { LottieOverlay } from "./hover-title"
@@ -30,8 +30,6 @@ function heroBox(x: number, y: number, w: number, h: number) {
     height: `${(h / HERO_LOCAL_HEIGHT) * 100}%`,
   }
 }
-
-const CajaAlfajor3D = dynamic(() => import("@/components/CajaAlfajor3D"), { ssr: false })
 
 // ─────────────────────────────────────────────────
 //  24SIETE — Mobile Landing
