@@ -95,7 +95,9 @@ export default function Faqs() {
         style={{
           ...enter("fade"),
           position: "absolute",
-          left: 0,
+          // 10px a la izquierda, igual que en ¿Dónde estamos?: con left 0 el borde
+          // irregular del PNG dejaba una franja negra en el margen izquierdo
+          left: -10,
           bottom: 0,
           width: "100%",
           aspectRatio: "2065 / 354",
