@@ -2,9 +2,14 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { MusicProvider } from '@/components/24siete/music-provider'
 import MetaPixel from '@/components/MetaPixel'
 import './globals.css'
+
+// Google Analytics 4: solo se carga si la variable existe (en local no está,
+// así no se ensucian los datos)
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 const cubano = localFont({
   src: '../public/fonts/Cubano.woff2',
@@ -136,6 +141,7 @@ export default function RootLayout({
         <MusicProvider>{children}</MusicProvider>
         <Analytics />
         <MetaPixel />
+        {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
       </body>
     </html>
   )
