@@ -194,9 +194,14 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
             )
           })}
 
-          {/* último item del desplegable, chico (texto legal) */}
-          <div style={{ display: "flex" }}>
-            <PrivacyLink tone="light" fontSize={13} onClick={() => setOpen(false)} />
+          {/* último item del desplegable, chico (texto legal). El contenedor
+              conserva el alto de UNA línea (13px × 1.2) y el texto, que acá ocupa
+              varias, se dibuja hacia abajo sin sumar alto: así los items del menú
+              quedan exactamente donde estaban */}
+          <div style={{ position: "relative", height: 13 * 1.2 }}>
+            <div style={{ position: "absolute", left: 0, right: 0, top: 0 }}>
+              <PrivacyLink tone="light" fontSize={13} wrap onClick={() => setOpen(false)} />
+            </div>
           </div>
         </nav>
       </div>
