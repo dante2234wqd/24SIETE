@@ -86,6 +86,13 @@ export default function PrivacidadPage() {
           Última actualización: 1 de octubre de 2026
         </p>
 
+        {/* identificación de la empresa: va solo acá, no en el pie del sitio */}
+        <p style={{ margin: "20px 0 0", fontWeight: 700 }}>
+          24SIETE es una marca de CABLIER SA.
+          <br />
+          Ciudad Autónoma de Buenos Aires (CABA), Argentina.
+        </p>
+
         <h2 style={h2Style}>1. Quiénes somos</h2>
         <p style={pStyle}>
           Esta política aplica al sitio alfajor24siete.com.ar y a los canales de contacto de la marca 24SIETE. El
