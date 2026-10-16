@@ -379,7 +379,7 @@ export default function Landing247Horizontal() {
               {/* ── FOTO BARILOCHE CON FONDO BLANCO (arriba, al lado del mapa) ─── */}
               <img
                 src="/assets/fondoblanco_fotobariloche.webp"
-                alt="Persona comiendo alfajor 24SIETE en Bariloche"
+                alt="Persona comiendo un alfajor 24SIETE en la nieve"
                 style={{
                   ...enter("fade"),
                   position: "absolute",

@@ -5,7 +5,7 @@ import DondeEstamosMobile from "@/components/24siete/donde-estamos-mobile";
 // Metadata neutra: todavía no hay locales confirmados, así que no promete ninguno.
 export const metadata: Metadata = {
   title: "¿Dónde estamos?",
-  description: "Próximamente vas a poder encontrar 24SIETE cerca tuyo. Alfajor negro y blanco de 70 g.",
+  description: "Próximamente vas a poder encontrar 24SIETE cerca tuyo. Alfajor negro y blanco de 70 g, hecho en Buenos Aires.",
   alternates: { canonical: "/donde-estamos" },
 };
 
