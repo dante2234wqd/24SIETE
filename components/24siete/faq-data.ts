@@ -14,7 +14,7 @@ export const FAQS: FaqItem[] = [
     id: "q1",
     question: "¿Dónde lo consigo?",
     answer:
-      "Estamos llegando a kioscos, tiendas y puntos de venta de todo el país.\nSi todavía no lo viste en tu barrio... tranquilo...\nEs cuestión de tiempo.",
+      "Muy pronto vas a poder encontrarlo cerca tuyo.\nSi todavía no lo viste en tu barrio... tranquilo...\nEs cuestión de tiempo.",
   },
   {
     id: "q2",

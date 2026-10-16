@@ -44,21 +44,55 @@ const sora = Sora({
   variable: '--font-sora',
 })
 
+// Título y descripción de la home (también para Open Graph y Twitter). El
+// título va sin la plantilla "| 24SIETE": ya empieza con la marca.
+const HOME_TITLE = '24SIETE | Alfajor negro y blanco – Cuando te pinte, estoy'
+const HOME_DESCRIPTION =
+  'Doble capa, mucho dulce de leche y cacao sin miedo: 24SIETE es el alfajor negro y blanco de 70 g para cualquier hora. Cuando te pinte, estoy.'
+
+// Datos estructurados (JSON-LD). Si alguna constante queda vacía, el <script>
+// no se renderiza: así nunca se publican datos incompletos.
+const SITE_URL = 'https://www.alfajor24siete.com.ar'
+const INSTAGRAM_URL = 'https://www.instagram.com/24sietealfajores'
+const LOGO_URL = 'https://www.alfajor24siete.com.ar/icon-512.png'
+const JSON_LD =
+  SITE_URL && INSTAGRAM_URL && LOGO_URL
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
+            name: '24SIETE',
+            url: SITE_URL,
+            logo: LOGO_URL,
+            sameAs: [INSTAGRAM_URL],
+          },
+          {
+            '@type': 'WebSite',
+            '@id': `${SITE_URL}/#website`,
+            name: '24SIETE',
+            url: SITE_URL,
+            publisher: { '@id': `${SITE_URL}/#organization` },
+          },
+        ],
+      }
+    : null
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.alfajor24siete.com.ar'),
   title: {
-    default: '24SIETE — Cuando te pinte, estoy.',
+    default: HOME_TITLE,
     template: '%s | 24SIETE',
   },
-  description:
-    '24SIETE — Alfajor negro premium de 72g en Argentina. Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
+  description: HOME_DESCRIPTION,
   applicationName: '24SIETE',
   keywords: [
     '24SIETE',
     'alfajor',
     'alfajor negro',
     'alfajor premium',
-    'alfajor negro 72g',
+    'alfajor negro 70g',
     'alfajores argentinos',
     'dulce de leche',
     'cacao',
@@ -81,9 +115,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: '24SIETE — Alfajor negro premium de 72g en Argentina',
-    description:
-      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora. Sumate al lanzamiento y enterate primero.',
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     url: 'https://www.alfajor24siete.com.ar',
     siteName: '24SIETE',
     locale: 'es_AR',
@@ -99,9 +132,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '24SIETE — Alfajor negro premium de 72g en Argentina',
-    description:
-      'Cacao intenso, mucho dulce de leche y una propuesta pensada para acompañarte a cualquier hora.',
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     images: ['/icon-512.png'],
   },
   robots: {
@@ -138,6 +170,13 @@ export default function RootLayout({
       <body
         className={`${cubano.variable} ${groldRounded.variable} ${sora.variable} font-sans antialiased`}
       >
+        {JSON_LD ? (
+          <script
+            type="application/ld+json"
+            // contenido fijo definido arriba (no viene del usuario)
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+          />
+        ) : null}
         <MusicProvider>{children}</MusicProvider>
         <Analytics />
         <MetaPixel />

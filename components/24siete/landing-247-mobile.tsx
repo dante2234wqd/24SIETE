@@ -315,7 +315,7 @@ export default function Landing247Mobile() {
               <img
                 ref={mapaImg.ref}
                 src="/assets/Mapa%20de%20buenos%20aires%202.png"
-                alt="Mapa de Buenos Aires con nuestros puntos de venta"
+                alt="Mapa de la provincia de Buenos Aires"
                 loading="lazy"
                 style={{ ...mapaImg.style, width: "100%", height: "100%", objectFit: "contain" }}
               />

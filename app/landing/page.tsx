@@ -10,15 +10,23 @@ export default function LandingPage() {
   // quedaban dos visores 3D). null = todavía no se sabe: no se renderiza nada
   // y se ve el fondo #1f140f del body.
   const isMobile = useIsMobileLayout();
-  if (isMobile === null) return null;
 
-  return isMobile ? (
-    <div className="md:hidden home-mobile-only">
-      <Landing247Mobile />
-    </div>
-  ) : (
-    <div className="hidden md:block home-desktop-only">
-      <Landing247Horizontal />
-    </div>
+  return (
+    <>
+      {/* H1 real con la marca, invisible: los títulos de la landing son imágenes.
+          Va fuera del stage escalado y se renderiza siempre (también en el HTML
+          del servidor, antes de saber si la pantalla es desktop o mobile) */}
+      <h1 className="visually-hidden">24SIETE</h1>
+
+      {isMobile === null ? null : isMobile ? (
+        <div className="md:hidden home-mobile-only">
+          <Landing247Mobile />
+        </div>
+      ) : (
+        <div className="hidden md:block home-desktop-only">
+          <Landing247Horizontal />
+        </div>
+      )}
+    </>
   );
 }

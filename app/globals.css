@@ -675,3 +675,17 @@ select:-webkit-autofill:focus {
     display: block !important;
   }
 }
+
+/* =========================
+   VISUALLY HIDDEN
+   Texto presente en el DOM (lo leen Google y los lectores de pantalla) pero
+   invisible y sin ocupar lugar. No usar display:none (eso lo saca del todo).
+========================= */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
