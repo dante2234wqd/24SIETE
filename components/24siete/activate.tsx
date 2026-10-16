@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { type NavBarItem } from "./nav-bar"
 import TitleEmojis from "./title-emojis"
 import DesktopLogo from "./desktop-logo"
-import DesktopBottomNav from "./desktop-bottom-nav"
+import DesktopBottomNav, { NAV_TOP } from "./desktop-bottom-nav"
 import { CharCount, FieldError, Honeypot, PhoneInput, WhatsappCheckbox, invalidFieldStyle } from "./contact-form-parts"
 import { LIMITS, TIPOS, ZONAS, formatTelefono, useContactForm } from "@/hooks/use-contact-form"
 
@@ -176,9 +176,9 @@ export default function Activate() {
       // con el lift máximo sigue sin entrar: lo que falta (en px de pantalla) se
       // resuelve bajando la pincelada. Tope: el blanco tiene que seguir
       // empezando por encima del menú inferior (desktop-bottom-nav.tsx lo ubica
-      // en top = 793/873 del alto de la ventana).
+      // en top = NAV_TOP/873 del alto de la ventana).
       const whiteStart = h - brushHeight * (1 - BRUSH_WHITE_START)
-      const navTop = (793 / 873) * h
+      const navTop = (NAV_TOP / 873) * h
       const maxDrop = Math.max(0, navTop - NAV_CLEARANCE * (h / 873) - whiteStart)
       const needed = Math.ceil((overflow - MAX_LIFT) * s)
       return { scale: s, lift: MAX_LIFT, brushDrop: Math.min(needed, maxDrop) }

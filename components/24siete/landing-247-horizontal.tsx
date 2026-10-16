@@ -607,8 +607,10 @@ export default function Landing247Horizontal() {
                 style={{
                   ...enter(),
                   position: "absolute",
-                  left: 2400,
-                  top: 431,
+                  // 25 a la derecha y 40 abajo: antes quedaba encima del borde del
+                  // mapa de Buenos Aires; así queda despegado sin tocar HABLANOS
+                  left: 2425,
+                  top: 471,
                   width: 484,
                   height: 250.14,
                   zIndex: 8,
