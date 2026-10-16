@@ -137,7 +137,7 @@ export default function Landing247Mobile() {
             }}
           >
             <img
-              src="/assets/alfajores_blanco_negro_trim.webp"
+              src="/assets/alfajores_blanco_negro_trim-748.webp"
               alt="Alfajor 24SIETE"
               style={{
                 position: "absolute",
@@ -163,7 +163,7 @@ export default function Landing247Mobile() {
               style={{ position: "absolute", ...heroBox(269, 356, 54.18, 61.22), objectFit: "contain", zIndex: 2 }}
             />
             <img
-              src="/assets/Stiker_modo24siete.png"
+              src="/assets/Stiker_modo24siete.webp"
               alt="#MODO24SIETE sticker"
               draggable={false}
               onPointerDown={modoSticker.onPointerDown}
@@ -267,7 +267,7 @@ export default function Landing247Mobile() {
         <section style={{ display: "flex", justifyContent: "center", marginTop: -32 }}>
           <img
             ref={kioscoImg.ref}
-            src="/assets/KIOSCO_MADRUGADA_PARCIAL_MOBILE.png"
+            src="/assets/KIOSCO_MADRUGADA_PARCIAL_MOBILE.webp"
             alt="Kiosco, madrugada y parcial: 24SIETE en todos lados"
             style={{ ...kioscoImg.style, width: "100%", objectFit: "contain" }}
           />
@@ -294,7 +294,7 @@ export default function Landing247Mobile() {
             />
             <img
               ref={alfajoresImg.ref}
-              src="/assets/alfajores-blanco-negro.webp"
+              src="/assets/alfajores-blanco-negro-1040.webp"
               alt="Paquetes de alfajores 24SIETE blanco y negro"
               style={{
                 ...alfajoresImg.style,
@@ -314,7 +314,7 @@ export default function Landing247Mobile() {
             <div style={{ position: "relative", width: "81.3%", maxWidth: 322, aspectRatio: "322 / 298" }}>
               <img
                 ref={mapaImg.ref}
-                src="/assets/Mapa%20de%20buenos%20aires%202.png"
+                src="/assets/Mapa%20de%20buenos%20aires%202.webp"
                 alt="Mapa de la provincia de Buenos Aires"
                 loading="lazy"
                 style={{ ...mapaImg.style, width: "100%", height: "100%", objectFit: "contain" }}

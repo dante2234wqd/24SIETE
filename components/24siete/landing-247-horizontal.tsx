@@ -305,7 +305,7 @@ export default function Landing247Horizontal() {
 
               {/* ── 4. FLOATING STICKER (movido junto a la foto de la chica) ─── */}
               <img
-                src="/assets/alfajores-blanco-negro.webp"
+                src="/assets/alfajores-blanco-negro-1040.webp"
                 alt="Paquetes de alfajores 24SIETE blanco y negro"
                 style={{
                   ...enter("fade"),
@@ -333,7 +333,7 @@ export default function Landing247Horizontal() {
 
               {/* ── 4B. MAPA DE BUENOS AIRES (mismo que en mobile) agregado al lado del paquete/pulseras ─── */}
               <img
-                src="/assets/Mapa%20de%20buenos%20aires%202.png"
+                src="/assets/Mapa%20de%20buenos%20aires%202.webp"
                 alt="Mapa de la provincia de Buenos Aires"
                 style={{
                   ...enter("slide", { toOpacity: 0.72 }),
@@ -378,7 +378,7 @@ export default function Landing247Horizontal() {
 
               {/* ── FOTO BARILOCHE CON FONDO BLANCO (arriba, al lado del mapa) ─── */}
               <img
-                src="/assets/fondoblanco_fotobariloche.png"
+                src="/assets/fondoblanco_fotobariloche.webp"
                 alt="Persona comiendo alfajor 24SIETE en Bariloche"
                 style={{
                   ...enter("fade"),
@@ -422,7 +422,7 @@ export default function Landing247Horizontal() {
 
               {/* ── 8. FOTO MOMENTOS (kiosco / madrugada / parcial) ─── */}
               <img
-                src="/assets/FOTO_MOMENTOS.png"
+                src="/assets/FOTO_MOMENTOS.webp"
                 alt="Momentos 24SIETE: kiosco, madrugada y parcial"
                 style={{
                   ...enter("fade"),
@@ -438,7 +438,7 @@ export default function Landing247Horizontal() {
 
               {/* ── STICKER #MODO24SIETE (arrastrable) ─────────────── */}
               <img
-                src="/assets/Stiker_modo24siete.png"
+                src="/assets/Stiker_modo24siete.webp"
                 alt="#MODO24SIETE sticker"
                 draggable={false}
                 onPointerDown={modoSticker.onPointerDown}
@@ -655,7 +655,7 @@ export default function Landing247Horizontal() {
               </HoverTitle>
 
               <img
-                src="/assets/Brush_blanco_fotos.png"
+                src="/assets/Brush_blanco_fotos.webp"
                 alt=""
                 aria-hidden="true"
                 style={{
