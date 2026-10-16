@@ -32,7 +32,7 @@ const TITLE_MAX_LIFT = 60
 const MAX_LIFT = TITLE_MAX_LIFT + 50
 
 const ACTIVATE_NAV_ITEMS: NavBarItem[] = [
-  { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
+  { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]

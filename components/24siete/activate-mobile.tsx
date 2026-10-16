@@ -17,7 +17,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 // ─────────────────────────────────────────────────
 
 const ACTIVATE_MOBILE_NAV_ITEMS: NavBarItem[] = [
-  { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/landing" },
+  { label: "YO SOY 24SIETE", key: "yo-soy-24siete", href: "/" },
   { label: "¿DONDE ESTAMOS?", key: "donde-estamos", href: "/donde-estamos" },
   { label: "FAQS", key: "faqs", href: "/faqs" },
 ]

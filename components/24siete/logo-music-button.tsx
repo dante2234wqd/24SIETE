@@ -34,7 +34,7 @@ export default function LogoMusicButton({ style, badgePosition = "right", compac
   return (
     <div style={{ position: "relative", ...style }}>
       <Link
-        href="/landing"
+        href="/"
         aria-label="24SIETE — ir al inicio"
         style={{ display: "block", width: "100%", height: "100%", cursor: "pointer" }}
       >

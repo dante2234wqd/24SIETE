@@ -64,7 +64,7 @@ export default function PrivacidadPage() {
       }}
     >
       <main style={{ maxWidth: 720, margin: "0 auto", padding: "48px 20px 88px" }}>
-        <Link href="/landing" style={{ ...linkStyle, fontWeight: 700, fontSize: 14 }}>
+        <Link href="/" style={{ ...linkStyle, fontWeight: 700, fontSize: 14 }}>
           ← Volver a 24SIETE
         </Link>
 
