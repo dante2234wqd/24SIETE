@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Faqs from "@/components/24siete/faqs";
 import FaqsMobile from "@/components/24siete/faqs-mobile";
 
-// canonical propia: sin esto heredaba la de la home ("/") del layout raíz
+// metadata propia (con la plantilla "%s | 24SIETE" del layout) y canonical
+// propia: sin esto heredaba la de la home ("/") del layout raíz
 export const metadata: Metadata = {
+  title: "Preguntas frecuentes",
+  description: "Resolvé tus dudas sobre 24SIETE, el alfajor negro y blanco de 70 g.",
   alternates: { canonical: "/faqs" },
 };
 
