@@ -116,7 +116,9 @@ export default function Landing247Mobile() {
         style={{
           maxWidth: 480,
           margin: "0 auto",
-          padding: "28px 20px 64px",
+          // abajo = lo que la caja 3D se sale con su marginBottom -110: con
+          // menos, esa parte quedaba fuera del fondo (franja lisa al final)
+          padding: "28px 20px 110px",
           display: "flex",
           flexDirection: "column",
           gap: 56,
