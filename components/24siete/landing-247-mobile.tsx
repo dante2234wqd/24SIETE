@@ -137,7 +137,7 @@ export default function Landing247Mobile() {
             }}
           >
             <img
-              src="/assets/alfajores_blanco_negro_trim-748.webp"
+              src="/assets/alfajores_mobile_v4.webp"
               alt="Alfajor 24SIETE"
               style={{
                 position: "absolute",

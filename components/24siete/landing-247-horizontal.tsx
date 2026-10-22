@@ -279,18 +279,21 @@ export default function Landing247Horizontal() {
 
               {/* ── 3. MAIN HERO IMAGE LEFT (stacked alfajores) ── */}
               <img
-                src="/assets/alfajores_home_v2.webp"
-                alt="Stack de alfajores 24SIETE blanco y negro"
+                src="/assets/alfajores_home_v5.webp"
+                alt="Alfajores 24SIETE negro y blanco"
                 style={{
                   ...enter(),
+                  // la caja es solo la de los alfajores (antes 1276x830 con la foto
+                  // a la izquierda: el hover se activaba sobre el vacío de la derecha).
+                  // El origin reproduce el zoom de antes (centro de esa caja vieja)
                   position: "absolute",
-                  left: -13,
-                  top: 50,
-                  width: 1276,
-                  height: 830,
+                  left: 87.8,
+                  top: 286.4,
+                  width: 515.3,
+                  height: 462.3,
                   objectFit: "contain",
-                  objectPosition: "left center",
                   zIndex: 6,
+                  transformOrigin: "537.2px 178.6px",
                   transform: "scale(1)",
                   transition: "transform 0.25s ease",
                   cursor: "pointer",
