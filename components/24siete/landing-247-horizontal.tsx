@@ -186,7 +186,9 @@ export default function Landing247Horizontal() {
       style={{
         width: "100vw",
         height: "100vh",
-        background: "#1f140f",
+        // sin color propio: debajo del stage (cuando 100vh es más alto que lo
+        // medido para el scale, en iPhone/iPad) se ve la capa de fondo del layout
+        background: "transparent",
       }}
     >
       <div

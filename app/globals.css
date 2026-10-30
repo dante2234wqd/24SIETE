@@ -159,43 +159,42 @@ select:-webkit-autofill:focus {
 
   body {
     @apply text-foreground;
-    background: #1f140f;
+    /* transparente: con color propio taparía .site-bg-layer (z-index -1). El
+       color de respaldo #1f140f lo da html */
+    background: transparent;
     overflow: hidden;
     overflow-y: auto;
     font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
   }
 
-  /* Capa fija con la textura (app/layout.tsx). En desktop no se usa: cada página
-     tiene su stage con fondo propio */
+  /* Capa fija con el fondo (app/layout.tsx), detrás de todo. Cubre lo que las
+     páginas no cubren: en iPhone/iPad, cuando la barra de Safari cambia de
+     tamaño, el contenedor de la home (100vh = pantalla con la barra achicada)
+     queda más alto que el stage (medido con innerHeight = lo visible ahora), y
+     debajo del stage se veía el #1f140f liso. 100lvh + 200px: alcanza aunque la
+     pantalla "fija" del navegador termine antes que la barra */
   .site-bg-layer {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -200px;
+    min-height: calc(100lvh + 200px);
+    z-index: -1;
+    pointer-events: none;
+    background: #1f140f url(/assets/fondo_nuevo.webp) center / cover no-repeat;
   }
 
-  /* Versión mobile (misma condición que useIsMobileLayout). La textura va en una
-     capa fija que cubre toda la pantalla: así también aparece en lo que queda
-     debajo del final de la página (bajo la barra de Safari, el rebote del
-     scroll), que ningún contenedor de página cubre. html lleva el tono base de
-     la textura como respaldo. body queda transparente: con color propio taparía
-     la capa (que está en z-index -1) */
+  /* Versión mobile (misma condición que useIsMobileLayout): la capa fija lleva la
+     textura mobile, así también aparece en lo que queda debajo del final de la
+     página (bajo la barra de Safari, el rebote del scroll). html lleva el tono
+     base de la textura como respaldo */
   @media (width < 48rem), (max-aspect-ratio: 1/1) {
     html {
       background: #111010;
     }
     .site-bg-layer {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      /* 200px de más hacia abajo: cubre la zona de la barra de Safari aunque la
-         pantalla "fija" del navegador termine antes */
-      bottom: -200px;
-      z-index: -1;
-      pointer-events: none;
       background: #111010 url(/assets/fondo_mobile_v3.webp) center / cover no-repeat;
-    }
-    body {
-      background: transparent;
     }
   }
 
