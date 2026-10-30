@@ -10,6 +10,8 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
 import { INSTAGRAM_URL } from "./social-links"
 
+const MOBILE_BG = "#111010" // color parejo de fondo_mobile.png
+
 // Coordenadas dadas por diseño para el hero (alfajor + estrellas + sticker)
 // están medidas sobre un frame de referencia de 396px de ancho, re-ancladas
 // para que el borde izquierdo del alfajor quede en X:0 (pegado al borde
@@ -81,6 +83,17 @@ export default function Landing247Mobile() {
     return () => ro.disconnect()
   }, [])
 
+  // Color base de la página = el del fondo de esta home (fondo_mobile.png es
+  // #111010 parejo). Safari en iOS pinta con el color de html/body la zona de la
+  // barra de abajo y el rebote al final del scroll: con el marrón #1f140f
+  // quedaba una franja marrón debajo de la caja. Se restaura al salir de la home.
+  useEffect(() => {
+    const els = [document.documentElement, document.body]
+    const prev = els.map((el) => el.style.backgroundColor)
+    els.forEach((el) => (el.style.backgroundColor = MOBILE_BG))
+    return () => els.forEach((el, i) => (el.style.backgroundColor = prev[i]))
+  }, [])
+
   // HABLANOS toma el ancho exacto del título "¿Dónde estamos?"
   const dondeEstamosH2Ref = useRef<HTMLHeadingElement>(null)
   const [hablanosWidth, setHablanosWidth] = useState(240)
@@ -101,7 +114,7 @@ export default function Landing247Mobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#1f140f",
+        backgroundColor: MOBILE_BG,
         backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
         backgroundSize: "100% auto, cover",
         backgroundPosition: "top center, top center",
