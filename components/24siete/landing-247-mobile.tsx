@@ -83,17 +83,6 @@ export default function Landing247Mobile() {
     return () => ro.disconnect()
   }, [])
 
-  // Color base de la página = el del fondo de esta home (fondo_mobile.png es
-  // #111010 parejo). Safari en iOS pinta con el color de html/body la zona de la
-  // barra de abajo y el rebote al final del scroll: con el marrón #1f140f
-  // quedaba una franja marrón debajo de la caja. Se restaura al salir de la home.
-  useEffect(() => {
-    const els = [document.documentElement, document.body]
-    const prev = els.map((el) => el.style.backgroundColor)
-    els.forEach((el) => (el.style.backgroundColor = MOBILE_BG))
-    return () => els.forEach((el, i) => (el.style.backgroundColor = prev[i]))
-  }, [])
-
   // HABLANOS toma el ancho exacto del título "¿Dónde estamos?"
   const dondeEstamosH2Ref = useRef<HTMLHeadingElement>(null)
   const [hablanosWidth, setHablanosWidth] = useState(240)
@@ -121,6 +110,7 @@ export default function Landing247Mobile() {
         backgroundRepeat: "no-repeat, no-repeat",
         backgroundAttachment: "scroll, fixed",
         overflowX: "clip", // "hidden" convertía este div en scroll container vertical (doble barra)
+        paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari
       }}
     >
       <MobileNavBar items={LANDING_MOBILE_NAV_ITEMS} activeKey="yo-soy-24siete" ctaHref="/activate" />

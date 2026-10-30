@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
@@ -78,6 +78,16 @@ const JSON_LD =
         ],
       }
     : null
+
+// viewport-fit=cover: en iPhone la página se dibuja también debajo de las barras
+// de Safari (si no, Safari rellena esa zona con un color plano y el fondo con
+// textura se corta al final). El espacio de las barras lo reservan la barra de
+// navegación mobile (arriba) y las páginas mobile (abajo) con env(safe-area-inset-*)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.alfajor24siete.com.ar'),

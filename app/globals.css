@@ -165,6 +165,19 @@ select:-webkit-autofill:focus {
     font-family: var(--font-grold-rounded), Arial, Helvetica, sans-serif;
   }
 
+  /* Versión mobile (misma condición que useIsMobileLayout): la base de la página
+     es el mismo fondo con textura de las secciones, no el marrón liso. Así lo que
+     queda fuera de las secciones (debajo de la barra de Safari, el rebote al
+     final del scroll) sigue con la textura */
+  @media (width < 48rem), (max-aspect-ratio: 1/1) {
+    html {
+      background: #111010 url(/assets/fondo_mobile.png) top center / 100% auto repeat-y;
+    }
+    body {
+      background: transparent;
+    }
+  }
+
   img,
   picture,
   video,

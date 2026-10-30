@@ -175,6 +175,7 @@ export default function ActivateMobile() {
         backgroundRepeat: "no-repeat, no-repeat",
         backgroundAttachment: "scroll, fixed",
         overflowX: "hidden",
+        paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari
         display: "flex",
         flexDirection: "column",
       }}

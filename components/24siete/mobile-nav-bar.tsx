@@ -69,12 +69,14 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
           top: 0,
           left: 0,
           right: 0,
-          height: MOBILE_NAV_BAR_HEIGHT,
+          // con viewport-fit=cover la barra se extiende detrás del reloj del iPhone
+          // y su contenido arranca debajo
+          height: `calc(${MOBILE_NAV_BAR_HEIGHT}px + env(safe-area-inset-top))`,
           background: "#fff",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 16px",
+          padding: "env(safe-area-inset-top) 16px 0",
           zIndex: 100,
           boxShadow: "0 2px 10px rgba(0,0,0,0.12)",
         }}
@@ -109,7 +111,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
       </header>
 
       {/* espaciador para que el contenido no quede debajo de la barra fija */}
-      <div style={{ height: MOBILE_NAV_BAR_HEIGHT }} />
+      <div style={{ height: `calc(${MOBILE_NAV_BAR_HEIGHT}px + env(safe-area-inset-top))` }} />
 
       <div
         style={{
@@ -119,7 +121,7 @@ export default function MobileNavBar({ items, activeKey, ctaHref = "/activate" }
           background: "#1f140f",
           display: "flex",
           flexDirection: "column",
-          padding: "16px 20px",
+          padding: "calc(16px + env(safe-area-inset-top)) 20px calc(16px + env(safe-area-inset-bottom))",
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
           transition: "opacity 0.25s ease",

@@ -39,6 +39,7 @@ export default function FaqsMobile() {
         backgroundRepeat: "no-repeat, no-repeat",
         backgroundAttachment: "scroll, fixed",
         overflowX: "hidden",
+        paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari
       }}
     >
       <MobileNavBar items={FAQS_MOBILE_NAV_ITEMS} activeKey="faqs" ctaHref="/activate" />

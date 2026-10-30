@@ -47,6 +47,7 @@ export default function DondeEstamosMobile() {
         backgroundRepeat: "no-repeat, no-repeat",
         backgroundAttachment: "scroll, fixed",
         overflowX: "clip",
+        paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari
         display: "flex",
         flexDirection: "column",
       }}
