@@ -10,7 +10,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal"
 import { useDraggableSticker } from "@/hooks/use-draggable-sticker"
 import { INSTAGRAM_URL } from "./social-links"
 
-const MOBILE_BG = "#111010" // color parejo de fondo_mobile.png
+const MOBILE_BG = "#111010" // color parejo de fondo_mobile_v3.webp
 
 // Coordenadas dadas por diseño para el hero (alfajor + estrellas + sticker)
 // están medidas sobre un frame de referencia de 396px de ancho, re-ancladas
@@ -104,10 +104,10 @@ export default function Landing247Mobile() {
         width: "100%",
         minHeight: "100vh",
         backgroundColor: MOBILE_BG,
-        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
-        backgroundSize: "100% auto, cover",
+        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile_v3.webp)",
+        backgroundSize: "100% auto, 100% auto",
         backgroundPosition: "top center, top center",
-        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundRepeat: "no-repeat, repeat-y", // el fondo se repite hacia abajo: nunca se corta
         backgroundAttachment: "scroll, fixed",
         overflowX: "clip", // "hidden" convertía este div en scroll container vertical (doble barra)
         paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari

@@ -171,7 +171,7 @@ select:-webkit-autofill:focus {
      final del scroll) sigue con la textura */
   @media (width < 48rem), (max-aspect-ratio: 1/1) {
     html {
-      background: #111010 url(/assets/fondo_mobile.png) top center / 100% auto repeat-y;
+      background: #111010 url(/assets/fondo_mobile_v3.webp) top center / 100% auto repeat-y;
     }
     body {
       background: transparent;

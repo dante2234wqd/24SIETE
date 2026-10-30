@@ -32,11 +32,11 @@ export default function FaqsMobile() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "#1f140f",
-        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile.png)",
-        backgroundSize: "100% auto, cover",
+        backgroundColor: "#111010",
+        backgroundImage: "url(/assets/textura_puntos_mobile.png), url(/assets/fondo_mobile_v3.webp)",
+        backgroundSize: "100% auto, 100% auto",
         backgroundPosition: "top center, top center",
-        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundRepeat: "no-repeat, repeat-y", // el fondo se repite hacia abajo: nunca se corta
         backgroundAttachment: "scroll, fixed",
         overflowX: "hidden",
         paddingBottom: "env(safe-area-inset-bottom)", // el fondo sigue debajo de la barra de Safari
