@@ -180,6 +180,10 @@ export default function RootLayout({
       <body
         className={`${cubano.variable} ${groldRounded.variable} ${sora.variable} font-sans antialiased`}
       >
+        {/* capa fija con la textura de fondo (solo en la versión mobile, ver
+            .site-bg-layer en globals.css): cubre la pantalla entera, también lo
+            que queda debajo del final de cada página bajo la barra de Safari */}
+        <div className="site-bg-layer" aria-hidden="true" />
         {JSON_LD ? (
           <script
             type="application/ld+json"
